@@ -6,7 +6,7 @@ PRs/issues are welcomed!
 
 Please raise any issues and enhancement requests via GitHub.
 
-## Pull Requets
+## Pull Requests
 
 1. Fork the repo on GitHub
 2. Clone the project to your machine
