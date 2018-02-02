@@ -11,7 +11,7 @@ C# .NET Wrapper around the common HubSpot APIs:
 * COS Files API (adds the ability to upload files to use as attachments to engagements)
 
 ## Getting Started
-To get started, install the Nuget package and create a instance of HubSpotApi passing your API Key as the parameter. 
+To get started, install the [Nuget package](https://www.nuget.org/packages/SquaredUp.HubSpot.NET/) and create a instance of `HubSpotApi` passing your API Key as the only parameter. 
 
 ```
   var api = new HubSpotApi("MY API KEY");
