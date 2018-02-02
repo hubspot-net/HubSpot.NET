@@ -1,3 +1,5 @@
+[![NuGet](https://img.shields.io/nuget/v/SquaredUp.HubSpot.NET.svg)](https://www.nuget.org/packages/NUnit/)
+
 # HubSpot.NET
 C# .NET Wrapper around the common HubSpot APIs:
 
