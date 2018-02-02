@@ -49,6 +49,10 @@ namespace HubSpot.NET.Examples
                 {
                     Type = "NOTE" //used for file attachments
                 },
+                Metadata = new
+                {
+                    body = "This is an example note"
+                },
                 Associations = new EngagementHubSpotAssociationsModel()
                 {
                     ContactIds = new List<long>() { contact.Id.Value } //use the ID of the created contact from above
