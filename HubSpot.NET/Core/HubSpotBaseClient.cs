@@ -62,7 +62,7 @@ namespace HubSpot.NET.Core
 
             var responseData = response.Data;
 
-            if (!response.IsSuccessful)
+            if (!response.IsSuccessful())
             {
                 throw new HubSpotException("Error from HubSpot");
             }
@@ -109,7 +109,7 @@ namespace HubSpot.NET.Core
 
             var responseData = response.Content;
 
-            if (!response.IsSuccessful)
+            if (!response.IsSuccessful())
             {
                 throw new HubSpotException("Error from HubSpot", responseData);
             }

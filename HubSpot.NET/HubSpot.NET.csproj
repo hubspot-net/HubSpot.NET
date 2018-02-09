@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net46</TargetFramework>
+    <TargetFrameworks>net46;net451</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.1.0</Version>
+    <Version>0.2.0</Version>
     <Authors>Squared Up Ltd.</Authors>
     <Company>Squared Up Ltd.</Company>
     <Description>C# .NET Wrapper around the common HubSpot APIs.</Description>
@@ -24,7 +24,7 @@
   <ItemGroup>
     <PackageReference Include="Flurl" Version="2.6.0" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
-    <PackageReference Include="RestSharp" Version="106.2.1" />
+    <PackageReference Include="RestSharp" Version="105.2.3" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
