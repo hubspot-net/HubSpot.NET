@@ -39,7 +39,7 @@ namespace HubSpot.NET.Api.Contact
         public T GetById<T>(long contactId) where T : ContactHubSpotModel, new()
         {
             var path = $"{new T().RouteBasePath}/contact/vid/{contactId}/profile";
-            var data = _client.Execute<T>(path);
+            var data = _client.Execute<T>(path, Method.GET);
             return data;
         }
 
@@ -52,7 +52,7 @@ namespace HubSpot.NET.Api.Contact
         public T GetByEmail<T>(string email) where T : ContactHubSpotModel, new()
         {
             var path =  $"{new T().RouteBasePath}/contact/email/{email}/profile";
-            var data = _client.Execute<T>(path);
+            var data = _client.Execute<T>(path, Method.GET);
             return data;
         }
 

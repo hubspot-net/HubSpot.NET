@@ -30,6 +30,13 @@ namespace HubSpot.NET.Core
             return data;
         }
 
+        public T Execute<T>(string absoluteUriPath, Method method = Method.GET, bool convertToPropertiesSchema = true) where T : IHubSpotModel, new()
+        {
+            var data = SendRequest(absoluteUriPath, method, null, responseData => (T)_serializer.DeserializeEntity<T>(responseData, convertToPropertiesSchema));
+
+            return data;
+        }
+
         public void Execute(string absoluteUriPath, object entity = null, Method method = Method.GET, bool convertToPropertiesSchema = true)
         {
             var json = _serializer.SerializeEntity(entity, convertToPropertiesSchema);
@@ -96,9 +103,9 @@ namespace HubSpot.NET.Core
 
         private string SendRequest(string path, Method method, string json)
         {
-            var fullUrl = $"{_baseUrl}{path}".SetQueryParam("hapikey", _apiKey);
+            var url = $"{path}".SetQueryParam("hapikey", _apiKey);
 
-            var request = new RestRequest(fullUrl, method);
+            var request = new RestRequest(url, method);
 
             if (!string.IsNullOrWhiteSpace(json))
             {

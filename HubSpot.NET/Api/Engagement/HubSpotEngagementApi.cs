@@ -52,7 +52,7 @@ namespace HubSpot.NET.Api.Engagement
         {
             var path = $"{new EngagementHubSpotModel().RouteBasePath}/engagements/{engagementId}";
 
-            var data = _client.Execute<EngagementHubSpotModel>(path, convertToPropertiesSchema: false);
+            var data = _client.Execute<EngagementHubSpotModel>(path, Method.GET, false);
             return data;
         }
 

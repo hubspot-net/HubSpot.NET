@@ -38,7 +38,7 @@ namespace HubSpot.NET.Api.Company
         {
             var path =  $"{new T().RouteBasePath}/companies/{companyId}";
 
-            return _client.Execute<T>(path);
+            return _client.Execute<T>(path, Method.GET);
         }
 
         /// <summary>

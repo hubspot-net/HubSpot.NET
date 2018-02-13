@@ -7,7 +7,6 @@ namespace HubSpot.NET.Api.Deal
 {
     public class HubSpotDealApi : IHubSpotDealApi
     {
-
         private readonly IHubSpotClient _client;
 
         public HubSpotDealApi(IHubSpotClient client)
@@ -37,7 +36,7 @@ namespace HubSpot.NET.Api.Deal
         public T GetById<T>(long dealId) where T : DealHubSpotModel, new()
         {
             var path = $"{new T().RouteBasePath}/deal/{dealId}";
-            var data = _client.Execute<T>(path);
+            var data = _client.Execute<T>(path, Method.GET);
             return data;
         }
 
