@@ -7,10 +7,10 @@ namespace HubSpot.NET.Api.Files.Dto
     /// <summary>
     /// Models a list of files
     /// </summary>
-    public class FileListHubSpotModel : IHubSpotModel
+    public class FileListHubSpotModel<T> : IHubSpotModel where T: FileHubSpotModel, new()
     {
         [DataMember(Name="objects")]
-        public List<FileHubSpotModel> Objects { get;set; }
+        public List<T> Objects { get;set; }
 
         public bool IsNameValue { get; }
 
