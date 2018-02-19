@@ -61,7 +61,7 @@ namespace HubSpot.NET.Api.Engagement
         /// </summary>
         /// <param name="opts">Options for querying</param>
         /// <returns>List of engagements, with additional metadata, e.g. total</returns>
-        public EngagementListHubSpotModel List(EngagementListRequestOptions opts = null)
+        public EngagementListHubSpotModel<T> List<T>(EngagementListRequestOptions opts = null) where T: EngagementHubSpotModel, new()
         {
             if (opts == null)
             {
@@ -75,7 +75,7 @@ namespace HubSpot.NET.Api.Engagement
                 path = path.SetQueryParam("offset", opts.Offset);
             }
 
-            var data = _client.ExecuteList<EngagementListHubSpotModel>(path, opts, convertToPropertiesSchema: false);
+            var data = _client.ExecuteList<EngagementListHubSpotModel<T>>(path, opts, convertToPropertiesSchema: false);
             return data;
         }
 
@@ -84,7 +84,7 @@ namespace HubSpot.NET.Api.Engagement
         /// </summary>
         /// <param name="opts">Options for querying</param>
         /// <returns>List of engagements, with additional metadata, e.g. total</returns>
-        public EngagementListHubSpotModel ListRecent(EngagementListRequestOptions opts = null)
+        public EngagementListHubSpotModel<T> ListRecent<T>(EngagementListRequestOptions opts = null) where T : EngagementHubSpotModel, new()
         {
             if (opts == null)
             {
@@ -97,7 +97,7 @@ namespace HubSpot.NET.Api.Engagement
                 path = path.SetQueryParam("offset", opts.Offset);
             }
 
-            var data = _client.ExecuteList<EngagementListHubSpotModel>(path, opts, convertToPropertiesSchema: false);
+            var data = _client.ExecuteList<EngagementListHubSpotModel<T>>(path, opts, convertToPropertiesSchema: false);
             return data;
         }
 
@@ -132,7 +132,7 @@ namespace HubSpot.NET.Api.Engagement
         /// <param name="objectType">The object type, e.g. CONTACT</param>
         /// <param name="opts">Options used for querying</param>
         /// <returns>List of associated engagements</returns>
-        public EngagementListHubSpotModel ListAssociated(long objectId, string objectType, EngagementListRequestOptions opts = null)
+        public EngagementListHubSpotModel<T> ListAssociated<T>(long objectId, string objectType, EngagementListRequestOptions opts = null) where T: EngagementHubSpotModel, new()
         {
             if (opts == null)
             {
@@ -145,7 +145,7 @@ namespace HubSpot.NET.Api.Engagement
                 path = path.SetQueryParam("offset", opts.Offset);
             }
 
-            var data = _client.ExecuteList<EngagementListHubSpotModel>(path, opts, convertToPropertiesSchema: false);
+            var data = _client.ExecuteList<EngagementListHubSpotModel<T>>(path, opts, convertToPropertiesSchema: false);
             return data;
         }
 
