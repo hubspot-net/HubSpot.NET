@@ -7,7 +7,7 @@ namespace HubSpot.NET.Core.Interfaces
     {
         T Create<T>(T entity) where T : CompanyHubSpotModel, new();
         void Delete(long companyId);
-        T GetByDomain<T>(string domain, CompanySearchByDomain options = null) where T : CompanySearchResultModel, new();
+        CompanySearchResultModel<T> GetByDomain<T>(string domain, CompanySearchByDomain options = null) where T : CompanyHubSpotModel, new();
         T GetById<T>(long companyId) where T : CompanyHubSpotModel, new();
         T Update<T>(T entity) where T : CompanyHubSpotModel, new();
     }

@@ -8,10 +8,10 @@ namespace HubSpot.NET.Api.Company.Dto
     /// Models a set of results returned from the companies endpoint.
     /// </summary>
     [DataContract]
-    public class CompanySearchResultModel : IHubSpotModel
+    public class CompanySearchResultModel<T> : IHubSpotModel where T: CompanyHubSpotModel, new()
     {
         [DataMember(Name = "results")]
-        public IList<CompanyHubSpotModel> Results { get; set; }
+        public IList<T> Results { get; set; }
 
         [DataMember(Name = "hasMore")]
         public bool MoreResultsAvailable { get; set; }

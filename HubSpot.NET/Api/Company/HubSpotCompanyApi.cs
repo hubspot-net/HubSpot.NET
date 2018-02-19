@@ -48,7 +48,7 @@ namespace HubSpot.NET.Api.Company
         /// <param name="domain">Domain name to search for</param>
         /// <param name="options">Set of search options</param>
         /// <returns>The company entity</returns>
-        public T GetByDomain<T>(string domain, CompanySearchByDomain options = null) where T : CompanySearchResultModel, new()
+        public CompanySearchResultModel<T> GetByDomain<T>(string domain, CompanySearchByDomain options = null) where T : CompanyHubSpotModel, new()
         {
             if (options == null)
             {
@@ -57,7 +57,7 @@ namespace HubSpot.NET.Api.Company
 
             var path =  $"{new CompanyHubSpotModel().RouteBasePath}/domains/{domain}/companies";
 
-            var data = _client.ExecuteList<T>(path, options, Method.POST);
+            var data = _client.ExecuteList<CompanySearchResultModel<T>>(path, options, Method.POST);
 
             return data;
         }
