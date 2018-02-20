@@ -1,8 +1,31 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace HubSpot.NET.Api.Company
 {
+    public class CompanyListRequestOptions
+    {
+        private int _limit = 20;
+        public int Limit
+        {
+            get => _limit;
+            set
+            {
+                if (value < 1 || value > 100)
+                {
+                    throw new ArgumentException(
+                        $"Number of companies to return must be a positive ingeteger greater than 0 - you provided {value}");
+                }
+                _limit = value;
+            }
+        }
+
+        public int? Offset { get; set; } = null;
+
+        public List<string> PropertiesToInclude { get; set; } = new List<string>();
+    }
+
     /// <summary>
     /// Options used when searching for companies by domain.
     /// </summary>

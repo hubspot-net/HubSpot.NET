@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using Flurl;
 using HubSpot.NET.Api.Company.Dto;
 using HubSpot.NET.Core.Interfaces;
 using RestSharp;
@@ -58,6 +60,28 @@ namespace HubSpot.NET.Api.Company
             var path =  $"{new CompanyHubSpotModel().RouteBasePath}/domains/{domain}/companies";
 
             var data = _client.ExecuteList<CompanySearchResultModel<T>>(path, options, Method.POST);
+
+            return data;
+        }
+
+        public CompanyListHubSpotModel<T> List<T>(CompanyListRequestOptions opts = null) where T: CompanyHubSpotModel, new()
+        {
+            if (opts == null)
+            {
+                opts = new CompanyListRequestOptions();
+            }
+
+            var propsArgs = opts != null && opts.PropertiesToInclude.Any() ? "?properties=" + string.Join("&properties=", opts.PropertiesToInclude) : string.Empty;
+
+            var path = $"{new CompanyHubSpotModel().RouteBasePath}/companies/paged{propsArgs}"
+                .SetQueryParam("count", opts.Limit);
+
+            if (opts.Offset.HasValue)
+            {
+                path = path.SetQueryParam("offset", opts.Offset);
+            }
+
+            var data = _client.ExecuteList<CompanyListHubSpotModel<T>>(path, opts);
 
             return data;
         }
