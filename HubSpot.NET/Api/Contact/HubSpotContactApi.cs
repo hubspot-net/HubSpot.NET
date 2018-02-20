@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Flurl;
 using HubSpot.NET.Api.Contact.Dto;
+using HubSpot.NET.Core;
 using HubSpot.NET.Core.Interfaces;
 using RestSharp;
 
@@ -62,11 +63,11 @@ namespace HubSpot.NET.Api.Contact
         /// <param name="opts">Request options - used for pagination etc.</param>
         /// <typeparam name="T">Implementation of ContactHubSpotModel</typeparam>
         /// <returns>A list of contacts</returns>
-        public T List<T>(ContactListRequestOptions opts = null) where T : ContactListHubSpotModel, new()
+        public T List<T>(ListRequestOptions opts = null) where T : ContactListHubSpotModel, new()
         {
             if (opts == null)
             {
-                opts = new ContactListRequestOptions();
+                opts = new ListRequestOptions();
             }
 
             var path = $"{new ContactHubSpotModel().RouteBasePath}/lists/all/contacts/all"
