@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace HubSpot.NET.Api.Contact
 {
@@ -40,5 +41,7 @@ namespace HubSpot.NET.Api.Contact
         /// to continue the listing process
         /// </remarks>
         public int? Offset { get; set; } = null;
+
+        public List<string> PropertiesToInclude { get; set; } = new List<string>();
     }
 }

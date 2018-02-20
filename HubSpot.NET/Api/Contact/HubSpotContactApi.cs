@@ -69,7 +69,9 @@ namespace HubSpot.NET.Api.Contact
                 opts = new ContactListRequestOptions();
             }
 
-            var path = $"{new ContactHubSpotModel().RouteBasePath}/lists/all/contacts/all"
+            var propsArgs = opts != null && opts.PropertiesToInclude.Any() ? "?property=" + string.Join("&property=", opts.PropertiesToInclude) : string.Empty;
+            
+            var path = $"{new ContactHubSpotModel().RouteBasePath}/lists/all/contacts/all{propsArgs}"
                 .SetQueryParam("count", opts.Limit);
 
             if (opts.Offset.HasValue)
