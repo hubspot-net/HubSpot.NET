@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Flurl;
 using HubSpot.NET.Api.Company.Dto;
+using HubSpot.NET.Core;
 using HubSpot.NET.Core.Interfaces;
 using RestSharp;
 
@@ -64,11 +65,11 @@ namespace HubSpot.NET.Api.Company
             return data;
         }
 
-        public CompanyListHubSpotModel<T> List<T>(CompanyListRequestOptions opts = null) where T: CompanyHubSpotModel, new()
+        public CompanyListHubSpotModel<T> List<T>(ListRequestOptions opts = null) where T: CompanyHubSpotModel, new()
         {
             if (opts == null)
             {
-                opts = new CompanyListRequestOptions();
+                opts = new ListRequestOptions();
             }
 
             var propsArgs = opts != null && opts.PropertiesToInclude.Any() ? "?properties=" + string.Join("&properties=", opts.PropertiesToInclude) : string.Empty;
