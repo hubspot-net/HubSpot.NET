@@ -4,6 +4,7 @@ using HubSpot.NET.Api.Deal;
 using HubSpot.NET.Api.Engagement;
 using HubSpot.NET.Api.Files;
 using HubSpot.NET.Api.Owner;
+using HubSpot.NET.Api.Properties;
 using HubSpot.NET.Core.Interfaces;
 
 namespace HubSpot.NET.Core
@@ -19,6 +20,7 @@ namespace HubSpot.NET.Core
         public IHubSpotEngagementApi Engagement { get; }
         public IHubSpotCosFileApi File { get; }
         public IHubSpotOwnerApi Owner { get; }
+        public IHubSpotCompanyPropertiesApi CompanyProperties { get; }
 
         public HubSpotApi(string apiKey)
         {
@@ -30,6 +32,7 @@ namespace HubSpot.NET.Core
             Engagement = new HubSpotEngagementApi(client);
             File = new HubSpotCosFileApi(client);
             Owner = new HubSpotOwnerApi(client);
+            CompanyProperties = new HubSpotCompaniesPropertiesApi(client);
         }
 
     }

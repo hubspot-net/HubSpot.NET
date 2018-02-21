@@ -1,4 +1,5 @@
-﻿using HubSpot.NET.Api.Deal.Dto;
+﻿using System.Collections.Generic;
+using HubSpot.NET.Api.Deal.Dto;
 
 namespace HubSpot.NET.Core.Interfaces
 {
@@ -8,5 +9,8 @@ namespace HubSpot.NET.Core.Interfaces
         void Delete(long dealId);
         T GetById<T>(long dealId) where T : DealHubSpotModel, new();
         T Update<T>(T entity) where T : DealHubSpotModel, new();
+
+        T List<T>(List<string> properties, bool includeAssociations, ListRequestOptions opts = null)
+            where T : DealListHubSpotModel, new();
     }
 }

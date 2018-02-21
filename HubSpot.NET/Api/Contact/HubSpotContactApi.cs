@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Flurl;
 using HubSpot.NET.Api.Contact.Dto;
+using HubSpot.NET.Core;
 using HubSpot.NET.Core.Interfaces;
 using RestSharp;
 
@@ -66,7 +67,7 @@ namespace HubSpot.NET.Api.Contact
         {
             if (opts == null)
             {
-                opts = new ContactListRequestOptions();
+                opts = new ListRequestOptions();
             }
 
             var propsArgs = opts != null && opts.PropertiesToInclude.Any() ? "?property=" + string.Join("&property=", opts.PropertiesToInclude) : string.Empty;

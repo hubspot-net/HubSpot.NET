@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Flurl;
 using HubSpot.NET.Api.Deal.Dto;
+using HubSpot.NET.Core;
 using HubSpot.NET.Core.Interfaces;
 using RestSharp;
 
@@ -56,6 +60,42 @@ namespace HubSpot.NET.Api.Deal
             var path = $"{entity.RouteBasePath}/deal/{entity.Id}";
 
             var data = _client.Execute<T>(path, entity, method: Method.PUT);
+            return data;
+        }
+
+        /// <summary>
+        /// Gets a list of deals
+        /// </summary>
+        /// <typeparam name="T">Implementation of DealListHubSpotModel</typeparam>
+        /// <param name="opts">Options (limit, offset) relating to request</param>
+        /// <returns>List of deals</returns>
+        public T List<T>(List<string> properties, bool includeAssociations, ListRequestOptions opts = null) where T : DealListHubSpotModel, new()
+        {
+            if (opts == null)
+            {
+                opts = new ListRequestOptions();
+            }
+
+            var path = $"{new DealListHubSpotModel().RouteBasePath}/deal/paged"
+                .SetQueryParam("limit", opts.Limit);
+
+            if (opts.Offset.HasValue)
+            {
+                path = path.SetQueryParam("offset", opts.Offset);
+            }
+
+            if (includeAssociations)
+            {
+                path = path.SetQueryParam("includeAssocations", "true");
+            }
+
+            if (properties != null && properties.Any())
+            {
+                path = path.SetQueryParam("properties", properties);
+            }
+
+            var data = _client.ExecuteList<T>(path, opts);
+
             return data;
         }
 
