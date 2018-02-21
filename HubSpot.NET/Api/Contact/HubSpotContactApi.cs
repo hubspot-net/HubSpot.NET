@@ -70,10 +70,13 @@ namespace HubSpot.NET.Api.Contact
                 opts = new ListRequestOptions();
             }
 
-            var propsArgs = opts != null && opts.PropertiesToInclude.Any() ? "?property=" + string.Join("&property=", opts.PropertiesToInclude) : string.Empty;
-            
-            var path = $"{new ContactHubSpotModel().RouteBasePath}/lists/all/contacts/all{propsArgs}"
+            var path = $"{new ContactHubSpotModel().RouteBasePath}/lists/all/contacts/all"
                 .SetQueryParam("count", opts.Limit);
+
+            if (opts.PropertiesToInclude.Any())
+            {
+                path.SetQueryParam("property", opts.PropertiesToInclude);
+            }
 
             if (opts.Offset.HasValue)
             {
