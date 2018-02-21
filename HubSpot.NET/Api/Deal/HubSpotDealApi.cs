@@ -69,14 +69,14 @@ namespace HubSpot.NET.Api.Deal
         /// <typeparam name="T">Implementation of DealListHubSpotModel</typeparam>
         /// <param name="opts">Options (limit, offset) relating to request</param>
         /// <returns>List of deals</returns>
-        public T List<T>(List<string> properties, bool includeAssociations, ListRequestOptions opts = null) where T : DealListHubSpotModel, new()
+        public DealListHubSpotModel<T> List<T>(bool includeAssociations, ListRequestOptions opts = null) where T : DealHubSpotModel, new()
         {
             if (opts == null)
             {
                 opts = new ListRequestOptions();
             }
 
-            var path = $"{new DealListHubSpotModel().RouteBasePath}/deal/paged"
+            var path = $"{new DealListHubSpotModel<T>().RouteBasePath}/deal/paged"
                 .SetQueryParam("limit", opts.Limit);
 
             if (opts.Offset.HasValue)
@@ -89,12 +89,12 @@ namespace HubSpot.NET.Api.Deal
                 path = path.SetQueryParam("includeAssocations", "true");
             }
 
-            if (properties != null && properties.Any())
+            if (opts.PropertiesToInclude.Any())
             {
-                path = path.SetQueryParam("properties", properties);
+                path = path.SetQueryParam("properties", opts.PropertiesToInclude);
             }
 
-            var data = _client.ExecuteList<T>(path, opts);
+            var data = _client.ExecuteList<DealListHubSpotModel<T>>(path, opts);
 
             return data;
         }
