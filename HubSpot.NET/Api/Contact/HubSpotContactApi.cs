@@ -63,7 +63,7 @@ namespace HubSpot.NET.Api.Contact
         /// <param name="opts">Request options - used for pagination etc.</param>
         /// <typeparam name="T">Implementation of ContactHubSpotModel</typeparam>
         /// <returns>A list of contacts</returns>
-        public ContactListHubSpotModel<T> List<T>(ContactListRequestOptions opts = null) where T : ContactHubSpotModel, new()
+        public ContactListHubSpotModel<T> List<T>(ListRequestOptions opts = null) where T : ContactHubSpotModel, new()
         {
             if (opts == null)
             {

@@ -8,6 +8,6 @@
         IHubSpotEngagementApi Engagement { get; }
         IHubSpotCosFileApi File { get; }
         IHubSpotOwnerApi Owner { get; }
-        IHubSpotCompanyPropertiesApi CompanyProperties { get; }
+        //IHubSpotCompanyPropertiesApi CompanyProperties { get; }
     }
 }
