@@ -60,10 +60,11 @@ namespace HubSpot.NET.Api.Contact
         /// <summary>
         /// List all available contacts 
         /// </summary>
+        /// <param name="properties">List of properties to fetch for each contact</param>
         /// <param name="opts">Request options - used for pagination etc.</param>
         /// <typeparam name="T">Implementation of ContactHubSpotModel</typeparam>
         /// <returns>A list of contacts</returns>
-        public T List<T>(ListRequestOptions opts = null) where T : ContactListHubSpotModel, new()
+        public T List<T>(List<string> properties, ListRequestOptions opts = null) where T : ContactListHubSpotModel, new()
         {
             if (opts == null)
             {
@@ -76,6 +77,11 @@ namespace HubSpot.NET.Api.Contact
             if (opts.Offset.HasValue)
             {
                 path = path.SetQueryParam("vidOffset", opts.Offset);
+            }
+
+            if (properties != null && properties.Any())
+            {
+                path = path.SetQueryParam("property", properties);
             }
 
             var data = _client.ExecuteList<T>(path, opts);
