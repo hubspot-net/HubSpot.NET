@@ -72,11 +72,13 @@ namespace HubSpot.NET.Api.Company
                 opts = new ListRequestOptions();
             }
 
-            var propsArgs = opts != null && opts.PropertiesToInclude.Any() ? "?properties=" + string.Join("&properties=", opts.PropertiesToInclude) : string.Empty;
-
-            var path = $"{new CompanyHubSpotModel().RouteBasePath}/companies/paged{propsArgs}"
+            var path = $"{new CompanyHubSpotModel().RouteBasePath}/companies/paged"
                 .SetQueryParam("count", opts.Limit);
 
+            if (opts.PropertiesToInclude.Any())
+            {
+                path.SetQueryParam("properties", opts.PropertiesToInclude);
+            }
             if (opts.Offset.HasValue)
             {
                 path = path.SetQueryParam("offset", opts.Offset);
