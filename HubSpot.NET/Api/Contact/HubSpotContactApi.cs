@@ -60,6 +60,7 @@ namespace HubSpot.NET.Api.Contact
         /// <summary>
         /// List all available contacts 
         /// </summary>
+        /// <param name="properties">List of properties to fetch for each contact</param>
         /// <param name="opts">Request options - used for pagination etc.</param>
         /// <typeparam name="T">Implementation of ContactHubSpotModel</typeparam>
         /// <returns>A list of contacts</returns>
