@@ -46,7 +46,7 @@ namespace HubSpot.NET.Examples
                 Hidden = true, //set to true for engagements
             };
 
-            var uploaded = api.File.Upload(file);
+            var uploaded = api.File.Upload<FileHubSpotModel>(file);
             var fileId = uploaded.Objects.First().Id;
 
             /**
@@ -83,12 +83,8 @@ namespace HubSpot.NET.Examples
              * Get all contacts with specific properties
              * By default only a few properties are returned
              */
-            var contacts = api.Contact.List<ContactListHubSpotModel>(new List<string>
-            {
-                "firstname",
-                "lastname",
-                "email"
-            });
+            var contacts = api.Contact.List<ContactHubSpotModel>(
+                new ListRequestOptions { PropertiesToInclude = new List<string> { "firstname", "lastname", "email" } });
         }
     }
 }
