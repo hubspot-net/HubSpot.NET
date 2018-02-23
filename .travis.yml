@@ -1,5 +1,0 @@
-language: csharp
-solution: HubSpot.NET.sln
-install:
-  - nuget restore HubSpot.NET.sln
-  - msbuild /p:TargetFrameworkVersion=v4.6;Configuration=Release /tv:4.0
