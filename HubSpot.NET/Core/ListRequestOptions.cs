@@ -17,7 +17,7 @@ namespace HubSpot.NET.Core
         /// Defaults to 20 which is also the HubSpot API default. Max value is 100
         /// </remarks>
         /// <value>
-        /// The number of contacts to return.
+        /// The number of items to return.
         /// </value>
         public int Limit
         {
