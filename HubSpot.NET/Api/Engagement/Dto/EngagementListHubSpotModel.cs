@@ -8,7 +8,7 @@ namespace HubSpot.NET.Api.Engagement.Dto
     /// Models a set of engagements returned by the API
     /// </summary>
     [DataContract]
-    public class EngagementListHubSpotModel : IHubSpotModel
+    public class EngagementListHubSpotModel<T> : IHubSpotModel where T: EngagementHubSpotModel, new()
     {
         /// <summary>
         /// Gets or sets the contacts.
@@ -17,7 +17,7 @@ namespace HubSpot.NET.Api.Engagement.Dto
         /// The contacts.
         /// </value>
         [DataMember(Name = "results")]
-        public IList<EngagementHubSpotModel> Engagements { get; set; } = new List<EngagementHubSpotModel>();
+        public IList<T> Engagements { get; set; } = new List<T>();
 
         /// <summary>
         /// Gets or sets a value indicating whether more results are available.

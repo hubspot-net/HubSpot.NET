@@ -16,11 +16,11 @@ namespace HubSpot.NET.Api.Owner
         /// Gets all owners within your HubSpot account
         /// </summary>
         /// <returns>The set of owners</returns>
-        public OwnerListHubSpotModel GetAll()
+        public OwnerListHubSpotModel<T> GetAll<T>() where T: OwnerHubSpotModel, new()
         {
             var path = $"{new OwnerHubSpotModel().RouteBasePath}/owners";
 
-            return _client.ExecuteList<OwnerListHubSpotModel>(path, convertToPropertiesSchema: false);
+            return _client.ExecuteList<OwnerListHubSpotModel<T>>(path, convertToPropertiesSchema: false);
         }
     }
 }

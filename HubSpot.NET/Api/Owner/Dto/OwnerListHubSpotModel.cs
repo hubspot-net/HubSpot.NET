@@ -10,9 +10,9 @@ namespace HubSpot.NET.Api.Owner.Dto
     /// Models a set of owners in HubSpot
     /// </summary>
     [DataContract]
-    public class OwnerListHubSpotModel : IHubSpotModel, ICollection<OwnerHubSpotModel>
+    public class OwnerListHubSpotModel<T> : IHubSpotModel, ICollection<T> where T: OwnerHubSpotModel, new()
     {
-        private List<OwnerHubSpotModel> Owners { get; } = new List<OwnerHubSpotModel>();
+        private List<T> Owners { get; } = new List<T>();
 
         public string RouteBasePath => "/owners/v2";
 
@@ -25,7 +25,7 @@ namespace HubSpot.NET.Api.Owner.Dto
         {
         }
 
-        public IEnumerator<OwnerHubSpotModel> GetEnumerator()
+        public IEnumerator<T> GetEnumerator()
         {
             return Owners.GetEnumerator();
         }
@@ -35,7 +35,7 @@ namespace HubSpot.NET.Api.Owner.Dto
             return GetEnumerator();
         }
 
-        public void Add(OwnerHubSpotModel item)
+        public void Add(T item)
         {
             Owners.Add(item);
         }
@@ -45,17 +45,17 @@ namespace HubSpot.NET.Api.Owner.Dto
             Owners.Clear();
         }
 
-        public bool Contains(OwnerHubSpotModel item)
+        public bool Contains(T item)
         {
             return Owners.Contains(item);
         }
 
-        public void CopyTo(OwnerHubSpotModel[] array, int arrayIndex)
+        public void CopyTo(T[] array, int arrayIndex)
         {
             Owners.CopyTo(array, arrayIndex);
         }
 
-        public bool Remove(OwnerHubSpotModel item)
+        public bool Remove(T item)
         {
             return Owners.Remove(item);
         }

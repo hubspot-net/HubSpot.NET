@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace HubSpot.NET.Core
 {
@@ -16,7 +17,7 @@ namespace HubSpot.NET.Core
         /// Defaults to 20 which is also the HubSpot API default. Max value is 100
         /// </remarks>
         /// <value>
-        /// The number of contacts to return.
+        /// The number of items to return.
         /// </value>
         public int Limit
         {
@@ -40,5 +41,7 @@ namespace HubSpot.NET.Core
         /// to continue the listing process
         /// </remarks>
         public int? Offset { get; set; } = null;
+
+        public List<string> PropertiesToInclude { get; set; } = new List<string>();
     }
 }

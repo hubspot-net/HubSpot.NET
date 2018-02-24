@@ -64,7 +64,7 @@ namespace HubSpot.NET.Api.Contact
         /// <param name="opts">Request options - used for pagination etc.</param>
         /// <typeparam name="T">Implementation of ContactHubSpotModel</typeparam>
         /// <returns>A list of contacts</returns>
-        public T List<T>(List<string> properties, ListRequestOptions opts = null) where T : ContactListHubSpotModel, new()
+        public ContactListHubSpotModel<T> List<T>(ListRequestOptions opts = null) where T : ContactHubSpotModel, new()
         {
             if (opts == null)
             {
@@ -74,17 +74,17 @@ namespace HubSpot.NET.Api.Contact
             var path = $"{new ContactHubSpotModel().RouteBasePath}/lists/all/contacts/all"
                 .SetQueryParam("count", opts.Limit);
 
+            if (opts.PropertiesToInclude.Any())
+            {
+                path.SetQueryParam("property", opts.PropertiesToInclude);
+            }
+
             if (opts.Offset.HasValue)
             {
                 path = path.SetQueryParam("vidOffset", opts.Offset);
             }
 
-            if (properties != null && properties.Any())
-            {
-                path = path.SetQueryParam("property", properties);
-            }
-
-            var data = _client.ExecuteList<T>(path, opts);
+            var data = _client.ExecuteList<ContactListHubSpotModel<T>>(path, opts);
 
             return data;
         }

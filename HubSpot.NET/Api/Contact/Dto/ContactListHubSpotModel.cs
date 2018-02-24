@@ -8,7 +8,7 @@ namespace HubSpot.NET.Api.Contact.Dto
     /// Models a set of results returned when querying for sets of contacts
     /// </summary>
     [DataContract]
-    public class ContactListHubSpotModel : IHubSpotModel
+    public class ContactListHubSpotModel<T> : IHubSpotModel where T: ContactHubSpotModel, new()
     {
         /// <summary>
         /// Gets or sets the contacts.
@@ -17,7 +17,7 @@ namespace HubSpot.NET.Api.Contact.Dto
         /// The contacts.
         /// </value>
         [DataMember(Name = "contacts")]
-        public IList<ContactHubSpotModel> Contacts { get; set; } = new List<ContactHubSpotModel>();
+        public IList<T> Contacts { get; set; } = new List<T>();
 
         /// <summary>
         /// Gets or sets a value indicating whether more results are available.

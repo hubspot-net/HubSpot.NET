@@ -1,5 +1,8 @@
 using System;
+using System.Linq;
+using Flurl;
 using HubSpot.NET.Api.Company.Dto;
+using HubSpot.NET.Core;
 using HubSpot.NET.Core.Interfaces;
 using RestSharp;
 
@@ -48,7 +51,7 @@ namespace HubSpot.NET.Api.Company
         /// <param name="domain">Domain name to search for</param>
         /// <param name="options">Set of search options</param>
         /// <returns>The company entity</returns>
-        public T GetByDomain<T>(string domain, CompanySearchByDomain options = null) where T : CompanySearchResultModel, new()
+        public CompanySearchResultModel<T> GetByDomain<T>(string domain, CompanySearchByDomain options = null) where T : CompanyHubSpotModel, new()
         {
             if (options == null)
             {
@@ -57,7 +60,31 @@ namespace HubSpot.NET.Api.Company
 
             var path =  $"{new CompanyHubSpotModel().RouteBasePath}/domains/{domain}/companies";
 
-            var data = _client.ExecuteList<T>(path, options, Method.POST);
+            var data = _client.ExecuteList<CompanySearchResultModel<T>>(path, options, Method.POST);
+
+            return data;
+        }
+
+        public CompanyListHubSpotModel<T> List<T>(ListRequestOptions opts = null) where T: CompanyHubSpotModel, new()
+        {
+            if (opts == null)
+            {
+                opts = new ListRequestOptions();
+            }
+
+            var path = $"{new CompanyHubSpotModel().RouteBasePath}/companies/paged"
+                .SetQueryParam("count", opts.Limit);
+
+            if (opts.PropertiesToInclude.Any())
+            {
+                path.SetQueryParam("properties", opts.PropertiesToInclude);
+            }
+            if (opts.Offset.HasValue)
+            {
+                path = path.SetQueryParam("offset", opts.Offset);
+            }
+
+            var data = _client.ExecuteList<CompanyListHubSpotModel<T>>(path, opts);
 
             return data;
         }

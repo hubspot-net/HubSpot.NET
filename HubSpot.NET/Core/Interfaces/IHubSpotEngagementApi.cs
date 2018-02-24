@@ -9,9 +9,9 @@ namespace HubSpot.NET.Core.Interfaces
         EngagementHubSpotModel Create(EngagementHubSpotModel entity);
         void Delete(long engagementId);
         EngagementHubSpotModel GetById(long engagementId);
-        EngagementListHubSpotModel List(EngagementListRequestOptions opts = null);
-        EngagementListHubSpotModel ListAssociated(long objectId, string objectType, EngagementListRequestOptions opts = null);
-        EngagementListHubSpotModel ListRecent(EngagementListRequestOptions opts = null);
+        EngagementListHubSpotModel<T> List<T>(EngagementListRequestOptions opts = null) where T: EngagementHubSpotModel, new();
+        EngagementListHubSpotModel<T> ListAssociated<T>(long objectId, string objectType, EngagementListRequestOptions opts = null) where T: EngagementHubSpotModel, new();
+        EngagementListHubSpotModel<T> ListRecent<T>(EngagementListRequestOptions opts = null) where T: EngagementHubSpotModel, new();
         void Update(EngagementHubSpotModel entity);
     }
 }

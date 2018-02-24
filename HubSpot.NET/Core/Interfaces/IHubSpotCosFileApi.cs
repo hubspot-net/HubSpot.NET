@@ -5,6 +5,6 @@ namespace HubSpot.NET.Core.Interfaces
     public interface IHubSpotCosFileApi
     {
         FolderHubSpotModel CreateFolder(FolderHubSpotModel folder);
-        FileListHubSpotModel Upload(FileHubSpotModel entity);
+        FileListHubSpotModel<T> Upload<T>(FileHubSpotModel entity) where T: FileHubSpotModel, new();
     }
 }
