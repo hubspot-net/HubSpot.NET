@@ -9,5 +9,6 @@
         IHubSpotCosFileApi File { get; }
         IHubSpotOwnerApi Owner { get; }
         IHubSpotCompanyPropertiesApi CompanyProperties { get; }
+        IHubSpotEmailSubscriptionsApi EmailSubscriptions { get; }
     }
 }

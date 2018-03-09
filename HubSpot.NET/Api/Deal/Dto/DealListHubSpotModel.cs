@@ -18,7 +18,7 @@ namespace HubSpot.NET.Api.Deal.Dto
         /// The contacts.
         /// </value>
         [DataMember(Name = "deals")]
-        public IList<DealHubSpotModel> Deals { get; set; } = new List<DealHubSpotModel>();
+        public IList<T> Deals { get; set; } = new List<T>();
 
         /// <summary>
         /// Gets or sets a value indicating whether more results are available.
