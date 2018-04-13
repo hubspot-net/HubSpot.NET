@@ -29,7 +29,7 @@ namespace HubSpot.NET.Api.Deal.Dto
         /// <remarks>
         /// This is a mapping of the "has-more" prop in the JSON return data from HubSpot
         /// </remarks>
-        [DataMember(Name = "has-more")]
+        [DataMember(Name = "hasMore")]
         public bool MoreResultsAvailable { get; set; }
 
         /// <summary>
