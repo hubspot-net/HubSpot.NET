@@ -219,12 +219,25 @@ namespace HubSpot.NET.Core.Requests
 
                 if (targetProp != null)
                 {
-
+                    var isNullable = false;
+                    if (targetProp.PropertyType.Name.Contains("Nullable"))
+                    {
+                        isNullable = true;
+                    }
                     Type t = Nullable.GetUnderlyingType(targetProp.PropertyType) ?? targetProp.PropertyType;
 
-                    var value = dynamicValue.GetType() == t ? dynamicValue : Convert.ChangeType(dynamicValue, t);
-
-                    targetProp.SetValue(dto, value);
+                    // resolves bug where if the object property was a nullable number (int/double/etc.) and the value being processed
+                    // was null or an empty string an exception 'string was not in the correct format' occurred.
+                    if (isNullable && (dynamicValue == null || string.IsNullOrEmpty(dynamicValue.ToString())))
+                    {
+                        // if nullable and the value to convert is null or an empty string it should not be converted
+                        targetProp.SetValue(dto, null);
+                    }
+                    else
+                    {
+                        var value = dynamicValue.GetType() == t ? dynamicValue : Convert.ChangeType(dynamicValue, t);
+                        targetProp.SetValue(dto, value);
+                    }
                 }
             }
             return dto;
