@@ -33,6 +33,21 @@ namespace HubSpot.NET.Examples
              */
             var deals = api.Deal.List<DealHubSpotModel>(false,
                 new ListRequestOptions { PropertiesToInclude = new List<string> { "dealname", "amount" } });
+
+            /**
+             *  Get all deals
+             */
+            //var moreResults = true;
+            //long offset = 0;
+            //while (moreResults)
+            //{
+            //    var allDeals = api.Deal.List<DealHubSpotModel>(false,
+            //        new ListRequestOptions { PropertiesToInclude = new List<string> { "dealname", "amount", "hubspot_owner_id", "closedate" }, Limit = 100, Offset = offset });
+
+            //    moreResults = allDeals.MoreResultsAvailable;
+            //    if (moreResults) offset = allDeals.ContinuationOffset;
+
+            //}
         }
     }
 }
