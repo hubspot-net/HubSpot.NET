@@ -12,11 +12,5 @@ namespace HubSpot.NET.Core.Interfaces
 
         DealListHubSpotModel<T> List<T>(bool includeAssociations, ListRequestOptions opts = null)
             where T : DealHubSpotModel, new();
-
-        DealRecentListHubSpotModel<T> RecentlyCreatedList<T>(bool includePropertyVersions, string since = "", ListRequestOptions opts = null)
-            where T : DealHubSpotModel, new();
-
-        DealRecentListHubSpotModel<T> RecentlyModifiedList<T>(bool includePropertyVersions, string since = "", ListRequestOptions opts = null)
-            where T : DealHubSpotModel, new();
     }
 }

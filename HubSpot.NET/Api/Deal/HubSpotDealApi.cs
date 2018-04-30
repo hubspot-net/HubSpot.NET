@@ -99,80 +99,6 @@ namespace HubSpot.NET.Api.Deal
             return data;
         }
 
-        public DealRecentListHubSpotModel<T> RecentlyCreatedList<T>(bool includePropertyVersions, string since = "", ListRequestOptions opts = null) where T : DealHubSpotModel, new()
-        {
-            if (opts == null)
-            {
-                opts = new ListRequestOptions();
-            }
-
-            var path = $"{new DealRecentListHubSpotModel<T>().RouteBasePath}/deal/recent/created"
-                .SetQueryParam("limit", opts.Limit);
-
-            if (opts.Offset.HasValue)
-            {
-                path = path.SetQueryParam("offset", opts.Offset);
-            }
-
-            // Recently created deals does not have an includeAssociations query parameter
-            // but does have 'includePropertyVersions and 'since' query parameters.
-            if (includePropertyVersions)
-            {
-                path = path.SetQueryParam("includePropertyVersions", "true");
-            }
-
-            if (!string.IsNullOrEmpty(since))
-            {
-                path = path.SetQueryParam("since", since);
-            }
-
-            if (opts.PropertiesToInclude.Any())
-            {
-                path = path.SetQueryParam("properties", opts.PropertiesToInclude);
-            }
-
-            var data = _client.ExecuteList<DealRecentListHubSpotModel<T>>(path, opts);
-
-            return data;
-        }
-
-        public DealRecentListHubSpotModel<T> RecentlyModifiedList<T>(bool includePropertyVersions, string since = "", ListRequestOptions opts = null) where T : DealHubSpotModel, new()
-        {
-            if (opts == null)
-            {
-                opts = new ListRequestOptions();
-            }
-
-            var path = $"{new DealRecentListHubSpotModel<T>().RouteBasePath}/deal/recent/modified"
-                .SetQueryParam("limit", opts.Limit);
-
-            if (opts.Offset.HasValue)
-            {
-                path = path.SetQueryParam("offset", opts.Offset);
-            }
-
-            // Recently created deals does not have an includeAssociations query parameter
-            // but does have 'includePropertyVersions and 'since' query parameters.
-            if (includePropertyVersions)
-            {
-                path = path.SetQueryParam("includePropertyVersions", "true");
-            }
-
-            if (!string.IsNullOrEmpty(since))
-            {
-                path = path.SetQueryParam("since", since);
-            }
-
-            if (opts.PropertiesToInclude.Any())
-            {
-                path = path.SetQueryParam("properties", opts.PropertiesToInclude);
-            }
-
-            var data = _client.ExecuteList<DealRecentListHubSpotModel<T>>(path, opts);
-
-            return data;
-        }
-
         /// <summary>
         /// Deletes a given deal (by ID)
         /// </summary>
@@ -183,7 +109,5 @@ namespace HubSpot.NET.Api.Deal
 
             _client.Execute(path, method: Method.DELETE);
         }
-
-        
     }
 }
