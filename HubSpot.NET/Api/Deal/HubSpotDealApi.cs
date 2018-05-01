@@ -86,7 +86,7 @@ namespace HubSpot.NET.Api.Deal
 
             if (includeAssociations)
             {
-                path = path.SetQueryParam("includeAssocations", "true");
+                path = path.SetQueryParam("includeAssociations", "true");
             }
 
             if (opts.PropertiesToInclude.Any())
