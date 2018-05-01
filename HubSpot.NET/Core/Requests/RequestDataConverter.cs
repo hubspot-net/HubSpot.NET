@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Reflection;
+using HubSpot.NET.Core.Extensions;
 using HubSpot.NET.Core.Interfaces;
 
 namespace HubSpot.NET.Core.Requests
@@ -219,12 +220,23 @@ namespace HubSpot.NET.Core.Requests
 
                 if (targetProp != null)
                 {
+                    var isNullable = targetProp.PropertyType.Name.Contains("Nullable");
 
-                    Type t = Nullable.GetUnderlyingType(targetProp.PropertyType) ?? targetProp.PropertyType;
+                    var type = Nullable.GetUnderlyingType(targetProp.PropertyType) ?? targetProp.PropertyType;
 
-                    var value = dynamicValue.GetType() == t ? dynamicValue : Convert.ChangeType(dynamicValue, t);
-
-                    targetProp.SetValue(dto, value);
+                    // resolves issue where if the object property was a nullable number (int/double/etc.) and the value being processed
+                    // was null or an empty string an exception 'string was not in the correct format' occurred.
+                    // see https://github.com/squaredup/HubSpot.NET/pull/8
+                    if (isNullable && (dynamicValue?.ToString()).IsNullOrEmpty())
+                    {
+                        // if nullable and the value to convert is null or an empty string it should not be converted
+                        targetProp.SetValue(dto, null);
+                    }
+                    else
+                    {
+                        var value = dynamicValue.GetType() == type ? dynamicValue : Convert.ChangeType(dynamicValue, type);
+                        targetProp.SetValue(dto, value);
+                    }
                 }
             }
             return dto;

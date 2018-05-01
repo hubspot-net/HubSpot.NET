@@ -53,7 +53,7 @@ namespace HubSpot.NET.Api.Deal.Dto
         public string CloseDate { get; set; }
 
         [DataMember(Name = "amount")]
-        public double Amount { get; set; }
+        public double? Amount { get; set; }
 
         [DataMember(Name = "dealtype")]
         public string DealType { get; set; }
