@@ -16,7 +16,7 @@ namespace HubSpot.NET.Examples
              * Initialize the API with your API Key
              * You can find or generate this under Integrations -> HubSpot API key
              */
-            var api = new HubSpotApi("YOUR-API-KEY-HERE");
+            var api = new HubSpotApi("demo");
 
             /**
              * Create a contact
@@ -85,6 +85,22 @@ namespace HubSpot.NET.Examples
              */
             var contacts = api.Contact.List<ContactHubSpotModel>(
                 new ListRequestOptions { PropertiesToInclude = new List<string> { "firstname", "lastname", "email" } });
+
+            /**
+             * Get the most recently updated contacts, limited to 10
+             */
+            var recentlyUpdated = api.Contact.RecentlyUpdated<ContactHubSpotModel>(new ListRecentRequestOptions()
+            {
+                Limit = 10
+            });
+
+            /**
+             * Get the most recently created contacts, limited to 10
+             */
+            var recentlyCreated = api.Contact.RecentlyCreated<ContactHubSpotModel>(new ListRecentRequestOptions()
+            {
+                Limit = 10
+            });
         }
     }
 }

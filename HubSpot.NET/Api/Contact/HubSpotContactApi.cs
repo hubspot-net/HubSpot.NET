@@ -129,5 +129,89 @@ namespace HubSpot.NET.Api.Contact
 
             _client.ExecuteBatch(path, contacts.Select(c => (object) c).ToList(), Method.POST);
         }
+
+        /// <summary>
+        /// Get recently updated (or created) contacts
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="opts">Request options</param>
+        /// <returns></returns>
+        public ContactListHubSpotModel<T> RecentlyUpdated<T>(ListRecentRequestOptions opts = null) where T : ContactHubSpotModel, new()
+        {
+            if (opts == null)
+            {
+                opts = new ListRecentRequestOptions();
+            }
+
+            var path = $"{new ContactHubSpotModel().RouteBasePath}/lists/recently_updated/contacts/recent"
+                .SetQueryParam("count", opts.Limit);
+
+            if (opts.PropertiesToInclude.Any())
+            {
+                path.SetQueryParam("property", opts.PropertiesToInclude);
+            }
+
+            if (opts.Offset.HasValue)
+            {
+                path = path.SetQueryParam("vidOffset", opts.Offset);
+            }
+
+            if (!string.IsNullOrEmpty(opts.TimeOffset))
+            {
+                path = path.SetQueryParam("timeOffset", opts.TimeOffset);
+            }
+            
+            path = path.SetQueryParam("propertyMode", opts.PropertyMode);
+            
+            path = path.SetQueryParam("formSubmissionMode", opts.FormSubmissionMode);
+            
+            path = path.SetQueryParam("showListMemberships", opts.ShowListMemberships);
+            
+            var data = _client.ExecuteList<ContactListHubSpotModel<T>>(path, opts);
+
+            return data;
+        }
+
+        /// <summary>
+        /// Get a list of recently created contacts
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="opts">Request options</param>
+        /// <returns></returns>
+        public ContactListHubSpotModel<T> RecentlyCreated<T>(ListRecentRequestOptions opts = null) where T : ContactHubSpotModel, new()
+        {
+            if (opts == null)
+            {
+                opts = new ListRecentRequestOptions();
+            }
+
+            var path = $"{new ContactHubSpotModel().RouteBasePath}/lists/all/contacts/recent"
+                .SetQueryParam("count", opts.Limit);
+
+            if (opts.PropertiesToInclude.Any())
+            {
+                path.SetQueryParam("property", opts.PropertiesToInclude);
+            }
+
+            if (opts.Offset.HasValue)
+            {
+                path = path.SetQueryParam("vidOffset", opts.Offset);
+            }
+
+            if (!string.IsNullOrEmpty(opts.TimeOffset))
+            {
+                path = path.SetQueryParam("timeOffset", opts.TimeOffset);
+            }
+            
+            path = path.SetQueryParam("propertyMode", opts.PropertyMode);
+            
+            path = path.SetQueryParam("formSubmissionMode", opts.FormSubmissionMode);
+            
+            path = path.SetQueryParam("showListMemberships", opts.ShowListMemberships);
+            
+            var data = _client.ExecuteList<ContactListHubSpotModel<T>>(path, opts);
+
+            return data;
+        }
     }
 }
