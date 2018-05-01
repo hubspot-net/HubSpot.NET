@@ -16,7 +16,7 @@ namespace HubSpot.NET.Examples
              * Initialize the API with your API Key
              * You can find or generate this under Integrations -> HubSpot API key
              */
-            var api = new HubSpotApi("demo");
+            var api = new HubSpotApi("YOUR-API-KEY-HERE");
 
             /**
              * Create a contact
