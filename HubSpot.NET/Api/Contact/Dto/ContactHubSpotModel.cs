@@ -37,7 +37,8 @@ namespace HubSpot.NET.Api.Contact.Dto
         public string State { get; set; }
         [DataMember(Name = "zip")]
         public string ZipCode { get; set; }
-        [DataMember(Name="associatedCompanyId")]
+
+        [DataMember(Name="associatedcompanyid")]
         public long? AssociatedCompanyId { get;set; }
 
         [DataMember(Name="hubspot_owner_id")]
