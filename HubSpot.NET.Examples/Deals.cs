@@ -36,6 +36,7 @@ namespace HubSpot.NET.Examples
 
             /**
              *  Get all deals
+             *  This is commented in case the data has a large quantity of deals in HubSpot.
              */
             //var moreResults = true;
             //long offset = 0;
@@ -46,8 +47,27 @@ namespace HubSpot.NET.Examples
 
             //    moreResults = allDeals.MoreResultsAvailable;
             //    if (moreResults) offset = allDeals.ContinuationOffset;
-
             //}
+
+            /**
+             *  Get recently created deals, limited to 10 records
+             *  Using DealRecentListHubSpotModel to accomodate deals returning in the "results" property.
+             */
+            var recentlyCreatedDeals = api.Deal.RecentlyCreated<DealHubSpotModel>(new DealRecentRequestOptions
+            {
+                Limit = 10,
+                IncludePropertyVersion = false,
+            });
+
+            /**
+             *  Get recently created deals, limited to 10 records
+             *  Using DealRecentListHubSpotModel to accomodate deals returning in the "results" property.
+             */
+            var recentlyUpdatedDeals = api.Deal.RecentlyCreated<DealHubSpotModel>(new DealRecentRequestOptions
+            {
+                Limit = 10,
+                IncludePropertyVersion = false,
+            });
         }
     }
 }

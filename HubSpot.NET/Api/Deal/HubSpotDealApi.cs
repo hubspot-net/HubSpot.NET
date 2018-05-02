@@ -109,5 +109,78 @@ namespace HubSpot.NET.Api.Deal
 
             _client.Execute(path, method: Method.DELETE);
         }
+
+        /// <summary>
+        /// Gets a list of recently created deals
+        /// </summary>
+        /// <typeparam name="T">Implementation of DealListHubSpotModel</typeparam>
+        /// <param name="opts">Options (limit, offset) relating to request</param>
+        /// <returns>List of deals</returns>
+        public DealRecentListHubSpotModel<T> RecentlyCreated<T>(DealRecentRequestOptions opts = null) where T : DealHubSpotModel, new()
+        {
+
+            if (opts == null)
+            {
+                opts = new DealRecentRequestOptions();
+            }
+
+            var path = $"{new DealRecentListHubSpotModel<T>().RouteBasePath}/deal/recent/created"
+                .SetQueryParam("limit", opts.Limit);
+
+            if (opts.Offset.HasValue)
+            {
+                path = path.SetQueryParam("offset", opts.Offset);
+            }
+
+            if (opts.IncludePropertyVersion)
+            {
+                path = path.SetQueryParam("includePropertyVersions", "true");
+            }
+
+            if (!string.IsNullOrEmpty(opts.Since))
+            {
+                path = path.SetQueryParam("since", opts.Since);
+            }
+
+            var data = _client.ExecuteList<DealRecentListHubSpotModel<T>>(path, opts);
+
+            return data;
+        }
+
+        /// <summary>
+        /// Gets a list of recently modified deals
+        /// </summary>
+        /// <typeparam name="T">Implementation of DealListHubSpotModel</typeparam>
+        /// <param name="opts">Options (limit, offset) relating to request</param>
+        /// <returns>List of deals</returns>
+        public DealRecentListHubSpotModel<T> RecentlyUpdated<T>(DealRecentRequestOptions opts = null) where T : DealHubSpotModel, new()
+        {
+            if (opts == null)
+            {
+                opts = new DealRecentRequestOptions();
+            }
+
+            var path = $"{new DealRecentListHubSpotModel<T>().RouteBasePath}/deal/recent/modified"
+                .SetQueryParam("limit", opts.Limit);
+
+            if (opts.Offset.HasValue)
+            {
+                path = path.SetQueryParam("offset", opts.Offset);
+            }
+
+            if (opts.IncludePropertyVersion)
+            {
+                path = path.SetQueryParam("includePropertyVersions", "true");
+            }
+
+            if (!string.IsNullOrEmpty(opts.Since))
+            {
+                path = path.SetQueryParam("since", opts.Since);
+            }
+
+            var data = _client.ExecuteList<DealRecentListHubSpotModel<T>>(path, opts);
+
+            return data;
+        }
     }
 }
