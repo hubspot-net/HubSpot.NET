@@ -66,5 +66,8 @@ namespace HubSpot.NET.Api.Engagement.Dto
 
         [DataMember(Name = "type")]
         public string Type { get;set; }
+
+        [DataMember(Name = "ownerId")]
+        public long? OwnerId { get; set; }
     }
 }
