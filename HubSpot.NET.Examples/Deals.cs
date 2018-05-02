@@ -52,6 +52,7 @@ namespace HubSpot.NET.Examples
 
             /**
              *  Get recently created deals since 7 days ago, limited to 10 records
+             *  Will default to 30 day if Since is not set.
              *  Using DealRecentListHubSpotModel to accomodate deals returning in the "results" property.
              */
             var currentdatetime = DateTime.SpecifyKind(DateTime.Now.AddDays(-7), DateTimeKind.Utc);
@@ -66,6 +67,7 @@ namespace HubSpot.NET.Examples
 
             /**
              *  Get recently created deals since 7 days ago, limited to 10 records
+             *  Will default to 30 day if Since is not set.
              *  Using DealRecentListHubSpotModel to accomodate deals returning in the "results" property.
              */
             var recentlyUpdatedDeals = api.Deal.RecentlyCreated<DealHubSpotModel>(new DealRecentRequestOptions
