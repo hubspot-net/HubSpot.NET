@@ -234,7 +234,21 @@ namespace HubSpot.NET.Core.Requests
                     }
                     else
                     {
-                        var value = dynamicValue.GetType() == type ? dynamicValue : Convert.ChangeType(dynamicValue, type);
+                        object value = null;
+
+                        if(type == typeof(DateTime) || type == typeof(DateTime?))
+                        {
+                            value = DateTimeOffset.FromUnixTimeMilliseconds(Convert.ToInt64(dynamicValue)).LocalDateTime;
+                        }
+                        else if(type == typeof(DateTimeOffset) || type == typeof(DateTimeOffset?))
+                        {
+                            value = DateTimeOffset.FromUnixTimeMilliseconds(Convert.ToInt64(dynamicValue));
+                        }
+                        else
+                        {
+                            value = dynamicValue.GetType() == type ? dynamicValue : Convert.ChangeType(dynamicValue, type);
+                        }
+
                         targetProp.SetValue(dto, value);
                     }
                 }

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Runtime.Serialization;
 using HubSpot.NET.Core.Interfaces;
+using Microsoft.CSharp;
 
 namespace HubSpot.NET.Api.Deal.Dto
 {
