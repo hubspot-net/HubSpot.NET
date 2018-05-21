@@ -34,7 +34,32 @@ namespace HubSpot.NET.Core.Requests
                 // IF we have an complex type on the entity that we are trying to convert, let's NOT get the 
                 // string value of it, but simply pass the object along - it will be serialized later as JSON...
                 var propValue = prop.GetValue(entity);
-                var value = propValue.IsComplexType() ? propValue : propValue?.ToString();
+                object value = null;
+
+                if (prop.PropertyType == typeof(DateTime))
+                {
+                    value = (new DateTimeOffset((DateTime)propValue)).ToUnixTimeMilliseconds();
+                }
+                else if (prop.PropertyType == typeof(DateTime?))
+                {
+                    if (propValue != null)
+                    {
+                        value = (new DateTimeOffset((DateTime)propValue)).ToUnixTimeMilliseconds();
+                    }
+                }
+                else if (prop.PropertyType == typeof(DateTimeOffset)) {
+                    value = ((DateTimeOffset)propValue).ToUnixTimeMilliseconds();
+                }
+                else if (prop.PropertyType == typeof(DateTimeOffset?)) {
+                    if (propValue != null)
+                    {
+                        value = ((DateTimeOffset)propValue).ToUnixTimeMilliseconds();
+                    }
+                }
+                else
+                {
+                    value = propValue.IsComplexType() ? propValue : propValue?.ToString();
+                }
                 var item = new HubspotDataEntityProp
                 {
                     Property = propSerializedName,
@@ -55,7 +80,7 @@ namespace HubSpot.NET.Core.Requests
                     mapped.email = value;
                 }
             }
-            
+
             return mapped;
         }
 
@@ -236,11 +261,11 @@ namespace HubSpot.NET.Core.Requests
                     {
                         object value = null;
 
-                        if(type == typeof(DateTime) || type == typeof(DateTime?))
+                        if (type == typeof(DateTime) || type == typeof(DateTime?))
                         {
                             value = DateTimeOffset.FromUnixTimeMilliseconds(Convert.ToInt64(dynamicValue)).LocalDateTime;
                         }
-                        else if(type == typeof(DateTimeOffset) || type == typeof(DateTimeOffset?))
+                        else if (type == typeof(DateTimeOffset) || type == typeof(DateTimeOffset?))
                         {
                             value = DateTimeOffset.FromUnixTimeMilliseconds(Convert.ToInt64(dynamicValue));
                         }
