@@ -119,5 +119,6 @@ namespace HubSpot.NET.Api.Company
 
             _client.Execute(path, method: Method.DELETE);
         }
+               
     }
 }

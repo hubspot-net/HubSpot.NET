@@ -1,5 +1,6 @@
 ﻿using HubSpot.NET.Api.Deal.Dto;
 using HubSpot.NET.Core;
+using System;
 using System.Collections.Generic;
 
 namespace HubSpot.NET.Examples
@@ -36,6 +37,7 @@ namespace HubSpot.NET.Examples
 
             /**
              *  Get all deals
+             *  This is commented in case the HubSpot data has a large quantity of deals.
              */
             //var moreResults = true;
             //long offset = 0;
@@ -46,8 +48,34 @@ namespace HubSpot.NET.Examples
 
             //    moreResults = allDeals.MoreResultsAvailable;
             //    if (moreResults) offset = allDeals.ContinuationOffset;
-
             //}
+
+            /**
+             *  Get recently created deals since 7 days ago, limited to 10 records
+             *  Will default to 30 day if Since is not set.
+             *  Using DealRecentListHubSpotModel to accomodate deals returning in the "results" property.
+             */
+            var currentdatetime = DateTime.SpecifyKind(DateTime.Now.AddDays(-7), DateTimeKind.Utc);
+            var since = ((DateTimeOffset)currentdatetime).ToUnixTimeMilliseconds().ToString();
+
+            var recentlyCreatedDeals = api.Deal.RecentlyCreated<DealHubSpotModel>(new DealRecentRequestOptions
+            {
+                Limit = 10,
+                IncludePropertyVersion = false,
+                Since = since
+            });
+
+            /**
+             *  Get recently created deals since 7 days ago, limited to 10 records
+             *  Will default to 30 day if Since is not set.
+             *  Using DealRecentListHubSpotModel to accomodate deals returning in the "results" property.
+             */
+            var recentlyUpdatedDeals = api.Deal.RecentlyCreated<DealHubSpotModel>(new DealRecentRequestOptions
+            {
+                Limit = 10,
+                IncludePropertyVersion = false,
+                Since = since
+            });
         }
     }
 }
