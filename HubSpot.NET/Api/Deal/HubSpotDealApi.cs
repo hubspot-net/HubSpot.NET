@@ -99,6 +99,46 @@ namespace HubSpot.NET.Api.Deal
             return data;
         }
 
+
+        /// <summary>
+        /// Gets a list of deals associated to a hubSpot Object
+        /// </summary>
+        /// <typeparam name="T">Implementation of DealListHubSpotModel</typeparam>
+        /// <param name="includeAssociations">Bool include associated Ids</param>
+        /// <param name="hubId">Long Id of Hubspot object related to deals</param>
+        /// <param name="objectName">String name of Hubspot object related to deals (contact\account)</param>
+        /// <param name="opts">Options (limit, offset) relating to request</param>
+        /// <returns>List of deals</returns>
+        public DealListHubSpotModel<T> AssociatedList<T>(bool includeAssociations, long hubId, ListRequestOptions opts = null, string objectName = "contact") where T : DealHubSpotModel, new()
+        {
+            if (opts == null)
+            {
+                opts = new ListRequestOptions();
+            }
+
+            var path = $"{new DealListHubSpotModel<T>().RouteBasePath}/deal/associated/{objectName}/{hubId}/paged"
+                .SetQueryParam("limit", opts.Limit);
+
+            if (opts.Offset.HasValue)
+            {
+                path = path.SetQueryParam("offset", opts.Offset);
+            }
+
+            if (includeAssociations)
+            {
+                path = path.SetQueryParam("includeAssociations", "true");
+            }
+
+            if (opts.PropertiesToInclude.Any())
+            {
+                path = path.SetQueryParam("properties", opts.PropertiesToInclude);
+            }
+
+            var data = _client.ExecuteList<DealListHubSpotModel<T>>(path, opts);
+
+            return data;
+        }
+
         /// <summary>
         /// Deletes a given deal (by ID)
         /// </summary>
