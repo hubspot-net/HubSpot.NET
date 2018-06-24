@@ -56,6 +56,19 @@ namespace HubSpot.NET.Api.Contact
             var data = _client.Execute<T>(path, Method.GET);
             return data;
         }
+        
+        /// <summary>
+        /// Gets a contact by their user token
+        /// </summary>
+        /// <param name="userToken">User token to search for from hubspotutk cookie</param>
+        /// <typeparam name="T">Implementation of ContactHubSpotModel</typeparam>
+        /// <returns>The contact entity</returns>
+        public T GetByUserToken<T>(string userToken) where T : ContactHubSpotModel, new()
+        {
+            var path = $"{new T().RouteBasePath}/contact/utk/{userToken}/profile";
+            var data = _client.Execute<T>(path, Method.GET);
+            return data;
+        }
 
         /// <summary>
         /// List all available contacts 
