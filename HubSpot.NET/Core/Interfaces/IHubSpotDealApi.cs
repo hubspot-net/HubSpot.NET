@@ -18,5 +18,6 @@ namespace HubSpot.NET.Core.Interfaces
 
         DealRecentListHubSpotModel<T> RecentlyUpdated<T>(DealRecentRequestOptions opts = null)
             where T : DealHubSpotModel, new();
+        DealListHubSpotModel<T> AssociatedList<T>(bool includeAssociations, long hubId, ListRequestOptions opts = null, string objectName = "contact") where T :DealHubSpotModel, new();
     }
 }
