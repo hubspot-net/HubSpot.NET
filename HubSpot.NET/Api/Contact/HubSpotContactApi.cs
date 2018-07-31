@@ -32,6 +32,18 @@ namespace HubSpot.NET.Api.Contact
         }
 
         /// <summary>
+        /// Creates or Updates a contact entity based on the Entity Email
+        /// </summary>
+        /// <typeparam name="T">Implementation of ContactHubSpotModel</typeparam>
+        /// <param name="entity">The entity</param>
+        /// <returns>The created entity (with ID set)</returns>
+        public T CreateOrUpdate<T>(T entity) where T : ContactHubSpotModel, new()
+        {
+            var path = $"{entity.RouteBasePath}/contact/createOrUpdate/email/{entity.Email}/";
+            return _client.Execute<T>(path, entity, Method.POST);
+        }
+
+        /// <summary>
         /// Gets a single contact by ID from hubspot
         /// </summary>
         /// <param name="contactId">ID of the contact</param>
