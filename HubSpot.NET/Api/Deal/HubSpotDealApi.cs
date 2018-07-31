@@ -109,7 +109,7 @@ namespace HubSpot.NET.Api.Deal
         /// <param name="objectName">String name of Hubspot object related to deals (contact\account)</param>
         /// <param name="opts">Options (limit, offset) relating to request</param>
         /// <returns>List of deals</returns>
-        public DealListHubSpotModel<T> AssociatedList<T>(bool includeAssociations, long hubId, ListRequestOptions opts = null, string objectName = "contact") where T : DealHubSpotModel, new()
+        public DealListHubSpotModel<T> ListAssociated<T>(bool includeAssociations, long hubId, ListRequestOptions opts = null, string objectName = "contact") where T : DealHubSpotModel, new()
         {
             if (opts == null)
             {
