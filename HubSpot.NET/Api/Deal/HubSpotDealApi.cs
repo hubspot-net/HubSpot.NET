@@ -73,7 +73,7 @@ namespace HubSpot.NET.Api.Deal
         {
             if (opts == null)
             {
-                opts = new ListRequestOptions();
+                opts = new ListRequestOptions(250);
             }
 
             var path = $"{new DealListHubSpotModel<T>().RouteBasePath}/deal/paged"

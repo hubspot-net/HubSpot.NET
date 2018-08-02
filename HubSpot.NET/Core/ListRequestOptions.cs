@@ -9,6 +9,7 @@ namespace HubSpot.NET.Core
     public class ListRequestOptions
     {
         private int _limit = 20;
+        private readonly int _upperLimit;
 
         /// <summary>
         /// Gets or sets the number of items to return.
@@ -24,13 +25,32 @@ namespace HubSpot.NET.Core
             get => _limit;
             set
             {
-                if (value < 1 || value > 100)
+                if (value < 1 || value > _upperLimit)
                 {
                     throw new ArgumentException(
-                        $"Number of items to return must be a positive ingeteger greater than 0, and less than 100 - you provided {value}");
+                        $"Number of items to return must be a positive integer greater than 0, and less than {_upperLimit} - you provided {value}");
                 }
                 _limit = value;
             }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:HubSpot.NET.Core.ListRequestOptions"/> class.
+        /// </summary>
+        /// <param name="upperLimit">Upper limit for the amount of items to request for the list.</param>
+        public ListRequestOptions(int upperLimit)
+        {
+            _upperLimit = upperLimit;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:HubSpot.NET.Core.ListRequestOptions"/> class.
+        /// Sets the upper limit to 100 
+        /// </summary>
+        public ListRequestOptions()
+            : this(100)
+        {
+
         }
 
         /// <summary>
