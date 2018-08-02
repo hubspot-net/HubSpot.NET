@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HubSpot.NET.Api.Contact.Dto;
-using HubSpot.NET.Api.Engagement.Dto;
-using HubSpot.NET.Api.Files.Dto;
-using HubSpot.NET.Core;
+﻿using HubSpot.NET.Core;
 
 namespace HubSpot.NET.Examples
 {
@@ -15,15 +6,21 @@ namespace HubSpot.NET.Examples
     {
         static void Main(string[] args)
         {
-            Deals.Example();
+            /**
+             * Initialize the API with your API Key
+             * You can find or generate this under Integrations -> HubSpot API key
+             */
+            var api = new HubSpotApi("YOUR API KEY HERE");
 
-            Companies.Example();
+            Deals.Example(api);
 
-            Contacts.Example();
+            Companies.Example(api);
 
-            CompanyProperties.Example();
+            Contacts.Example(api);
 
-            EmailSubscriptions.Example();
+            CompanyProperties.Example(api);
+
+            EmailSubscriptions.Example(api);
         }
     }
 }
