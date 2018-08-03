@@ -19,6 +19,14 @@ namespace HubSpot.NET.Examples
             var api = new HubSpotApi("YOUR-API-KEY-HERE");
 
             /**
+             * Search for a contact
+             */
+            var found = api.Contact.Search<ContactHubSpotModel>(new ContactSearchRequestOptions()
+            {
+                Query = ".com"
+            });
+
+            /**
              * Create a contact
              */
             var contact = api.Contact.Create(new ContactHubSpotModel()
@@ -101,6 +109,8 @@ namespace HubSpot.NET.Examples
             {
                 Limit = 10
             });
+
+          
         }
     }
 }
