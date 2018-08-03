@@ -13,6 +13,14 @@ namespace HubSpot.NET.Examples
         public static void Example(HubSpotApi api)
         {
             /**
+             * Search for a contact
+             */
+            var found = api.Contact.Search<ContactHubSpotModel>(new ContactSearchRequestOptions()
+            {
+                Query = ".com"
+            });
+
+            /**
              * Create a contact
              */
             var contact = api.Contact.Create(new ContactHubSpotModel()
@@ -95,6 +103,8 @@ namespace HubSpot.NET.Examples
             {
                 Limit = 10
             });
+
+          
         }
     }
 }

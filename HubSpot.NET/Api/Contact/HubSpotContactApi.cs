@@ -197,6 +197,32 @@ namespace HubSpot.NET.Api.Contact
             return data;
         }
 
+        public ContactSearchHubSpotModel<T> Search<T>(ContactSearchRequestOptions opts = null) where T : ContactHubSpotModel, new()
+        {
+            if (opts == null)
+            {
+                opts = new ContactSearchRequestOptions();
+            }
+
+            var path = $"{new T().RouteBasePath}/search/query"
+                .SetQueryParam("q", opts.Query)
+                .SetQueryParam("count", opts.Limit);
+
+            if (opts.PropertiesToInclude.Any())
+            {
+                path.SetQueryParam("property", opts.PropertiesToInclude);
+            }
+
+            if (opts.Offset.HasValue)
+            {
+                path = path.SetQueryParam("offset", opts.Offset);
+            }
+
+            var data = _client.ExecuteList<ContactSearchHubSpotModel<T>>(path, opts);
+
+            return data;
+        }
+
         /// <summary>
         /// Get a list of recently created contacts
         /// </summary>
