@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using HubSpot.NET.Api.Company;
 using HubSpot.NET.Api.Contact;
 using HubSpot.NET.Api.Contact.Dto;
 
@@ -17,5 +18,6 @@ namespace HubSpot.NET.Core.Interfaces
         void Update<T>(T contact) where T : ContactHubSpotModel, new();
         ContactListHubSpotModel<T> RecentlyCreated<T>(ListRecentRequestOptions opts = null) where T : ContactHubSpotModel, new();
         ContactListHubSpotModel<T> RecentlyUpdated<T>(ListRecentRequestOptions opts = null) where T : ContactHubSpotModel, new();
+        ContactSearchHubSpotModel<T> Search<T>(ContactSearchRequestOptions opts = null) where T : ContactHubSpotModel, new();
     }
 }
