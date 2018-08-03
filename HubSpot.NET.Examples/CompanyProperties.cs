@@ -1,21 +1,13 @@
-﻿using HubSpot.NET.Api.Company;
-using HubSpot.NET.Api.Company.Dto;
-using HubSpot.NET.Api.Properties.Dto;
+﻿using HubSpot.NET.Api.Properties.Dto;
 using HubSpot.NET.Core;
 
 namespace HubSpot.NET.Examples
 {
     public class CompanyProperties
     {
-        public static void Example()
+        public static void Example(HubSpotApi api)
         {
-            /**
-             * Initialize the API with your API Key
-             * You can find or generate this under Integrations -> HubSpot API key
-             */
-            var api = new HubSpotApi("YOUR-API-KEY-HERE");
-
-            /**
+           /**
              * Get all company properties
              */
             var properties = api.CompanyProperties.GetAll();
