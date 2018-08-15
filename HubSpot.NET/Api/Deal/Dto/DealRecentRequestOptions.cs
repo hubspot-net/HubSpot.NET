@@ -9,6 +9,12 @@ namespace HubSpot.NET.Api.Deal.Dto
 {
     public class DealRecentRequestOptions : ListRequestOptions
     {
+        public DealRecentRequestOptions(int upperLimit) : base(upperLimit)
+        { }
+
+        public DealRecentRequestOptions() : base(100)
+        { }
+
         /// <summary>
         /// Used to specify the oldest timestamp to use to retrieve deals
         /// </summary>
