@@ -8,9 +8,9 @@
      </metadata>
 
      <files>
-          <file src="bin\Debug\net46\HubSpot.NET.dll" target="lib\net46\HubSpot.NET.dll">
-          <file src="bin\Debug\net46\HubSpot.NET.pdb" target="lib\net46\HubSpot.NET.pdb">
-          <file src="bin\Debug\net451\HubSpot.NET.dll" target="lib\net451\HubSpot.NET.dll">
-          <file src="bin\Debug\net451\HubSpot.NET.pdb" target="lib\net451\HubSpot.NET.pdb">     
+          <file src="bin\Debug\net46\HubSpot.NET.dll" target="lib\net46\HubSpot.NET.dll"/>
+          <file src="bin\Debug\net46\HubSpot.NET.pdb" target="lib\net46\HubSpot.NET.pdb"/>
+          <file src="bin\Debug\net451\HubSpot.NET.dll" target="lib\net451\HubSpot.NET.dll"/>
+          <file src="bin\Debug\net451\HubSpot.NET.pdb" target="lib\net451\HubSpot.NET.pdb"/>     
      </files>
 </package>
