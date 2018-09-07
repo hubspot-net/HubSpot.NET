@@ -7,6 +7,7 @@ using HubSpot.NET.Api.Engagement;
 using HubSpot.NET.Api.Files;
 using HubSpot.NET.Api.Owner;
 using HubSpot.NET.Api.Properties;
+using HubSpot.NET.Api.Timeline;
 using HubSpot.NET.Core.Interfaces;
 
 namespace HubSpot.NET.Core
@@ -25,7 +26,7 @@ namespace HubSpot.NET.Core
         public IHubSpotCompanyPropertiesApi CompanyProperties { get; }
 
         public IHubSpotEmailSubscriptionsApi EmailSubscriptions { get; }
-
+        public IHubSpotTimelineApi Timelines { get; }
         public HubSpotApi(string apiKey)
         {
             IHubSpotClient client = new HubSpotBaseClient(apiKey);
@@ -38,6 +39,7 @@ namespace HubSpot.NET.Core
             Owner = new HubSpotOwnerApi(client);
             CompanyProperties = new HubSpotCompaniesPropertiesApi(client);
             EmailSubscriptions = new HubSpotEmailSubscriptionsApi(client);
+            Timelines = new HubSpotTimelineApi(client);
         }
 
     }

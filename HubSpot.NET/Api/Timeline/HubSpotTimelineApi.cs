@@ -35,13 +35,13 @@
         public TimelineEventHubSpotModel GetEventById(long entityID)
         {
             string path = new TimelineEventHubSpotModel().RouteBasePath;
-            return _client.Execute<TimelineEventHubSpotModel>($"{path}/{entityID}", RestSharp.Method.GET);
+            return _client.Execute<TimelineEventHubSpotModel>($"{path}/{entityID}");
         }
 
         public IEnumerable<TimelineEventTypeHubSpotModel> GetAllEventTypes()
         {
             string path = new TimelineEventTypeHubSpotModel().RouteBasePath;
-            return _client.Execute<TimelineEventTypeHubSpotModel>($"{path}", true);
+            return _client.Execute<IEnumerable<TimelineEventTypeHubSpotModel>>($"{path}");
         }
 
         public void UpdateEvent(TimelineEventHubSpotModel entity)
