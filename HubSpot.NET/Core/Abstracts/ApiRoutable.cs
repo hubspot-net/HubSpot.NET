@@ -18,7 +18,7 @@ namespace HubSpot.NET.Core.Abstracts
         /// <summary>
         /// Dictionary of Entity specific routes to be accessed by entity type
         /// </summary>
-        public Dictionary<IHubSpotModel, string> Routes { get; set; } = new Dictionary<IHubSpotModel, string>();
+        public virtual Dictionary<IHubSpotModel, string> Routes { get; set; } = new Dictionary<IHubSpotModel, string>();
 
         public abstract string GetRoute<T>(T entity) where T : IHubSpotModel;
         public abstract void AddRoute<T>(string newRoute) where T: IHubSpotModel;

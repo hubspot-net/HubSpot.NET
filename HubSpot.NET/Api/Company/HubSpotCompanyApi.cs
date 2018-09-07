@@ -3,14 +3,17 @@ using System.Linq;
 using Flurl;
 using HubSpot.NET.Api.Company.Dto;
 using HubSpot.NET.Core;
+using HubSpot.NET.Core.Abstracts;
 using HubSpot.NET.Core.Interfaces;
 using RestSharp;
 
 namespace HubSpot.NET.Api.Company
 {
-    public class HubSpotCompanyApi : IHubSpotCompanyApi
+    public class HubSpotCompanyApi : ApiRoutable, IHubSpotCompanyApi
     {
         private readonly IHubSpotClient _client;
+
+        public override string MidRoute => base.MidRoute;
 
         public HubSpotCompanyApi(IHubSpotClient client)
         {
@@ -115,6 +118,15 @@ namespace HubSpot.NET.Api.Company
 
             _client.Execute(path, method: Method.DELETE);
         }
-               
+
+        public override string GetRoute<T>(T entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void AddRoute<T>(string newRoute)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
