@@ -19,6 +19,6 @@ namespace HubSpot.NET.Api.Owner
         /// </summary>
         /// <returns>The set of owners</returns>
         public OwnerListHubSpotModel<T> GetAll<T>() where T : OwnerHubSpotModel
-            => _client.ExecuteList<OwnerListHubSpotModel<T>>($"{GetRoute<OwnerHubSpotModel>()}/owners", convertToPropertiesSchema: false);
+            => _client.ExecuteList<OwnerListHubSpotModel<T>>($"{GetRoute<T>()}/owners", convertToPropertiesSchema: false);
     }
 }

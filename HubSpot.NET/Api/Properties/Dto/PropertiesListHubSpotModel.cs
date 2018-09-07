@@ -14,16 +14,6 @@ namespace HubSpot.NET.Api.Properties.Dto
     public class PropertiesListHubSpotModel<T> : IHubSpotModel, ICollection<T> where T : IHubSpotModel
     {
         private List<T> Properties { get; } = new List<T>();
-
-        public string RouteBasePath
-        {
-            get
-            {
-                var entity = (T)Activator.CreateInstance(typeof(T));
-                return "/properties/v1" + entity.RouteBasePath;
-            }
-        }
-
         public bool IsNameValue => false;
         public IEnumerator<T> GetEnumerator()
         {

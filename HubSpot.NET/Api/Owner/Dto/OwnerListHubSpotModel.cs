@@ -10,7 +10,7 @@ namespace HubSpot.NET.Api.Owner.Dto
     /// Models a set of owners in HubSpot
     /// </summary>
     [DataContract]
-    public class OwnerListHubSpotModel<T> : IHubSpotModel, ICollection<T> where T: OwnerHubSpotModel, new()
+    public class OwnerListHubSpotModel<T> : IHubSpotModel, ICollection<T> where T: OwnerHubSpotModel
     {
         private List<T> Owners { get; } = new List<T>();
 
