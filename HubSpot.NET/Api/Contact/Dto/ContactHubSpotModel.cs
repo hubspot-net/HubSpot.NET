@@ -42,9 +42,7 @@ namespace HubSpot.NET.Api.Contact.Dto
         public long? AssociatedCompanyId { get;set; }
 
         [DataMember(Name="hubspot_owner_id")]
-        public long? OwnerId { get;set; }
-
-        public string RouteBasePath => "/contacts/v1";
+        public long? OwnerId { get;set; }        
         public bool IsNameValue => false;
     }
 }

@@ -15,4 +15,6 @@ namespace HubSpot.NET.Core.Interfaces
         DealRecentListHubSpotModel<T> RecentlyCreated(DealRecentRequestOptions opts = null);
         DealRecentListHubSpotModel<T> RecentlyUpdated(DealRecentRequestOptions opts = null);
     }
+
+    public interface IHubSpotDealApi : IHubSpotDealApi<DealHubSpotModel> { }
 }

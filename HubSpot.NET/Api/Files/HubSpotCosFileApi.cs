@@ -1,13 +1,15 @@
 ﻿using System.Collections.Generic;
 using HubSpot.NET.Api.Files.Dto;
+using HubSpot.NET.Core.Abstracts;
 using HubSpot.NET.Core.Interfaces;
 using RestSharp;
 
 namespace HubSpot.NET.Api.Files
 {
-    public class HubSpotCosFileApi : IHubSpotCosFileApi
+    public class HubSpotCosFileApi : ApiRoutable, IHubSpotCosFileApi
     {
         private readonly IHubSpotClient _client;
+        public override string MidRoute => "/filemanager/api/v2";
 
         public HubSpotCosFileApi(IHubSpotClient client)
         {
@@ -20,9 +22,9 @@ namespace HubSpot.NET.Api.Files
         /// </summary>
         /// <param name="entity">The file to upload</param>
         /// <returns>The uploaded file</returns>
-        public FileListHubSpotModel<T> Upload<T>(FileHubSpotModel entity) where T: FileHubSpotModel, new()
+        public FileListHubSpotModel<T> Upload<T>(FileHubSpotModel entity) where T: FileHubSpotModel
         {
-            var path = $"{new FileHubSpotModel().RouteBasePath}/files";
+            var path = $"{GetRoute<T>()}/files";
             var data = _client.ExecuteMultipart<FileListHubSpotModel<T>>(path, entity.File, entity.Name,
                 new Dictionary<string, string>()
                 {
@@ -40,8 +42,8 @@ namespace HubSpot.NET.Api.Files
         /// <returns>The created folder</returns>
         public FolderHubSpotModel CreateFolder(FolderHubSpotModel folder)
         {
-            var path = $"{new FolderHubSpotModel().RouteBasePath}/folders";
-            return _client.Execute<FolderHubSpotModel>(path, folder, Method.POST, false);
+            var path = $"{GetRoute<FolderHubSpotModel>()}/folders";
+            return _client.Execute(path, folder, Method.POST, false);
         }
         
 

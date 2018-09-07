@@ -22,12 +22,7 @@ namespace HubSpot.NET.Api.Engagement.Dto
 
         [DataMember(Name = "metadata")]
         public dynamic Metadata { get; set; }
-
-        public string RouteBasePath => "/engagements/v1";
-
         public bool IsNameValue => false;
-
-
     }
 
     public class EngagementHubSpotAttachmentModel

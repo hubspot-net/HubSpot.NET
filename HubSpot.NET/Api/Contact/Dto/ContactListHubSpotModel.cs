@@ -9,7 +9,7 @@ namespace HubSpot.NET.Api.Contact.Dto
     /// Models a set of results returned when querying for sets of contacts
     /// </summary>
     [DataContract]
-    public class ContactListHubSpotModel<T> : ListHubSpotModel, IHubSpotModel where T: ContactHubSpotModel, new()
+    public class ContactListHubSpotModel<T> : ListHubSpotModel, IHubSpotModel where T: ContactHubSpotModel
     {
         /// <summary>
         /// Gets or sets the contacts.
@@ -19,9 +19,6 @@ namespace HubSpot.NET.Api.Contact.Dto
         /// </value>
         [DataMember(Name = "contacts")]
         public IList<T> Contacts { get; set; } = new List<T>();
-
-        public string RouteBasePath => "/contacts/v1";
-
         public bool IsNameValue => false;
     }
 }

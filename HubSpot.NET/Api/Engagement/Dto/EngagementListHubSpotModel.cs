@@ -9,7 +9,7 @@ namespace HubSpot.NET.Api.Engagement.Dto
     /// Models a set of engagements returned by the API
     /// </summary>
     [DataContract]
-    public class EngagementListHubSpotModel<T> : ListHubSpotModel, IHubSpotModel where T: EngagementHubSpotModel, new()
+    public class EngagementListHubSpotModel<T> : ListHubSpotModel, IHubSpotModel where T: EngagementHubSpotModel
     {
         /// <summary>
         /// Gets or sets the contacts.
@@ -18,9 +18,7 @@ namespace HubSpot.NET.Api.Engagement.Dto
         /// The contacts.
         /// </value>
         [DataMember(Name = "results")]
-        public IList<T> Engagements { get; set; } = new List<T>();
-
-        public string RouteBasePath => "";
+        public IList<T> Engagements { get; set; } = new List<T>();        
         public bool IsNameValue => false;
     }
 }

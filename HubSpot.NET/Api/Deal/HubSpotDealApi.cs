@@ -4,14 +4,16 @@ using System.Linq;
 using Flurl;
 using HubSpot.NET.Api.Deal.Dto;
 using HubSpot.NET.Core;
+using HubSpot.NET.Core.Abstracts;
 using HubSpot.NET.Core.Interfaces;
 using RestSharp;
 
 namespace HubSpot.NET.Api.Deal
 {
-    public class HubSpotDealApi : IHubSpotDealApi<DealHubSpotModel>
+    public class HubSpotDealApi : ApiRoutable, IHubSpotDealApi
     {
         private readonly IHubSpotClient _client;
+        public override string MidRoute => "/deals/v1";
 
         public HubSpotDealApi(IHubSpotClient client)
         {
@@ -25,7 +27,7 @@ namespace HubSpot.NET.Api.Deal
         /// <param name="entity">The entity</param>
         /// <returns>The created entity (with ID set)</returns>
         public DealHubSpotModel Create(DealHubSpotModel entity) 
-            => _client.Execute($"{entity.RouteBasePath}/deal", entity, Method.POST);
+            => _client.Execute($"{GetRoute<DealHubSpotModel>()}/deal", entity, Method.POST);
 
         /// <summary>
         /// Gets a single deal by ID
@@ -34,7 +36,7 @@ namespace HubSpot.NET.Api.Deal
         /// <typeparam name="T">Implementation of DealHubSpotModel</typeparam>
         /// <returns>The deal entity</returns>
         public DealHubSpotModel GetById(long dealId) 
-            => _client.Execute<DealHubSpotModel>($"{new DealHubSpotModel().RouteBasePath}/deal/{dealId}");
+            => _client.Execute<DealHubSpotModel>($"{GetRoute<DealHubSpotModel>()}/deal/{dealId}");
 
         /// <summary>
         /// Updates a given deal
@@ -47,7 +49,7 @@ namespace HubSpot.NET.Api.Deal
             if (entity.Id < 1)            
                 throw new ArgumentException("Deal entity must have an id set!");
 
-            return _client.Execute($"{entity.RouteBasePath}/deal/{entity.Id}", entity, method: Method.PUT);            
+            return _client.Execute($"{GetRoute<DealHubSpotModel>()}/deal/{entity.Id}", entity, method: Method.PUT);            
         }
 
         /// <summary>
@@ -58,12 +60,9 @@ namespace HubSpot.NET.Api.Deal
         /// <returns>List of deals</returns>
         public DealListHubSpotModel<DealHubSpotModel> List(bool includeAssociations, ListRequestOptions opts = null)
         {
-            if (opts == null)
-            {
-                opts = new ListRequestOptions(250);
-            }
+            opts = opts ?? new ListRequestOptions(250);         
 
-            Url path = $"{new DealListHubSpotModel<DealHubSpotModel>().RouteBasePath}/deal/paged"
+            Url path = $"{GetRoute<DealListHubSpotModel<DealHubSpotModel>>()}/deal/paged"
                 .SetQueryParam("limit", opts.Limit);
 
             if (opts.Offset.HasValue)            
@@ -89,10 +88,7 @@ namespace HubSpot.NET.Api.Deal
         /// <returns>List of deals</returns>
         public DealListHubSpotModel<DealHubSpotModel> ListAssociated(bool includeAssociations, long hubId, ListRequestOptions opts = null, string objectName = "contact")
         {
-            if (opts == null)
-            {
-                opts = new ListRequestOptions();
-            }
+            opts = opts ?? new ListRequestOptions();            
 
             Url path = $"{new DealListHubSpotModel<DealHubSpotModel>().RouteBasePath}/deal/associated/{objectName}/{hubId}/paged"
                 .SetQueryParam("limit", opts.Limit);
@@ -114,7 +110,7 @@ namespace HubSpot.NET.Api.Deal
         /// </summary>
         /// <param name="dealId">ID of the deal</param>
         public void Delete(long dealId) 
-            => _client.Execute($"{new DealHubSpotModel().RouteBasePath}/deal/{dealId}", method: Method.DELETE);
+            => _client.Execute($"{GetRoute<DealHubSpotModel>()}/deal/{dealId}", method: Method.DELETE);
 
         /// <summary>
         /// Gets a list of recently created deals
@@ -124,10 +120,10 @@ namespace HubSpot.NET.Api.Deal
         /// <returns>List of deals</returns>
         public DealRecentListHubSpotModel<DealHubSpotModel> RecentlyCreated(DealRecentRequestOptions opts = null)
         {
-            if (opts == null)            
-                opts = new DealRecentRequestOptions();            
+            opts = opts ?? new DealRecentRequestOptions();            
 
-            Url path = $"{new DealRecentListHubSpotModel<DealHubSpotModel>().RouteBasePath}/deal/recent/created".SetQueryParam("limit", opts.Limit);
+            Url path = $"{GetRoute<DealRecentListHubSpotModel<DealHubSpotModel>>()}/deal/recent/created"
+                            .SetQueryParam("limit", opts.Limit);
 
             if (opts.Offset.HasValue)            
                 path = path.SetQueryParam("offset", opts.Offset);            
@@ -149,28 +145,19 @@ namespace HubSpot.NET.Api.Deal
         /// <returns>List of deals</returns>
         public DealRecentListHubSpotModel<DealHubSpotModel> RecentlyUpdated(DealRecentRequestOptions opts = null)
         {
-            if (opts == null)
-            {
-                opts = new DealRecentRequestOptions();
-            }
+            opts = opts ?? new DealRecentRequestOptions();            
 
-            var path = $"{new DealRecentListHubSpotModel<DealHubSpotModel>().RouteBasePath}/deal/recent/modified"
+            var path = $"{GetRoute<DealRecentListHubSpotModel<DealHubSpotModel>>()}/deal/recent/modified"
                 .SetQueryParam("limit", opts.Limit);
 
-            if (opts.Offset.HasValue)
-            {
+            if (opts.Offset.HasValue)            
                 path = path.SetQueryParam("offset", opts.Offset);
-            }
 
             if (opts.IncludePropertyVersion)
-            {
                 path = path.SetQueryParam("includePropertyVersions", "true");
-            }
 
-            if (!string.IsNullOrEmpty(opts.Since))
-            { 
+            if (!string.IsNullOrEmpty(opts.Since))             
                 path = path.SetQueryParam("since", opts.Since);
-            }
 
             return _client.ExecuteList<DealRecentListHubSpotModel<DealHubSpotModel>>(path, opts);
         }

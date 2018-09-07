@@ -30,7 +30,5 @@ namespace HubSpot.NET.Api.Files.Dto
         public string FolderPaths { get; set; }
 
         public bool IsNameValue { get; }
-
-        public string RouteBasePath => "/filemanager/api/v2";
     }
 }

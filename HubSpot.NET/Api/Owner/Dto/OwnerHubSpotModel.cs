@@ -24,8 +24,7 @@ namespace HubSpot.NET.Api.Owner.Dto
 
         [DataMember(Name = "type")]
         public string Type { get; set; }
-
-        public string RouteBasePath => "/owners/v2";
+        
         public bool IsNameValue => true;
     }
 }
