@@ -10,7 +10,7 @@ namespace HubSpot.NET.Api.Company
 {
     public class HubSpotCompanyApi : IHubSpotCompanyApi
     {
-        private readonly IHubSpotClient _client;
+        private readonly IHubSpotClient<CompanyHubSpotModel> _client;
 
         public HubSpotCompanyApi(IHubSpotClient client)
         {
@@ -28,7 +28,7 @@ namespace HubSpot.NET.Api.Company
         {
             var path = $"{entity.RouteBasePath}/companies";
 
-            return _client.Execute<T>(path, entity, Method.POST);
+            return _client.Execute(path, entity, Method.POST);
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace HubSpot.NET.Api.Company
         {
             var path =  $"{new T().RouteBasePath}/companies/{companyId}";
 
-            return _client.Execute<T>(path, Method.GET);
+            return _client.Execute(path, Method.GET);
         }
 
         /// <summary>

@@ -25,14 +25,6 @@ namespace HubSpot.NET.Api.Properties.Dto
         }
 
         public bool IsNameValue => false;
-        public virtual void ToHubSpotDataEntity(ref dynamic converted)
-        {
-        }
-
-        public virtual void FromHubSpotDataEntity(dynamic hubspotData)
-        {
-        }
-
         public IEnumerator<T> GetEnumerator()
         {
             return Properties.GetEnumerator();

@@ -1,6 +1,7 @@
 ﻿using HubSpot.NET.Api.Company;
 using HubSpot.NET.Api.Contact;
 using HubSpot.NET.Api.Deal;
+using HubSpot.NET.Api.Deal.Dto;
 using HubSpot.NET.Api.EmailSubscriptions;
 using HubSpot.NET.Api.Engagement;
 using HubSpot.NET.Api.Files;
@@ -17,7 +18,7 @@ namespace HubSpot.NET.Core
     {
         public IHubSpotCompanyApi Company { get; }
         public IHubSpotContactApi Contact { get; }
-        public IHubSpotDealApi Deal { get; }
+        public IHubSpotDealApi<DealHubSpotModel> Deal { get; }
         public IHubSpotEngagementApi Engagement { get; }
         public IHubSpotCosFileApi File { get; }
         public IHubSpotOwnerApi Owner { get; }

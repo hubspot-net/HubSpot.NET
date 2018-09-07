@@ -44,7 +44,7 @@ namespace HubSpot.NET.Core.Requests
         /// <returns>The serialized entity</returns>
         public virtual string SerializeEntity(object obj, bool convertToPropertiesSchema = true)
         {
-            if (obj is HubSpotModel entity && convertToPropertiesSchema)
+            if (obj is IHubSpotSerializable entity && convertToPropertiesSchema)
             {
                 var converted = _requestDataConverter.ToHubspotDataEntity(entity);
 
@@ -74,14 +74,15 @@ namespace HubSpot.NET.Core.Requests
 
                 var objs = obj.Select(e =>
                 {
-                    var entity = (IHubSpotModel) e;
+                    IHubSpotModel entity = (IHubSpotModel) e;
                     var converted = _requestDataConverter.ToHubspotDataEntity(entity, true);
                     if (entity.GetType().IsAssignableFrom(typeof(IHubSpotSerializable)))
-                    {                        
-                        entity.ToHubSpotDataEntity(ref converted);
+                    {
+                        IHubSpotSerializable mapped = entity as IHubSpotSerializable;                     
+                        mapped.ToHubSpotDataEntity(ref converted);
                     }
-                    
-                    return converted
+
+                    return converted;
                 });
 
                 return JsonConvert.SerializeObject(

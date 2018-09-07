@@ -12,9 +12,9 @@ namespace HubSpot.NET.Api.EmailSubscriptions
 {
     public class HubSpotEmailSubscriptionsApi : IHubSpotEmailSubscriptionsApi
     {
-        private readonly IHubSpotClient _client;
+        private readonly IHubSpotClient<SubscriptionTypeListHubSpotModel> _client;
 
-        public HubSpotEmailSubscriptionsApi(IHubSpotClient client)
+        public HubSpotEmailSubscriptionsApi(IHubSpotClient<SubscriptionTypeListHubSpotModel> client)
         {
             _client = client;
         }
@@ -26,7 +26,7 @@ namespace HubSpot.NET.Api.EmailSubscriptions
         {
             var path = $"{new SubscriptionTypeListHubSpotModel().RouteBasePath}/subscriptions";
 
-            return _client.ExecuteList<SubscriptionTypeListHubSpotModel>(path, convertToPropertiesSchema: false);
+            return _client.ExecuteList(path, convertToPropertiesSchema: false);
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace HubSpot.NET.Api.EmailSubscriptions
         {
             var path = $"{new SubscriptionTypeListHubSpotModel().RouteBasePath}/subscriptions/{email}";
 
-            return _client.Execute<SubscriptionStatusHubSpotModel>(path, Method.GET, false);
+            return _client.Execute(path, Method.GET, false);
         }
 
 
