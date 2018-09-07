@@ -14,14 +14,6 @@ namespace HubSpot.NET.Api.Files.Dto
 
         public bool IsNameValue { get; }
 
-        public void ToHubSpotDataEntity(ref dynamic dataEntity)
-        {
-        }
-
-        public void FromHubSpotDataEntity(dynamic hubspotData)
-        {
-        }
-
         public string RouteBasePath => "";
     }
 }

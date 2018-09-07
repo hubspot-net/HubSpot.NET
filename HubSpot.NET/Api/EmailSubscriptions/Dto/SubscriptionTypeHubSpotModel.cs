@@ -24,13 +24,6 @@ namespace HubSpot.NET.Api.EmailSubscriptions.Dto
         public string Name { get;set; }
 
         public bool IsNameValue { get; }
-        public void ToHubSpotDataEntity(ref dynamic dataEntity)
-        {
-        }
-
-        public void FromHubSpotDataEntity(dynamic hubspotData)
-        {
-        }
 
         public string RouteBasePath => "/email/public/v1";
     }

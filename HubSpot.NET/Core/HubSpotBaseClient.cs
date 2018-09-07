@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Flurl;
 using HubSpot.NET.Core.Interfaces;
 using HubSpot.NET.Core.Requests;
+using Newtonsoft.Json;
 using RestSharp;
 
 namespace HubSpot.NET.Core
@@ -16,26 +17,25 @@ namespace HubSpot.NET.Core
         private readonly string _apiKey;
 
         public HubSpotBaseClient(string apiKey)
-        {
+        { 
             _apiKey = apiKey;
             _client = new RestClient(_baseUrl);
         }
 
-        public T Execute<T>(string absoluteUriPath, object entity = null, Method method = Method.GET, bool convertToPropertiesSchema = true) where T : IHubSpotModel, new()
+        public T Execute<T>(string absoluteUriPath, T entity = default, Method method = Method.GET, bool convertToPropertiesSchema = true)
         {
-            var json = _serializer.SerializeEntity(entity, convertToPropertiesSchema);
-
-            var data = SendRequest(absoluteUriPath, method, json, responseData => (T)_serializer.DeserializeEntity<T>(responseData, convertToPropertiesSchema));
-
-            return data;
+            string json = null;
+            if (entity != default)
+                json = _serializer.SerializeEntity(entity, convertToPropertiesSchema);
+            return SendRequest(absoluteUriPath, method, json, responseData => (T)_serializer.DeserializeEntity<T>(responseData, convertToPropertiesSchema));
         }
 
-        public T Execute<T>(string absoluteUriPath, Method method = Method.GET, bool convertToPropertiesSchema = true) where T : IHubSpotModel, new()
-        {
-            var data = SendRequest(absoluteUriPath, method, null, responseData => (T)_serializer.DeserializeEntity<T>(responseData, convertToPropertiesSchema));
+        //public T Execute<T>(string absoluteUriPath, Method method = Method.GET, bool convertToPropertiesSchema = true) where T : IHubSpotModel, new()
+        //{
+        //    var data = SendRequest(absoluteUriPath, method, null, responseData => (T)_serializer.DeserializeEntity<T>(responseData, convertToPropertiesSchema));
 
-            return data;
-        }
+        //    return data;
+        //}
 
         public void Execute(string absoluteUriPath, object entity = null, Method method = Method.GET, bool convertToPropertiesSchema = true)
         {
@@ -52,7 +52,7 @@ namespace HubSpot.NET.Core
             SendRequest(absoluteUriPath, method, json);
         }
 
-        public T ExecuteMultipart<T>(string absoluteUriPath, byte[] data, string filename, Dictionary<string,string> parameters, Method method = Method.POST) where T : new()
+        public T ExecuteMultipart<T>(string absoluteUriPath, byte[] data, string filename, Dictionary<string,string> parameters, Method method = Method.POST)
         {
             var fullUrl = $"{_baseUrl}{absoluteUriPath}".SetQueryParam("hapikey", _apiKey);
 
@@ -65,19 +65,16 @@ namespace HubSpot.NET.Core
                 request.AddParameter(kvp.Key, kvp.Value);
             }
 
-            var response = _client.Execute<T>(request);
-
-            var responseData = response.Data;
-
+            var response = _client.Execute(request);
             if (!response.IsSuccessful())
-            {
-                throw new HubSpotException("Error from HubSpot");
-            }
+                throw new HubSpotException("Error from HubSpot", response.Content); // lettuce get some good exception info back
+
+            var responseData = JsonConvert.DeserializeObject<T>(response.Content);         
 
             return responseData;
         }
 
-        public T ExecuteList<T>(string absoluteUriPath, object entity = null, Method method = Method.GET, bool convertToPropertiesSchema = true) where T : IHubSpotModel, new()
+        public T ExecuteList<T>(string absoluteUriPath, object entity = null, Method method = Method.GET, bool convertToPropertiesSchema = true)
         {
             var json = _serializer.SerializeEntity(entity);
 
@@ -89,7 +86,7 @@ namespace HubSpot.NET.Core
             return data;
         }
 
-        private T SendRequest<T>(string path, Method method, string json, Func<string, T> deserializeFunc) where T : IHubSpotModel, new()
+        private T SendRequest<T>(string path, Method method, string json, Func<string, T> deserializeFunc) 
         {
             var responseData = SendRequest(path, method, json);
 

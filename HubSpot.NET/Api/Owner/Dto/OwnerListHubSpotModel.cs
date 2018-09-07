@@ -17,13 +17,6 @@ namespace HubSpot.NET.Api.Owner.Dto
         public string RouteBasePath => "/owners/v2";
 
         public bool IsNameValue => false;
-        public virtual void ToHubSpotDataEntity(ref dynamic converted)
-        {
-        }
-
-        public virtual void FromHubSpotDataEntity(dynamic hubspotData)
-        {
-        }
 
         public IEnumerator<T> GetEnumerator()
         {

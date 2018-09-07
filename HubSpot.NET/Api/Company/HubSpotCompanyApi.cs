@@ -28,7 +28,7 @@ namespace HubSpot.NET.Api.Company
         {
             var path = $"{entity.RouteBasePath}/companies";
 
-            return _client.Execute<T>(path, entity, Method.POST);
+            return _client.Execute(path, entity, Method.POST);
         }
 
         /// <summary>
@@ -38,11 +38,7 @@ namespace HubSpot.NET.Api.Company
         /// <param name="companyId">The ID</param>
         /// <returns>The company entity</returns>
         public T GetById<T>(long companyId) where T : CompanyHubSpotModel, new()
-        {
-            var path =  $"{new T().RouteBasePath}/companies/{companyId}";
-
-            return _client.Execute<T>(path, Method.GET);
-        }
+            => _client.Execute<T>($"{new T().RouteBasePath}/companies/{companyId}");
 
         /// <summary>
         /// Gets a company by domain name

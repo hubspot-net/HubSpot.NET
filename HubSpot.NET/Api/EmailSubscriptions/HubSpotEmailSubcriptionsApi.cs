@@ -22,36 +22,26 @@ namespace HubSpot.NET.Api.EmailSubscriptions
         /// <summary>
         /// Gets the available email subscription types available in the portal
         /// </summary>
-        public SubscriptionTypeListHubSpotModel GetEmailSubscriptionTypes()
-        {
-            var path = $"{new SubscriptionTypeListHubSpotModel().RouteBasePath}/subscriptions";
-
-            return _client.ExecuteList<SubscriptionTypeListHubSpotModel>(path, convertToPropertiesSchema: false);
-        }
+        public SubscriptionTypeListHubSpotModel GetEmailSubscriptionTypes() 
+            => _client.ExecuteList<SubscriptionTypeListHubSpotModel>($"{new SubscriptionTypeListHubSpotModel().RouteBasePath}/subscriptions", 
+                                                                        convertToPropertiesSchema: false);
 
         /// <summary>
         /// Get subscription status for the given email address
         /// </summary>
         /// <param name="email"></param>
-        public SubscriptionStatusHubSpotModel GetStatus(string email)
-        {
-            var path = $"{new SubscriptionTypeListHubSpotModel().RouteBasePath}/subscriptions/{email}";
-
-            return _client.Execute<SubscriptionStatusHubSpotModel>(path, Method.GET, false);
-        }
-
+        public SubscriptionStatusHubSpotModel GetStatus(string email) 
+            => _client.Execute<SubscriptionStatusHubSpotModel>($"{new SubscriptionTypeListHubSpotModel().RouteBasePath}/subscriptions/{email}",
+                                                                    convertToPropertiesSchema: false);
 
         /// <summary>
         /// Unsubscribe the given email address from ALL email
         /// WARNING: There is no UNDO for this operation
         /// </summary>
         /// <param name="email"></param>
-        public void UnsubscribeAll(string email)
-        {
-            var path = $"{new SubscriptionTypeListHubSpotModel().RouteBasePath}/subscriptions/{email}";
-
-            _client.Execute(path, new { unsubscribeFromAll = true }, Method.PUT, false);
-        }
+        public void UnsubscribeAll(string email) 
+            => _client.Execute($"{new SubscriptionTypeListHubSpotModel().RouteBasePath}/subscriptions/{email}",
+                                    new { unsubscribeFromAll = true }, Method.PUT, false);
 
         /// <summary>
         /// Unsubscribe the given email address from the given subscription type

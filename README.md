@@ -9,6 +9,7 @@ C# .NET Wrapper around the common HubSpot APIs:
 * Engagement
 * Owners
 * COS Files API (adds the ability to upload files to use as attachments to engagements)
+* Email Subscriptions
 
 ## Getting Started
 To get started, install the [Nuget package](https://www.nuget.org/packages/SquaredUp.HubSpot.NET/) and create a instance of `HubSpotApi` passing your API Key as the only parameter. 

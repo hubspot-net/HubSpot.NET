@@ -25,11 +25,8 @@ namespace HubSpot.NET.Api.Contact
         /// <param name="entity">The entity</param>
         /// <returns>The created entity (with ID set)</returns>
         /// <exception cref="NotImplementedException"></exception>
-        public T Create<T>(T entity) where T : ContactHubSpotModel, new()
-        {
-            var path = $"{entity.RouteBasePath}/contact";
-            return _client.Execute<T>(path, entity, Method.POST);
-        }
+        public T Create<T>(T entity) where T : ContactHubSpotModel, new() 
+            => _client.Execute<T>($"{entity.RouteBasePath}/contact", entity, Method.POST);
 
         /// <summary>
         /// Creates or Updates a contact entity based on the Entity Email
@@ -38,10 +35,7 @@ namespace HubSpot.NET.Api.Contact
         /// <param name="entity">The entity</param>
         /// <returns>The created entity (with ID set)</returns>
         public T CreateOrUpdate<T>(T entity) where T : ContactHubSpotModel, new()
-        {
-            var path = $"{entity.RouteBasePath}/contact/createOrUpdate/email/{entity.Email}/";
-            return _client.Execute<T>(path, entity, Method.POST);
-        }
+            => _client.Execute<T>($"{entity.RouteBasePath}/contact/createOrUpdate/email/{entity.Email}/", entity, Method.POST);
 
         /// <summary>
         /// Gets a single contact by ID from hubspot
@@ -49,12 +43,8 @@ namespace HubSpot.NET.Api.Contact
         /// <param name="contactId">ID of the contact</param>
         /// <typeparam name="T">Implementation of ContactHubSpotModel</typeparam>
         /// <returns>The contact entity</returns>
-        public T GetById<T>(long contactId) where T : ContactHubSpotModel, new()
-        {
-            var path = $"{new T().RouteBasePath}/contact/vid/{contactId}/profile";
-            var data = _client.Execute<T>(path, Method.GET);
-            return data;
-        }
+        public T GetById<T>(long contactId) where T : ContactHubSpotModel, new() 
+            => _client.Execute<T>($"{new T().RouteBasePath}/contact/vid/{contactId}/profile");
 
         /// <summary>
         /// Gets a contact by their email address
@@ -63,24 +53,16 @@ namespace HubSpot.NET.Api.Contact
         /// <typeparam name="T">Implementation of ContactHubSpotModel</typeparam>
         /// <returns>The contact entity</returns>
         public T GetByEmail<T>(string email) where T : ContactHubSpotModel, new()
-        {
-            var path =  $"{new T().RouteBasePath}/contact/email/{email}/profile";
-            var data = _client.Execute<T>(path, Method.GET);
-            return data;
-        }
-        
+            => _client.Execute<T>($"{new T().RouteBasePath}/contact/email/{email}/profile");
+
         /// <summary>
         /// Gets a contact by their user token
         /// </summary>
         /// <param name="userToken">User token to search for from hubspotutk cookie</param>
         /// <typeparam name="T">Implementation of ContactHubSpotModel</typeparam>
         /// <returns>The contact entity</returns>
-        public T GetByUserToken<T>(string userToken) where T : ContactHubSpotModel, new()
-        {
-            var path = $"{new T().RouteBasePath}/contact/utk/{userToken}/profile";
-            var data = _client.Execute<T>(path, Method.GET);
-            return data;
-        }
+        public T GetByUserToken<T>(string userToken) where T : ContactHubSpotModel, new() 
+            => _client.Execute<T>($"{new T().RouteBasePath}/contact/utk/{userToken}/profile");
 
         /// <summary>
         /// List all available contacts 
@@ -99,19 +81,13 @@ namespace HubSpot.NET.Api.Contact
             var path = $"{new ContactHubSpotModel().RouteBasePath}/lists/all/contacts/all"
                 .SetQueryParam("count", opts.Limit);
 
-            if (opts.PropertiesToInclude.Any())
-            {
-                path.SetQueryParam("property", opts.PropertiesToInclude);
-            }
+            if (opts.PropertiesToInclude.Any())            
+                path.SetQueryParam("property", opts.PropertiesToInclude);            
 
-            if (opts.Offset.HasValue)
-            {
-                path = path.SetQueryParam("vidOffset", opts.Offset);
-            }
+            if (opts.Offset.HasValue)            
+                path = path.SetQueryParam("vidOffset", opts.Offset);            
 
-            var data = _client.ExecuteList<ContactListHubSpotModel<T>>(path, opts);
-
-            return data;
+            return _client.ExecuteList<ContactListHubSpotModel<T>>(path, opts);           
         }
 
         /// <summary>
@@ -121,26 +97,18 @@ namespace HubSpot.NET.Api.Contact
         /// <param name="contact">The contact entity</param>
         public void Update<T>(T contact) where T : ContactHubSpotModel, new()
         {
-            if (contact.Id < 1)
-            {
-                throw new ArgumentException("Contact entity must have an id set!");
-            }
+            if (contact.Id < 1)            
+                throw new ArgumentException("Contact entity must have an id set!");                       
 
-            var path = $"{contact.RouteBasePath}/contact/vid/{contact.Id}/profile";
-
-            _client.Execute(path, contact, Method.POST);
+            _client.Execute($"{contact.RouteBasePath}/contact/vid/{contact.Id}/profile", contact, Method.POST);
         }
-        
+
         /// <summary>
         /// Deletes a given contact
         /// </summary>
         /// <param name="contactId">The ID of the contact</param>
-        public void Delete(long contactId)
-        {
-            var path = $"{new ContactHubSpotModel().RouteBasePath}/contact/vid/{contactId}";
-
-            _client.Execute(path, method: Method.DELETE);
-        }
+        public void Delete(long contactId) 
+            => _client.Execute($"{new ContactHubSpotModel().RouteBasePath}/contact/vid/{contactId}", method: Method.DELETE);
 
         /// <summary>
         /// Update or create a set of contacts, this is the preferred method when creating/updating in bulk.
@@ -171,30 +139,20 @@ namespace HubSpot.NET.Api.Contact
             var path = $"{new ContactHubSpotModel().RouteBasePath}/lists/recently_updated/contacts/recent"
                 .SetQueryParam("count", opts.Limit);
 
-            if (opts.PropertiesToInclude.Any())
-            {
-                path.SetQueryParam("property", opts.PropertiesToInclude);
-            }
+            if (opts.PropertiesToInclude.Any())            
+                path.SetQueryParam("property", opts.PropertiesToInclude);            
 
-            if (opts.Offset.HasValue)
-            {
-                path = path.SetQueryParam("vidOffset", opts.Offset);
-            }
+            if (opts.Offset.HasValue)            
+                path = path.SetQueryParam("vidOffset", opts.Offset);            
 
-            if (!string.IsNullOrEmpty(opts.TimeOffset))
-            {
-                path = path.SetQueryParam("timeOffset", opts.TimeOffset);
-            }
+            if (!string.IsNullOrEmpty(opts.TimeOffset))            
+                path = path.SetQueryParam("timeOffset", opts.TimeOffset);            
             
-            path = path.SetQueryParam("propertyMode", opts.PropertyMode);
+            path = path.SetQueryParam("propertyMode", opts.PropertyMode)
+                        .SetQueryParam("formSubmissionMode", opts.FormSubmissionMode)
+                        .SetQueryParam("showListMemberships", opts.ShowListMemberships);
             
-            path = path.SetQueryParam("formSubmissionMode", opts.FormSubmissionMode);
-            
-            path = path.SetQueryParam("showListMemberships", opts.ShowListMemberships);
-            
-            var data = _client.ExecuteList<ContactListHubSpotModel<T>>(path, opts);
-
-            return data;
+            return _client.ExecuteList<ContactListHubSpotModel<T>>(path, opts);            
         }
 
         public ContactSearchHubSpotModel<T> Search<T>(ContactSearchRequestOptions opts = null) where T : ContactHubSpotModel, new()
@@ -208,19 +166,13 @@ namespace HubSpot.NET.Api.Contact
                 .SetQueryParam("q", opts.Query)
                 .SetQueryParam("count", opts.Limit);
 
-            if (opts.PropertiesToInclude.Any())
-            {
-                path.SetQueryParam("property", opts.PropertiesToInclude);
-            }
+            if (opts.PropertiesToInclude.Any())            
+                path.SetQueryParam("property", opts.PropertiesToInclude);            
 
-            if (opts.Offset.HasValue)
-            {
-                path = path.SetQueryParam("offset", opts.Offset);
-            }
+            if (opts.Offset.HasValue)            
+                path = path.SetQueryParam("offset", opts.Offset);            
 
-            var data = _client.ExecuteList<ContactSearchHubSpotModel<T>>(path, opts);
-
-            return data;
+            return _client.ExecuteList<ContactSearchHubSpotModel<T>>(path, opts);            
         }
 
         /// <summary>
@@ -254,15 +206,12 @@ namespace HubSpot.NET.Api.Contact
                 path = path.SetQueryParam("timeOffset", opts.TimeOffset);
             }
             
-            path = path.SetQueryParam("propertyMode", opts.PropertyMode);
-            
-            path = path.SetQueryParam("formSubmissionMode", opts.FormSubmissionMode);
-            
-            path = path.SetQueryParam("showListMemberships", opts.ShowListMemberships);
-            
-            var data = _client.ExecuteList<ContactListHubSpotModel<T>>(path, opts);
+            path = path.SetQueryParam("propertyMode", opts.PropertyMode)
+                        .SetQueryParam("formSubmissionMode", opts.FormSubmissionMode)
+                        .SetQueryParam("showListMemberships", opts.ShowListMemberships);           
 
-            return data;
+            
+            return _client.ExecuteList<ContactListHubSpotModel<T>>(path, opts);
         }
     }
 }

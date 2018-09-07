@@ -17,15 +17,7 @@ namespace HubSpot.NET.Api.Files.Dto
         [DataMember(Name="parent_folder_id")]
         public long Parent {get; set; }
 
-        public bool IsNameValue { get; }
-
-        public void ToHubSpotDataEntity(ref dynamic dataEntity)
-        {
-        }
-
-        public void FromHubSpotDataEntity(dynamic hubspotData)
-        {
-        }
+        public bool IsNameValue { get; }        
 
         public string RouteBasePath => "/filemanager/api/v2";
     }

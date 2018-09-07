@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using HubSpot.NET.Core.Interfaces;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace HubSpot.NET.Api.Deal.Dto
@@ -13,7 +14,7 @@ namespace HubSpot.NET.Api.Deal.Dto
     /// With retrieving all deals the deals are returned in the property "deals".
     /// With recent deals the deals are returned in the property "results".
     /// </remarks>
-    public class DealRecentListHubSpotModel<T> : DealListHubSpotModel<T> where T : DealHubSpotModel, new()
+    public class DealRecentListHubSpotModel<T> : DealListHubSpotModel<T>
     {
         /// <summary>
         /// Gets or sets the deals.

@@ -32,13 +32,5 @@ namespace HubSpot.NET.Api.Company.Dto
 
         public string RouteBasePath => "/companies/v2";
         public bool IsNameValue => true;
-
-        public virtual void ToHubSpotDataEntity(ref dynamic converted)
-        {
-        }
-
-        public virtual void FromHubSpotDataEntity(dynamic hubspotData)
-        {
-        }
     }
 }
