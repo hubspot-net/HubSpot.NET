@@ -24,12 +24,8 @@ namespace HubSpot.NET.Api.Deal
         /// <typeparam name="T">Implementation of DealHubSpotModel</typeparam>
         /// <param name="entity">The entity</param>
         /// <returns>The created entity (with ID set)</returns>
-        public DealHubSpotModel Create(DealHubSpotModel entity)
-        {
-            var path = $"{entity.RouteBasePath}/deal";
-            DealHubSpotModel data = _client.Execute(path, entity, Method.POST);
-            return data;
-        }
+        public DealHubSpotModel Create(DealHubSpotModel entity) 
+            => _client.Execute($"{entity.RouteBasePath}/deal", entity, Method.POST);
 
         /// <summary>
         /// Gets a single deal by ID
@@ -37,12 +33,8 @@ namespace HubSpot.NET.Api.Deal
         /// <param name="dealId">ID of the deal</param>
         /// <typeparam name="T">Implementation of DealHubSpotModel</typeparam>
         /// <returns>The deal entity</returns>
-        public DealHubSpotModel GetById(long dealId)
-        {
-            var path = $"{new DealHubSpotModel().RouteBasePath}/deal/{dealId}";
-            var data = _client.Execute(path, Method.GET);
-            return data;
-        }
+        public DealHubSpotModel GetById(long dealId) 
+            => _client.Execute<DealHubSpotModel>($"{new DealHubSpotModel().RouteBasePath}/deal/{dealId}");
 
         /// <summary>
         /// Updates a given deal
@@ -52,15 +44,10 @@ namespace HubSpot.NET.Api.Deal
         /// <returns>The updated deal entity</returns>
         public DealHubSpotModel Update(DealHubSpotModel entity)
         {
-            if (entity.Id < 1)
-            {
+            if (entity.Id < 1)            
                 throw new ArgumentException("Deal entity must have an id set!");
-            }
 
-            var path = $"{entity.RouteBasePath}/deal/{entity.Id}";
-
-            var data = _client.Execute(path, entity, method: Method.PUT);
-            return data;
+            return _client.Execute($"{entity.RouteBasePath}/deal/{entity.Id}", entity, method: Method.PUT);            
         }
 
         /// <summary>
@@ -76,29 +63,20 @@ namespace HubSpot.NET.Api.Deal
                 opts = new ListRequestOptions(250);
             }
 
-            var path = $"{new DealListHubSpotModel<DealHubSpotModel>().RouteBasePath}/deal/paged"
+            Url path = $"{new DealListHubSpotModel<DealHubSpotModel>().RouteBasePath}/deal/paged"
                 .SetQueryParam("limit", opts.Limit);
 
-            if (opts.Offset.HasValue)
-            {
-                path = path.SetQueryParam("offset", opts.Offset);
-            }
+            if (opts.Offset.HasValue)            
+                path = path.SetQueryParam("offset", opts.Offset);            
 
-            if (includeAssociations)
-            {
-                path = path.SetQueryParam("includeAssociations", "true");
-            }
+            if (includeAssociations)            
+                path = path.SetQueryParam("includeAssociations", "true");            
 
-            if (opts.PropertiesToInclude.Any())
-            {
-                path = path.SetQueryParam("properties", opts.PropertiesToInclude);
-            }
+            if (opts.PropertiesToInclude.Any())            
+                path = path.SetQueryParam("properties", opts.PropertiesToInclude);           
 
-            var data = _client.ExecuteList(path, opts);
-
-            return data;
+            return _client.ExecuteList<DealListHubSpotModel<DealHubSpotModel>>(path, opts);
         }
-
 
         /// <summary>
         /// Gets a list of deals associated to a hubSpot Object
@@ -116,39 +94,27 @@ namespace HubSpot.NET.Api.Deal
                 opts = new ListRequestOptions();
             }
 
-            var path = $"{new DealListHubSpotModel<T>().RouteBasePath}/deal/associated/{objectName}/{hubId}/paged"
+            Url path = $"{new DealListHubSpotModel<DealHubSpotModel>().RouteBasePath}/deal/associated/{objectName}/{hubId}/paged"
                 .SetQueryParam("limit", opts.Limit);
 
-            if (opts.Offset.HasValue)
-            {
-                path = path.SetQueryParam("offset", opts.Offset);
-            }
+            if (opts.Offset.HasValue)            
+                path = path.SetQueryParam("offset", opts.Offset);            
 
-            if (includeAssociations)
-            {
-                path = path.SetQueryParam("includeAssociations", "true");
-            }
+            if (includeAssociations)            
+                path = path.SetQueryParam("includeAssociations", "true");            
 
-            if (opts.PropertiesToInclude.Any())
-            {
-                path = path.SetQueryParam("properties", opts.PropertiesToInclude);
-            }
+            if (opts.PropertiesToInclude.Any())            
+                path = path.SetQueryParam("properties", opts.PropertiesToInclude);            
 
-            DealListHubSpotModel<DealHubSpotModel> data = _client.ExecuteList(path, opts);
-
-            return data;
+            return _client.ExecuteList<DealListHubSpotModel<DealHubSpotModel>>(path, opts);
         }
 
         /// <summary>
         /// Deletes a given deal (by ID)
         /// </summary>
         /// <param name="dealId">ID of the deal</param>
-        public void Delete(long dealId)
-        {
-            var path = $"{new DealHubSpotModel().RouteBasePath}/deal/{dealId}";
-
-            _client.Execute(path, method: Method.DELETE);
-        }
+        public void Delete(long dealId) 
+            => _client.Execute($"{new DealHubSpotModel().RouteBasePath}/deal/{dealId}", method: Method.DELETE);
 
         /// <summary>
         /// Gets a list of recently created deals
@@ -158,33 +124,21 @@ namespace HubSpot.NET.Api.Deal
         /// <returns>List of deals</returns>
         public DealRecentListHubSpotModel<DealHubSpotModel> RecentlyCreated(DealRecentRequestOptions opts = null)
         {
+            if (opts == null)            
+                opts = new DealRecentRequestOptions();            
 
-            if (opts == null)
-            {
-                opts = new DealRecentRequestOptions();
-            }
+            Url path = $"{new DealRecentListHubSpotModel<DealHubSpotModel>().RouteBasePath}/deal/recent/created".SetQueryParam("limit", opts.Limit);
 
-            var path = $"{new DealRecentListHubSpotModel<DealHubSpotModel>().RouteBasePath}/deal/recent/created"
-                .SetQueryParam("limit", opts.Limit);
+            if (opts.Offset.HasValue)            
+                path = path.SetQueryParam("offset", opts.Offset);            
 
-            if (opts.Offset.HasValue)
-            {
-                path = path.SetQueryParam("offset", opts.Offset);
-            }
+            if (opts.IncludePropertyVersion)            
+                path = path.SetQueryParam("includePropertyVersions", "true");            
 
-            if (opts.IncludePropertyVersion)
-            {
-                path = path.SetQueryParam("includePropertyVersions", "true");
-            }
+            if (!string.IsNullOrEmpty(opts.Since))            
+                path = path.SetQueryParam("since", opts.Since);            
 
-            if (!string.IsNullOrEmpty(opts.Since))
-            {
-                path = path.SetQueryParam("since", opts.Since);
-            }
-
-            var data = _client.ExecuteList(path, opts);
-
-            return data;
+            return _client.ExecuteList<DealRecentListHubSpotModel<DealHubSpotModel>>(path, opts);            
         }
 
         /// <summary>
@@ -214,13 +168,11 @@ namespace HubSpot.NET.Api.Deal
             }
 
             if (!string.IsNullOrEmpty(opts.Since))
-            {
+            { 
                 path = path.SetQueryParam("since", opts.Since);
             }
 
-            var data = _client.ExecuteList(path, opts);
-
-            return data;
+            return _client.ExecuteList<DealRecentListHubSpotModel<DealHubSpotModel>>(path, opts);
         }
     }
 }

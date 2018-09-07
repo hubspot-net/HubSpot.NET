@@ -10,7 +10,7 @@ namespace HubSpot.NET.Api.Deal.Dto
     /// Models a set of results returned when querying for sets of deals
     /// </summary>
     [DataContract]
-    public class DealListHubSpotModel<T> : ListHubSpotModel, IHubSpotModel where T: DealHubSpotModel
+    public class DealListHubSpotModel<T> : ListHubSpotModel, IHubSpotModel
     {
         /// <summary>
         /// Gets or sets the deals.

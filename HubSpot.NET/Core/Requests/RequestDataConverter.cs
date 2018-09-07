@@ -64,58 +64,50 @@ namespace HubSpot.NET.Core.Requests
         /// </summary>
         /// <param name="dynamicObject">The <see cref="ExpandoObject"/> representation of the returned json</param>
         /// <returns></returns>
-        public T FromHubSpotResponse<T>(ExpandoObject dynamicObject) where T : IHubSpotModel, new()
-        {
-            var data = (T)ConvertSingleEntity(dynamicObject, new T());
-            return data;
-        }
+        public T FromHubSpotResponse<T>(ExpandoObject dynamicObject)
+            => ConvertSingleEntity<T>(dynamicObject);
 
-        public T FromHubSpotListResponse<T>(ExpandoObject dynamicObject) where T : IHubSpotModel, new()
+        public T FromHubSpotListResponse<T>(ExpandoObject dynamicObject)
         {
             // get a handle to the underlying dictionary values of the ExpandoObject
-            var expandoDict = (IDictionary<string, object>)dynamicObject;
+            IDictionary<string, object> expandoDict = dynamicObject;
 
             // For LIST contacts the "contacts" property should be populated, for LIST companies the "companies" property should be populated, and so on
             // in our T item, search for a property that is an IList<IHubSpotEntity> and use that as our prop name selector into the DynamoObject.....
             // So on the IContactListHubSpotEntity we have a IList<IHubSpotEntity> Contacts - find that prop, lowercase to contacts and that prop should
             // be in the DynamoObject from HubSpot! Tricky stuff
-            var targetType = typeof(IHubSpotModel);
-            var data = new T();
-            var dataProps = data.GetType().GetProperties();
-            var dataTargetProp = dataProps.SingleOrDefault(p => targetType.IsAssignableFrom(p.PropertyType.GenericTypeArguments.FirstOrDefault()));
+            T data = Activator.CreateInstance<T>();
+            PropertyInfo[] dataProps = typeof(T).GetProperties();
+            PropertyInfo dataTargetProp = dataProps.SingleOrDefault(p => typeof(IHubSpotModel).IsAssignableFrom(p.PropertyType.GenericTypeArguments.FirstOrDefault()));
 
-            if (dataTargetProp == null)
-            {
-                throw new ArgumentException("Unable to locate a property on the data class that implements IList<T> where T is a IHubSpotEntity");
-            }
+            if (dataTargetProp == null)            
+                throw new ArgumentException("Unable to locate a property on the data class that implements IList<T> where T is a IHubSpotEntity");            
 
             var propSerializedName = dataTargetProp.GetPropSerializedName();
-            if (!expandoDict.ContainsKey(propSerializedName))
-            {
+            if (!expandoDict.ContainsKey(propSerializedName))            
                 throw new ArgumentException($"The json data does not contain a property of name {propSerializedName} which is required to decode the json data");
-            }
-
+            
             // Find the generic type for the List in question
-            var genericEntityType = dataTargetProp.PropertyType.GenericTypeArguments.First();
+            Type genericEntityType = dataTargetProp.PropertyType.GenericTypeArguments.First();
             // get a handle to Add on the list (actually from ICollection)
-            var listAddMethod = dataTargetProp.PropertyType.FindMethodRecursively("Add", genericEntityType);
+            MethodInfo listAddMethod = dataTargetProp.PropertyType.FindMethodRecursively("Add", genericEntityType);
             // Condensed version of : https://stackoverflow.com/a/4194063/1662254
             var listInstance =
                 Activator.CreateInstance(typeof(List<>).MakeGenericType(genericEntityType));
-            if (listAddMethod == null)
-            {
-                throw new ArgumentException("Unable to locate Add method on the list of items to deserialize into - is it an IList?");
-            }
+
+            if (listAddMethod == null)            
+                throw new ArgumentException("Unable to locate Add method on the list of items to deserialize into - is it an IList?");           
 
             // Convert all the entities
             var jsonEntities = expandoDict[propSerializedName];
             foreach (var entry in jsonEntities as List<object>)
             {
                 // convert single entity
-                var expandoEntry = entry as ExpandoObject;
-                var dto = ConvertSingleEntity(expandoEntry, Activator.CreateInstance(genericEntityType));
+                ExpandoObject expandoEntry = entry as ExpandoObject;
+                T dto = ConvertSingleEntity<T>(expandoEntry);
                 // add entity to list
-                listAddMethod.Invoke(listInstance, new[] { dto });
+                T[] dtoS = new T[] { dto };
+                listAddMethod.Invoke(listInstance, dtoS as object[]);
             }
             // assign our reflected list instance onto the data object
             dataTargetProp.SetValue(data, listInstance);
@@ -138,7 +130,7 @@ namespace HubSpot.NET.Core.Requests
                 if (theProp.PropertyType.IsComplexType())
                 {
                     var expandoEntry = kvp.Value as ExpandoObject;
-                    var dto = ConvertSingleEntity(expandoEntry, Activator.CreateInstance(theProp.PropertyType));
+                    var dto = ConvertSingleEntity<T>(expandoEntry);
                     theProp.SetValue(data, dto);
                 }
                 else // simple value type, assign it
@@ -169,12 +161,13 @@ namespace HubSpot.NET.Core.Requests
         /// as vid and other root level objects stored in the HubSpot JSON response
         /// </remarks>
         /// <param name="dynamicObject">An <see cref="ExpandoObject"/> instance that contains a single HubSpot entity to deserialize</param>
-        /// <param name="dto">An instantiated DTO that shall recieve data</param>
+        /// <param name="dtoType">An instantiated DTO that shall recieve data</param>
         /// <returns>The populated DTO</returns>
-        internal object ConvertSingleEntity(ExpandoObject dynamicObject, object dto)
+        internal T ConvertSingleEntity<T>(ExpandoObject dynamicObject)
         {
             var expandoDict = (IDictionary<string, object>)dynamicObject;
-            var dtoProps = dto.GetType().GetProperties();
+            var dtoProps = typeof(T).GetProperties();
+            T dto = (T)Activator.CreateInstance(typeof(T));
 
             // The vid is the "id" of the entity
             if (expandoDict.TryGetValue("vid", out var vidData))

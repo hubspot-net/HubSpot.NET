@@ -3,7 +3,7 @@ using HubSpot.NET.Api.Deal.Dto;
 
 namespace HubSpot.NET.Core.Interfaces
 {
-    public interface IHubSpotDealApi<T> where T : DealHubSpotModel
+    public interface IHubSpotDealApi<T> where T : IHubSpotModel   
     {
         T Create(T entity);        
         T GetById(long dealId);

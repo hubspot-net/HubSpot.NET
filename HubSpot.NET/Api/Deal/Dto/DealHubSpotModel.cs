@@ -74,7 +74,7 @@ namespace HubSpot.NET.Api.Deal.Dto
             if (hubspotData.associations != null)
             {
                 Associations.AssociatedContacts = ((List<object>)hubspotData.associations.associatedVids).Cast<long>().ToArray();
-                Associations.AssociatedCompany = ((List<object>) hubspotData.associations.associatedCompanyIds).Cast<long>().ToArray();
+                Associations.AssociatedCompany = ((List<object>)hubspotData.associations.associatedCompanyIds).Cast<long>().ToArray();
             }
         }
     }

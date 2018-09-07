@@ -101,26 +101,19 @@ namespace HubSpot.NET.Core.Requests
         /// <param name="json">The json data returned by HubSpot that should be converted</param>
         /// <param name="deserializeAsProperties">Does this entity use the properties schema (contacts, deals, companies)</param>
         /// <returns>The deserialized entity</returns>
-        public virtual IHubSpotModel DeserializeEntity<T>(string json, bool deserializeAsProperties = true) where T : IHubSpotModel, new()
+        public virtual T DeserializeEntity<T>(string json, bool deserializeAsProperties = true)
         {
-            if (deserializeAsProperties)
-            {
-                var jobj = JsonConvert.DeserializeObject<ExpandoObject>(json);
-                var converted = _requestDataConverter.FromHubSpotResponse<T>(jobj);
-
-                if (typeof(T).IsAssignableFrom(typeof(IHubSpotSerializable)))
-                {
-                    var serializable = converted as IHubSpotSerializable;
-                    serializable.FromHubSpotDataEntity(jobj);
-                    return serializable;
-                }
-
-                return converted;
-            }
-            else
-            {
+            if (deserializeAsProperties == false)  // Edge case           
                 return JsonConvert.DeserializeObject<T>(json, _jsonSerializerSettings);
-            }
+            
+
+            ExpandoObject jobj = JsonConvert.DeserializeObject<ExpandoObject>(json);
+            T converted = _requestDataConverter.FromHubSpotResponse<T>(jobj);
+
+            if (typeof(T).IsAssignableFrom(typeof(IHubSpotSerializable)))
+                (converted as IHubSpotSerializable).FromHubSpotDataEntity(jobj);
+
+            return converted;           
         }
 
         /// <summary>
@@ -129,7 +122,7 @@ namespace HubSpot.NET.Core.Requests
         /// <param name="json">The JSON data returned from a List request to HubSpot</param>
         /// <param name="deserializeAsProperties">Does this entity use the properties schema (contacts, deals, companies)</param>
         /// <returns></returns>
-        public virtual IHubSpotModel DeserializeListEntity<T>(string json, bool deserializeAsProperties = true) where T : IHubSpotModel, new()
+        public virtual T DeserializeListEntity<T>(string json, bool deserializeAsProperties = true)
         {
             if (deserializeAsProperties)
             {
