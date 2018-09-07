@@ -11,6 +11,7 @@ namespace HubSpot.NET.Examples
              * You can find or generate this under Integrations -> HubSpot API key
              */
             var api = new HubSpotApi("YOUR API KEY HERE");
+            Timeline.Example(api);
 
             Deals.Example(api);
 
@@ -21,6 +22,7 @@ namespace HubSpot.NET.Examples
             CompanyProperties.Example(api);
 
             EmailSubscriptions.Example(api);
+
         }
     }
 }
