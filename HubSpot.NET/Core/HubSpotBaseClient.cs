@@ -30,13 +30,6 @@ namespace HubSpot.NET.Core
             return SendRequest(absoluteUriPath, method, json, responseData => (T)_serializer.DeserializeEntity<T>(responseData, convertToPropertiesSchema));
         }
 
-        //public T Execute<T>(string absoluteUriPath, Method method = Method.GET, bool convertToPropertiesSchema = true) where T : IHubSpotModel, new()
-        //{
-        //    var data = SendRequest(absoluteUriPath, method, null, responseData => (T)_serializer.DeserializeEntity<T>(responseData, convertToPropertiesSchema));
-
-        //    return data;
-        //}
-
         public void Execute(string absoluteUriPath, object entity = null, Method method = Method.GET, bool convertToPropertiesSchema = true)
         {
             var json = _serializer.SerializeEntity(entity, convertToPropertiesSchema);
