@@ -20,15 +20,6 @@ namespace HubSpot.NET.Api.Company.Dto
         public CompanySearchOffset Offset { get; set; }
 
         public bool IsNameValue => false;
-
-        public void ToHubSpotDataEntity(ref dynamic dataEntity)
-        {
-        }
-
-        public virtual void FromHubSpotDataEntity(dynamic hubspotData)
-        {
-        }
-
         public string RouteBasePath => "";
     }
 }

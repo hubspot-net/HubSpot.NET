@@ -27,6 +27,7 @@
     <PackageReference Include="RestSharp" Version="105.2.3" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Core\Abstracts\" />
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>

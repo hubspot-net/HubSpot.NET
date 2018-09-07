@@ -46,12 +46,5 @@ namespace HubSpot.NET.Api.Engagement.Dto
         public string RouteBasePath => "";
 
         public bool IsNameValue => false;
-        public virtual void ToHubSpotDataEntity(ref dynamic converted)
-        {
-        }
-
-        public virtual void FromHubSpotDataEntity(dynamic hubspotData)
-        {
-        }
     }
 }

@@ -60,7 +60,7 @@ namespace HubSpot.NET.Core.Requests
         }
 
         /// <summary>
-        /// Convert from the dynamicly typed <see cref="ExpandoObject"/> into a strongly typed <see cref="IHubSpotModel"/>
+        /// Convert from the dynamicly typed <see cref="ExpandoObject"/> into a strongly typed <see cref="HubSpotModel"/>
         /// </summary>
         /// <param name="dynamicObject">The <see cref="ExpandoObject"/> representation of the returned json</param>
         /// <returns></returns>

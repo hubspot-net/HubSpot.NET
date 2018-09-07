@@ -22,14 +22,5 @@ namespace HubSpot.NET.Api.Company.Dto
 
         [DataMember(Name = "offset")]
         public long ContinuationOffset { get; set; }
-
-
-        public void FromHubSpotDataEntity(dynamic hubspotData)
-        {
-        }
-
-        public void ToHubSpotDataEntity(ref dynamic dataEntity)
-        {
-        }
     }
 }

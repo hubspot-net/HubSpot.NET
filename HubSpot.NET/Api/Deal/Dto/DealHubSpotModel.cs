@@ -24,7 +24,7 @@ namespace HubSpot.NET.Api.Deal.Dto
     /// your HubSpot account.
     /// </summary>
     [DataContract]
-    public class DealHubSpotModel : IHubSpotModel
+    public class DealHubSpotModel : IHubSpotSerializable
     {
         public DealHubSpotModel()
         {

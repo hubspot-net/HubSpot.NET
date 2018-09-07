@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using HubSpot.NET.Core.Interfaces;
@@ -43,7 +44,7 @@ namespace HubSpot.NET.Core.Requests
         /// <returns>The serialized entity</returns>
         public virtual string SerializeEntity(object obj, bool convertToPropertiesSchema = true)
         {
-            if (obj is IHubSpotModel entity && convertToPropertiesSchema)
+            if (obj is HubSpotModel entity && convertToPropertiesSchema)
             {
                 var converted = _requestDataConverter.ToHubspotDataEntity(entity);
 
@@ -75,8 +76,12 @@ namespace HubSpot.NET.Core.Requests
                 {
                     var entity = (IHubSpotModel) e;
                     var converted = _requestDataConverter.ToHubspotDataEntity(entity, true);
-                    entity.ToHubSpotDataEntity(ref converted);
-                    return converted;
+                    if (entity.GetType().IsAssignableFrom(typeof(IHubSpotSerializable)))
+                    {                        
+                        entity.ToHubSpotDataEntity(ref converted);
+                    }
+                    
+                    return converted
                 });
 
                 return JsonConvert.SerializeObject(
@@ -90,7 +95,7 @@ namespace HubSpot.NET.Core.Requests
         }
 
         /// <summary>
-        /// Deserialize the given JSON into a <see cref="IHubSpotModel"/>
+        /// Deserialize the given JSON into a <see cref="HubSpotModel"/>
         /// </summary>
         /// <param name="json">The json data returned by HubSpot that should be converted</param>
         /// <param name="deserializeAsProperties">Does this entity use the properties schema (contacts, deals, companies)</param>
@@ -102,7 +107,12 @@ namespace HubSpot.NET.Core.Requests
                 var jobj = JsonConvert.DeserializeObject<ExpandoObject>(json);
                 var converted = _requestDataConverter.FromHubSpotResponse<T>(jobj);
 
-                converted.FromHubSpotDataEntity(jobj);
+                if (typeof(T).IsAssignableFrom(typeof(IHubSpotSerializable)))
+                {
+                    var serializable = converted as IHubSpotSerializable;
+                    serializable.FromHubSpotDataEntity(jobj);
+                    return serializable;
+                }
 
                 return converted;
             }
@@ -113,7 +123,7 @@ namespace HubSpot.NET.Core.Requests
         }
 
         /// <summary>
-        /// Deserialize the given JSON from a List requet into a <see cref="IHubSpotModel"/>
+        /// Deserialize the given JSON from a List requet into a <see cref="HubSpotModel"/>
         /// </summary>
         /// <param name="json">The JSON data returned from a List request to HubSpot</param>
         /// <param name="deserializeAsProperties">Does this entity use the properties schema (contacts, deals, companies)</param>
