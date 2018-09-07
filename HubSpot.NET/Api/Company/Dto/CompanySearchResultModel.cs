@@ -16,9 +16,6 @@ namespace HubSpot.NET.Api.Company.Dto
 
         [DataMember(Name="offset")]
         public CompanySearchOffset Offset { get; set; }
-
-        //public bool IsNameValue => false;
-        //public string RouteBasePath => "";
     }
 
     public class CompanySearchResultModel<T> where T : IHubSpotModel

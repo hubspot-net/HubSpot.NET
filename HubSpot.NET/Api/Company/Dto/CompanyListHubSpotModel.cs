@@ -9,11 +9,10 @@ using System.Threading.Tasks;
 
 namespace HubSpot.NET.Api.Company.Dto
 {
-    public class CompanyListHubSpotModel<T> : ListHubSpotModel, IHubSpotModel where T: CompanyHubSpotModel, new()
+    public class CompanyListHubSpotModel<T> : ListHubSpotModel, IHubSpotModel where T: CompanyHubSpotModel
     {
         [DataMember(Name = "companies")]
         public IList<T> Companies { get; set; } = new List<T>();
-        public bool IsNameValue => false;
-        public string RouteBasePath => "/companies/v2";
+        public bool IsNameValue => false;        
     }
 }
