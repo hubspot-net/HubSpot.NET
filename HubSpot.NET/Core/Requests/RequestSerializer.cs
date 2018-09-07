@@ -69,9 +69,8 @@ namespace HubSpot.NET.Core.Requests
         /// <returns>The serialized entity</returns>
         public virtual string SerializeEntity(List<object> obj, bool convertToPropertiesSchema = true)
         {
-            if (convertToPropertiesSchema)
+            if (convertToPropertiesSchema == false)
             {
-
                 var objs = obj.Select(e =>
                 {
                     IHubSpotModel entity = (IHubSpotModel) e;
@@ -84,10 +83,6 @@ namespace HubSpot.NET.Core.Requests
 
                     return converted;
                 });
-
-                return JsonConvert.SerializeObject(
-                    objs,
-                    _jsonSerializerSettings);
             }
 
             return JsonConvert.SerializeObject(
@@ -124,16 +119,12 @@ namespace HubSpot.NET.Core.Requests
         /// <returns></returns>
         public virtual T DeserializeListEntity<T>(string json, bool deserializeAsProperties = true)
         {
-            if (deserializeAsProperties)
-            {
-                var expandoObject = JsonConvert.DeserializeObject<ExpandoObject>(json);
-                var converted = _requestDataConverter.FromHubSpotListResponse<T>(expandoObject);
-                return converted;
-            }
-            else
-            {
-                return JsonConvert.DeserializeObject<T>(json, _jsonSerializerSettings);
-            }
+            if (deserializeAsProperties == false)
+                return JsonConvert.DeserializeObject<T>(json, _jsonSerializerSettings);            
+
+            var expandoObject = JsonConvert.DeserializeObject<ExpandoObject>(json);
+            var converted = _requestDataConverter.FromHubSpotListResponse<T>(expandoObject);
+            return converted;
         }
     }
 }

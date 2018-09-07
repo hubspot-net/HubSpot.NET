@@ -27,15 +27,8 @@ namespace HubSpot.NET.Core
             string json = null;
             if (entity != default)
                 json = _serializer.SerializeEntity(entity, convertToPropertiesSchema);
-            return SendRequest(absoluteUriPath, method, json, responseData => (T)_serializer.DeserializeEntity<T>(responseData, convertToPropertiesSchema));
+            return SendRequest(absoluteUriPath, method, json, responseData => _serializer.DeserializeEntity<T>(responseData, convertToPropertiesSchema));
         }
-
-        //public T Execute<T>(string absoluteUriPath, Method method = Method.GET, bool convertToPropertiesSchema = true) where T : IHubSpotModel, new()
-        //{
-        //    var data = SendRequest(absoluteUriPath, method, null, responseData => (T)_serializer.DeserializeEntity<T>(responseData, convertToPropertiesSchema));
-
-        //    return data;
-        //}
 
         public void Execute(string absoluteUriPath, object entity = null, Method method = Method.GET, bool convertToPropertiesSchema = true)
         {
@@ -44,8 +37,7 @@ namespace HubSpot.NET.Core
             SendRequest(absoluteUriPath, method, json);
         }
 
-        public void ExecuteBatch(string absoluteUriPath, List<object> entities, Method method = Method.GET,
-            bool convertToPropertiesSchema = true)
+        public void ExecuteBatch(string absoluteUriPath, List<object> entities, Method method = Method.GET, bool convertToPropertiesSchema = true)
         {
             var json = _serializer.SerializeEntity(entities, convertToPropertiesSchema);
 
@@ -78,45 +70,40 @@ namespace HubSpot.NET.Core
         {
             var json = _serializer.SerializeEntity(entity);
 
-            var data = SendRequest(
+            return SendRequest(
                 absoluteUriPath,
                 method,
                 json,
-                responseData => (T)_serializer.DeserializeListEntity<T>(responseData, convertToPropertiesSchema));
-            return data;
+                responseData => _serializer.DeserializeListEntity<T>(responseData, convertToPropertiesSchema));            
         }
 
         private T SendRequest<T>(string path, Method method, string json, Func<string, T> deserializeFunc) 
         {
-            var responseData = SendRequest(path, method, json);
+            string responseData = SendRequest(path, method, json);
 
             if (string.IsNullOrWhiteSpace(responseData))
-            {
-                return default;
-            }
+                return default;            
 
             return deserializeFunc(responseData);
         }
 
         private string SendRequest(string path, Method method, string json)
         {
-            var url = $"{path}".SetQueryParam("hapikey", _apiKey);
+            string url = $"{path}".SetQueryParam("hapikey", _apiKey);
 
-            var request = new RestRequest(url, method);
+            RestRequest request = new RestRequest(url, method);
 
             if (!string.IsNullOrWhiteSpace(json))
             {
                 request.AddParameter("application/json", json, ParameterType.RequestBody);
             }
 
-            var response = _client.Execute(request);
+            IRestResponse response = _client.Execute(request);
 
-            var responseData = response.Content;
+            string responseData = response.Content;
 
-            if (!response.IsSuccessful())
-            {
-                throw new HubSpotException("Error from HubSpot", responseData);
-            }
+            if (!response.IsSuccessful())            
+                throw new HubSpotException("Error from HubSpot", responseData);            
 
             return responseData;
         }
