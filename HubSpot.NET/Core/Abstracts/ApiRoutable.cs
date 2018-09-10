@@ -20,8 +20,25 @@ namespace HubSpot.NET.Core.Abstracts
         /// </summary>                
         protected virtual Dictionary<Type, string> Routes { get; set; } = new Dictionary<Type, string>();
 
+        /// <summary>
+        /// Provides the route to an endpoint relative to the specified type key.
+        /// </summary>
+        /// <typeparam name="T">The IHubSpotModel-based type key used for the route.</typeparam>
+        /// <returns></returns>
         public virtual string GetRoute<T>() where T : IHubSpotModel 
-            => MidRoute + (Routes[typeof(T)] ?? string.Empty);
+            => $"{MidRoute.TrimEnd('/')}/{(Routes[typeof(T)] ?? string.Empty).TrimStart('/')}";
+
+        /// <summary>
+        /// Combines the parameters provided into a full URI with separating '/' characters.
+        /// </summary>
+        /// <typeparam name="T">The IHubSpotModel-based type key used for the route.</typeparam>
+        /// <param name="orderedRouteValues">One or more route parameters to be combined, sans</param>
+        /// <returns></returns>
+        public virtual string GetRoute<T>(params string[] orderedRouteValues) where T: IHubSpotModel
+        {
+            string combinedParams = string.Join("/", orderedRouteValues);
+            return $"{GetRoute<T>().TrimEnd('/')}/{combinedParams.TrimStart('/')}";
+        }
 
         public void AddRoute<T>(string newRoute) where T : IHubSpotModel 
             => Routes.Add(typeof(T), newRoute);       
