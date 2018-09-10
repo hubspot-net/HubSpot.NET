@@ -90,7 +90,7 @@ namespace HubSpot.NET.Api.Deal
         {
             opts = opts ?? new ListRequestOptions();            
 
-            Url path = $"{new DealListHubSpotModel<DealHubSpotModel>().RouteBasePath}/deal/associated/{objectName}/{hubId}/paged"
+            Url path = $"{GetRoute<DealListHubSpotModel<DealHubSpotModel>>()}/deal/associated/{objectName}/{hubId}/paged"
                 .SetQueryParam("limit", opts.Limit);
 
             if (opts.Offset.HasValue)            
