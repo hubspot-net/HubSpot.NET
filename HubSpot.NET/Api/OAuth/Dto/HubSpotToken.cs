@@ -1,5 +1,7 @@
 ﻿namespace HubSpot.NET.Api.OAuth.Dto
 {
+    using Newtonsoft.Json;
+    using System;
     using System.Runtime.Serialization;
 
     public class HubSpotToken
@@ -12,5 +14,13 @@
 
         [DataMember(Name = "expires_in")]
         public int ExpiresIn { get; set; }
+
+        [JsonIgnore]
+        public readonly DateTimeOffset Created;
+
+        public HubSpotToken()
+        {
+            Created = DateTimeOffset.Now;
+        }
     }
 }

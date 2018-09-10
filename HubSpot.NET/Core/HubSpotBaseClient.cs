@@ -1,12 +1,12 @@
 namespace HubSpot.NET.Core
 {
-    using System;
-    using System.Collections.Generic;
-    using Flurl;
+    using HubSpot.NET.Api.OAuth.Dto;
     using HubSpot.NET.Core.Interfaces;
     using HubSpot.NET.Core.Requests;
     using Newtonsoft.Json;
     using RestSharp;
+    using System;
+    using System.Collections.Generic;
 
     public class HubSpotBaseClient : IHubSpotClient
     {
@@ -14,17 +14,26 @@ namespace HubSpot.NET.Core
         private readonly RestClient _client;
 
         private string _baseUrl => "https://api.hubapi.com";
+        private readonly HubSpotAuthenticationMode _mode;
+
+        // Used for HAPIKEY method
+        private readonly string _apiKeyName = "hapikey";
         private readonly string _apiKey;
+
+        // Used for OAUTH
+        private HubSpotToken _token;
 
         /// <summary>
         /// Creates a HubSpot client with the specified authentication scheme (Default: HAPIKEY). 
         /// </summary>
         /// <param name="apiKey"></param>
         /// <param name="mode"></param>
-        public HubSpotBaseClient(string apiKey, AuthenticationMode mode = AuthenticationMode.HAPIKEY)
+        public HubSpotBaseClient(string apiKey, HubSpotAuthenticationMode mode = HubSpotAuthenticationMode.HAPIKEY, HubSpotToken token = null)
         { 
             _apiKey = apiKey;
             _client = new RestClient(_baseUrl);
+            _mode = mode;
+            _token = null;
         }
 
         public T Execute<T>(string absoluteUriPath, T entity = default, Method method = Method.GET, bool convertToPropertiesSchema = true)
@@ -41,12 +50,11 @@ namespace HubSpot.NET.Core
 
         public T ExecuteMultipart<T>(string absoluteUriPath, byte[] data, string filename, Dictionary<string,string> parameters, Method method = Method.POST)
         {
-            var fullUrl = $"{_baseUrl}{absoluteUriPath}".SetQueryParam("hapikey", _apiKey);
-
-            var request = new RestRequest(fullUrl, method);
+            var fullUrl = $"{_baseUrl}{absoluteUriPath}";
+            var request = ConfigureRequestAuthentication(fullUrl, method);
 
             request.AddFile(filename, data, filename);
-
+        
             foreach (var kvp in parameters)
             {
                 request.AddParameter(kvp.Key, kvp.Value);
@@ -60,13 +68,19 @@ namespace HubSpot.NET.Core
         }
 
         public T ExecuteList<T>(string absoluteUriPath, object entity = null, Method method = Method.GET, bool convertToPropertiesSchema = true)
-            => SendRequest(
-                absoluteUriPath,
-                method,
-                 _serializer.SerializeEntity(entity),
-                responseData => _serializer.DeserializeListEntity<T>(responseData, convertToPropertiesSchema));            
-        
+        {
+            return SendRequest(absoluteUriPath, method, _serializer.SerializeEntity(entity), responseData =>
+                {
+                    return _serializer.DeserializeListEntity<T>(responseData, convertToPropertiesSchema);
+                });
+        }
 
+        public void UpdateToken(HubSpotToken token)
+        {
+            _token = token;
+        }
+
+        #region 'private methods'
         private T SendRequest<T>(string path, Method method, string json, Func<string, T> deserializeFunc) 
         {
             string responseData = SendRequest(path, method, json);
@@ -79,9 +93,8 @@ namespace HubSpot.NET.Core
 
         private string SendRequest(string path, Method method, string json)
         {
-            string url = $"{path}".SetQueryParam("hapikey", _apiKey);
 
-            RestRequest request = new RestRequest(url, method);
+            RestRequest request = ConfigureRequestAuthentication(path, method);
 
             if (!string.IsNullOrWhiteSpace(json))            
                 request.AddParameter("application/json", json, ParameterType.RequestBody);            
@@ -92,10 +105,32 @@ namespace HubSpot.NET.Core
                 throw new HubSpotException("Error from HubSpot", response.Content);            
 
             return response.Content;
-        }     
+        } 
+        
+        private RestRequest ConfigureRequestAuthentication(string path, Method method)
+        {
+            RestRequest request = new RestRequest(path, method);
+            switch(_mode)
+            {
+                case HubSpotAuthenticationMode.OAUTH:
+                    request.AddHeader("Authorization", GetAuthHeader(_token));
+                    break;
+                default:
+                    request.AddQueryParameter(_apiKeyName, _apiKey);
+                    break;
+            }
+
+            return request;
+        }
+
+        private string GetAuthHeader(HubSpotToken token)
+        {
+            return $"Bearer {token.AccessToken}";
+        }
+        #endregion
     }
 
-    public enum AuthenticationMode
+    public enum HubSpotAuthenticationMode
     {
         HAPIKEY, OAUTH
     }

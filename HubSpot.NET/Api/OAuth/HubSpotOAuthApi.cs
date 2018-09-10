@@ -30,6 +30,7 @@
                 RedirectCode = redirectCode,
                 RedirectUri = redirectUri
             };
+
             return InitiateRequest(model, basePath);
         }
 
