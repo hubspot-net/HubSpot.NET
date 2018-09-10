@@ -1,3 +1,4 @@
+using HubSpot.NET.Api.OAuth.Dto;
 using System;
 
 namespace HubSpot.NET.Core
@@ -6,6 +7,8 @@ namespace HubSpot.NET.Core
     public class HubSpotException : Exception
     {
         public string RawJsonResponse { get; set; }
+        public HubSpotError ReturnedError { get; set; }
+
         public HubSpotException()
         {
         }
@@ -23,6 +26,12 @@ namespace HubSpot.NET.Core
         {
         }
 
+        public HubSpotException(string message, HubSpotError error) : base(message)
+        {
+            ReturnedError = error;
+        }
+
+        
         public override String Message => base.Message + $", JSONResponse={RawJsonResponse??"Empty"}";
     }
 }

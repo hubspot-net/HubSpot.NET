@@ -1,13 +1,13 @@
-using System;
-using System.Collections.Generic;
-using Flurl;
-using HubSpot.NET.Core.Interfaces;
-using HubSpot.NET.Core.Requests;
-using Newtonsoft.Json;
-using RestSharp;
-
 namespace HubSpot.NET.Core
 {
+    using System;
+    using System.Collections.Generic;
+    using Flurl;
+    using HubSpot.NET.Core.Interfaces;
+    using HubSpot.NET.Core.Requests;
+    using Newtonsoft.Json;
+    using RestSharp;
+
     public class HubSpotBaseClient : IHubSpotClient
     {
         private readonly RequestSerializer _serializer = new RequestSerializer(new RequestDataConverter());
@@ -16,7 +16,12 @@ namespace HubSpot.NET.Core
         private string _baseUrl => "https://api.hubapi.com";
         private readonly string _apiKey;
 
-        public HubSpotBaseClient(string apiKey)
+        /// <summary>
+        /// Creates a HubSpot client with the specified authentication scheme (Default: HAPIKEY). 
+        /// </summary>
+        /// <param name="apiKey"></param>
+        /// <param name="mode"></param>
+        public HubSpotBaseClient(string apiKey, AuthenticationMode mode = AuthenticationMode.HAPIKEY)
         { 
             _apiKey = apiKey;
             _client = new RestClient(_baseUrl);
@@ -87,7 +92,11 @@ namespace HubSpot.NET.Core
                 throw new HubSpotException("Error from HubSpot", response.Content);            
 
             return response.Content;
-        }
-        
+        }     
+    }
+
+    public enum AuthenticationMode
+    {
+        HAPIKEY, OAUTH
     }
 }

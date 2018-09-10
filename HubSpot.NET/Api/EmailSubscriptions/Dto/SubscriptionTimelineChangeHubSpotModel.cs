@@ -1,5 +1,6 @@
 ﻿namespace HubSpot.NET.Api.EmailSubscriptions.Dto
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -22,6 +23,7 @@
         public long PortalId { get; set; }
 
         [DataMember(Name = "changeType")]
+        [JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public SubscriptionChangeType ChangeType { get; set; }
 
         [DataMember(Name = "causedByEvent")]
@@ -31,10 +33,10 @@
 
     public enum SubscriptionChangeType
     {
-        SubscriptionStatus,
-        PortalStatus,
-        SubscriptionSpamReport,
-        PortalSpamReport,
-        PortalBounce
+        SUBSCRIPTION_STATUS,
+        PORTAL_STATUS,   
+        SUBSCRIPTION_SPAM_REPORT,
+        PORTAL_SPAM_REPORT,
+        PORTAL_BOUNCE
     }
 }
