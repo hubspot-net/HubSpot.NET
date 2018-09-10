@@ -31,7 +31,7 @@ namespace HubSpot.NET.Examples
             /**
              * Get all companies with domain name "squaredup.com"
              */
-            var companies = api.Company.GetByDomain<CompanyHubSpotModel>("squaredup.com", new CompanySearchByDomain()
+            var companies = api.Company.GetByDomain("squaredup.com", new CompanySearchByDomain()
             {
                 Limit = 10
             });

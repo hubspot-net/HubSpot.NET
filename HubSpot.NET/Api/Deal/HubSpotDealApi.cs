@@ -18,6 +18,7 @@ namespace HubSpot.NET.Api.Deal
         public HubSpotDealApi(IHubSpotClient client)
         {
             _client = client;
+            AddRoute<DealHubSpotModel>("/deal");
         }
 
         /// <summary>
@@ -27,7 +28,7 @@ namespace HubSpot.NET.Api.Deal
         /// <param name="entity">The entity</param>
         /// <returns>The created entity (with ID set)</returns>
         public DealHubSpotModel Create(DealHubSpotModel entity) 
-            => _client.Execute($"{GetRoute<DealHubSpotModel>()}/deal", entity, Method.POST);
+            => _client.Execute(GetRoute<DealHubSpotModel>(), entity, Method.POST);
 
         /// <summary>
         /// Gets a single deal by ID
@@ -36,7 +37,7 @@ namespace HubSpot.NET.Api.Deal
         /// <typeparam name="T">Implementation of DealHubSpotModel</typeparam>
         /// <returns>The deal entity</returns>
         public DealHubSpotModel GetById(long dealId) 
-            => _client.Execute<DealHubSpotModel>($"{GetRoute<DealHubSpotModel>()}/deal/{dealId}");
+            => _client.Execute<DealHubSpotModel>($"{GetRoute<DealHubSpotModel>()}/{dealId}");
 
         /// <summary>
         /// Updates a given deal
@@ -49,7 +50,7 @@ namespace HubSpot.NET.Api.Deal
             if (entity.Id < 1)            
                 throw new ArgumentException("Deal entity must have an id set!");
 
-            return _client.Execute($"{GetRoute<DealHubSpotModel>()}/deal/{entity.Id}", entity, method: Method.PUT);            
+            return _client.Execute($"{GetRoute<DealHubSpotModel>()}/{entity.Id}", entity, method: Method.PUT);            
         }
 
         /// <summary>
@@ -110,7 +111,7 @@ namespace HubSpot.NET.Api.Deal
         /// </summary>
         /// <param name="dealId">ID of the deal</param>
         public void Delete(long dealId) 
-            => _client.Execute($"{GetRoute<DealHubSpotModel>()}/deal/{dealId}", method: Method.DELETE);
+            => _client.Execute($"{GetRoute<DealHubSpotModel>()}/{dealId}", method: Method.DELETE);
 
         /// <summary>
         /// Gets a list of recently created deals

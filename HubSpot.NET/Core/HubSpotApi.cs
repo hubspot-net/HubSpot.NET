@@ -19,7 +19,7 @@ namespace HubSpot.NET.Core
     {
         public IHubSpotCompanyApi Company { get; }
         public IHubSpotContactApi Contact { get; }
-        public IHubSpotDealApi<DealHubSpotModel> Deal { get; }
+        public IHubSpotDealApi Deal { get; }
         public IHubSpotEngagementApi Engagement { get; }
         public IHubSpotCosFileApi File { get; }
         public IHubSpotOwnerApi Owner { get; }

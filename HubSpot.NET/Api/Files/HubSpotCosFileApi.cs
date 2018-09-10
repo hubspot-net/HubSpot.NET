@@ -22,10 +22,10 @@ namespace HubSpot.NET.Api.Files
         /// </summary>
         /// <param name="entity">The file to upload</param>
         /// <returns>The uploaded file</returns>
-        public FileListHubSpotModel<T> Upload<T>(FileHubSpotModel entity) where T: FileHubSpotModel
+        public FileListHubSpotModel<FileHubSpotModel> Upload(FileHubSpotModel entity)
         {
-            var path = $"{GetRoute<T>()}/files";
-            var data = _client.ExecuteMultipart<FileListHubSpotModel<T>>(path, entity.File, entity.Name,
+            var path = $"{GetRoute<FileHubSpotModel>()}/files";
+            var data = _client.ExecuteMultipart<FileListHubSpotModel<FileHubSpotModel>>(path, entity.File, entity.Name,
                 new Dictionary<string, string>()
                 {
                     {"overwrite", entity.Overwrite.ToString()},

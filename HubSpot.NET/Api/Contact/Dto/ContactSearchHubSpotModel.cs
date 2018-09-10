@@ -5,7 +5,7 @@ using HubSpot.NET.Core.Interfaces;
 
 namespace HubSpot.NET.Api.Contact.Dto
 {
-    public class ContactSearchHubSpotModel<T> : ListHubSpotModel, IHubSpotModel where T : ContactHubSpotModel
+    public class ContactSearchHubSpotModel<T> : ListHubSpotModel, IHubSpotModel where T : IHubSpotModel
     {
 
         /// <summary>

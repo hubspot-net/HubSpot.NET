@@ -9,7 +9,7 @@ namespace HubSpot.NET.Api.Contact.Dto
     /// Models a set of results returned when querying for sets of contacts
     /// </summary>
     [DataContract]
-    public class ContactListHubSpotModel<T> : ListHubSpotModel, IHubSpotModel where T: ContactHubSpotModel
+    public class ContactListHubSpotModel<T> : ListHubSpotModel, IHubSpotModel where T: IHubSpotModel
     {
         /// <summary>
         /// Gets or sets the contacts.

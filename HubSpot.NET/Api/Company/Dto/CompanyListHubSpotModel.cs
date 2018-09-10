@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace HubSpot.NET.Api.Company.Dto
 {
-    public class CompanyListHubSpotModel<T> : ListHubSpotModel, IHubSpotModel where T: CompanyHubSpotModel
+    public class CompanyListHubSpotModel<T> : ListHubSpotModel, IHubSpotModel where T: IHubSpotModel
     {
         [DataMember(Name = "companies")]
         public IList<T> Companies { get; set; } = new List<T>();

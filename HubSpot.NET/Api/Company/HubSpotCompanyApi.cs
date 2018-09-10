@@ -27,8 +27,8 @@ namespace HubSpot.NET.Api.Company
         /// <param name="entity">The entity</param>
         /// <returns>The created entity (with ID set)</returns>
         /// <exception cref="NotImplementedException"></exception>
-        public T Create<T>(T entity) where T : CompanyHubSpotModel
-            => _client.Execute($"{GetRoute<T>()}/companies", entity, Method.POST);
+        public CompanyHubSpotModel Create(CompanyHubSpotModel entity)
+            => _client.Execute($"{GetRoute<CompanyHubSpotModel>()}/companies", entity, Method.POST);
 
         /// <summary>
         /// Gets a specific company by it's ID
@@ -36,8 +36,8 @@ namespace HubSpot.NET.Api.Company
         /// <typeparam name="T">Implementation of CompanyHubSpotModel</typeparam>
         /// <param name="companyId">The ID</param>
         /// <returns>The company entity</returns>
-        public T GetById<T>(long companyId) where T : CompanyHubSpotModel
-            => _client.Execute<T>($"{GetRoute<T>()}/companies/{companyId}");
+        public CompanyHubSpotModel GetById(long companyId)
+            => _client.Execute<CompanyHubSpotModel>($"{GetRoute<CompanyHubSpotModel>()}/companies/{companyId}");
 
         /// <summary>
         /// Gets a company by domain name
@@ -46,20 +46,20 @@ namespace HubSpot.NET.Api.Company
         /// <param name="domain">Domain name to search for</param>
         /// <param name="options">Set of search options</param>
         /// <returns>The company entity</returns>
-        public CompanySearchResultModel<T> GetByDomain<T>(string domain, CompanySearchByDomain opts = null) where T : CompanyHubSpotModel
+        public CompanySearchResultModel<CompanyHubSpotModel> GetByDomain(string domain, CompanySearchByDomain opts = null)
         {
             opts = opts ?? new CompanySearchByDomain();
 
-            var path = $"{GetRoute<T>()}/domains/{domain}/companies";
+            var path = $"{GetRoute<CompanyHubSpotModel>()}/domains/{domain}/companies";
 
-            return _client.ExecuteList<CompanySearchResultModel<T>>(path, opts, Method.POST);
+            return _client.ExecuteList<CompanySearchResultModel<CompanyHubSpotModel>>(path, opts, Method.POST);
         }
 
-        public CompanyListHubSpotModel<T> List<T>(ListRequestOptions opts = null) where T : CompanyHubSpotModel
+        public CompanyListHubSpotModel<CompanyHubSpotModel> List(ListRequestOptions opts = null)
         {
             opts = opts ?? new ListRequestOptions();
 
-            var path = $"{GetRoute<T>()}/companies/paged".SetQueryParam("count", opts.Limit);
+            var path = $"{GetRoute<CompanyHubSpotModel>()}/companies/paged".SetQueryParam("count", opts.Limit);
 
             if (opts.PropertiesToInclude.Any())
                 path.SetQueryParam("properties", opts.PropertiesToInclude);
@@ -67,7 +67,7 @@ namespace HubSpot.NET.Api.Company
             if (opts.Offset.HasValue)
                 path = path.SetQueryParam("offset", opts.Offset);
 
-            return _client.ExecuteList<CompanyListHubSpotModel<T>>(path, opts);
+            return _client.ExecuteList<CompanyListHubSpotModel<CompanyHubSpotModel>>(path, opts);
         }
 
         /// <summary>
@@ -76,12 +76,12 @@ namespace HubSpot.NET.Api.Company
         /// <typeparam name="T">Implementation of CompanyHubSpotModel</typeparam>
         /// <param name="entity">The company entity</param>
         /// <returns>The updated company entity</returns>
-        public T Update<T>(T entity) where T : CompanyHubSpotModel
+        public CompanyHubSpotModel Update(CompanyHubSpotModel entity)
         {
             if (entity.Id < 1)
                 throw new ArgumentException("Company entity must have an id set!");
 
-            return _client.Execute($"{GetRoute<T>()}/companies/{entity.Id}", entity, Method.PUT);
+            return _client.Execute($"{GetRoute<CompanyHubSpotModel>()}/companies/{entity.Id}", entity, Method.PUT);
         }
 
         /// <summary>
