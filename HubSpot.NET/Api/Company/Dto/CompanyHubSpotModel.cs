@@ -29,8 +29,7 @@ namespace HubSpot.NET.Api.Company.Dto
 
         [DataMember(Name = "country")]
         public string Country { get; set; }
-
-        public string RouteBasePath => "/companies/v2";
+        
         public bool IsNameValue => true;
     }
 }

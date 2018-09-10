@@ -19,9 +19,7 @@ namespace HubSpot.NET.Api.Deal.Dto
         /// The contacts.
         /// </value>
         [DataMember(Name = "deals")]
-        public IList<T> Deals { get; set; } = new List<T>();
-
-        public string RouteBasePath => "/deals/v1";
+        public IList<T> Deals { get; set; } = new List<T>();        
 
         public bool IsNameValue => false;
     }

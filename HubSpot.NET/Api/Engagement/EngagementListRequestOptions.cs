@@ -23,11 +23,9 @@ namespace HubSpot.NET.Api.Engagement
             get => _limit;
             set
             {
-                if (value < 1 || value > 100)
-                {
-                    throw new ArgumentException(
-                        $"Number of contacts to return must be a positive ingeteger greater than 0 - you provided {value}");
-                }
+                if (value < 1 || value > 100)                
+                    throw new ArgumentException($"Number of contacts to return must be a positive ingeteger greater than 0 - you provided {value}");
+                
                 _limit = value;
             }
         }

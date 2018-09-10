@@ -23,8 +23,6 @@ namespace HubSpot.NET.Api.EmailSubscriptions.Dto
         [DataMember(Name = "name")]
         public string Name { get;set; }
 
-        public bool IsNameValue { get; }
-
-        public string RouteBasePath => "/email/public/v1";
+        public bool IsNameValue { get; }        
     }
 }

@@ -11,46 +11,37 @@ namespace HubSpot.NET.Api.Properties.Dto
     /// Models a set of properties in HubSpot (contacts, companies etc.)
     /// </summary>
     [DataContract]
-    public class PropertiesListHubSpotModel<T> : IHubSpotModel, ICollection<T> where T : IHubSpotModel
+    public class PropertiesListHubSpotModel<T> : IHubSpotModel, ICollection<T> 
+        where T : IHubSpotModel
     {
         private List<T> Properties { get; } = new List<T>();
         public bool IsNameValue => false;
-        public IEnumerator<T> GetEnumerator()
-        {
-            return Properties.GetEnumerator();
-        }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        public IEnumerator<T> GetEnumerator() 
+            => Properties.GetEnumerator();
 
-        public void Add(T item)
-        {
-            Properties.Add(item);
-        }
+        IEnumerator IEnumerable.GetEnumerator() 
+            => GetEnumerator();
 
-        public void Clear()
-        {
-            Properties.Clear();
-        }
+        public void Add(T item) 
+            => Properties.Add(item);
 
-        public bool Contains(T item)
-        {
-            return Properties.Contains(item);
-        }
+        public void Clear() 
+            => Properties.Clear();
 
-        public void CopyTo(T[] array, int arrayIndex)
-        {
-            Properties.CopyTo(array, arrayIndex);
-        }
+        public bool Contains(T item) 
+            => Properties.Contains(item);
 
-        public bool Remove(T item)
-        {
-            return Properties.Remove(item);
-        }
+        public void CopyTo(T[] array, int arrayIndex) 
+            => Properties.CopyTo(array, arrayIndex);
 
-        public int Count => Properties.Count;
-        public bool IsReadOnly => false;
+        public bool Remove(T item) 
+            => Properties.Remove(item);
+
+        public int Count 
+            => Properties.Count;
+
+        public bool IsReadOnly
+            => false;
     }
 }
