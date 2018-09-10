@@ -13,7 +13,7 @@ namespace HubSpot.NET.Core.Abstracts
         /// <summary>
         /// The route to the HubSpot API appended directly after the base URI
         /// </summary>
-        public virtual string MidRoute { get; } = string.Empty;
+        public virtual string MidRoute { get; protected set; } = string.Empty;
 
         /// <summary>
         /// Dictionary of Entity specific routes to be accessed by entity type

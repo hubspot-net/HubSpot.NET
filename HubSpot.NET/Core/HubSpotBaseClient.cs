@@ -21,6 +21,7 @@ namespace HubSpot.NET.Core
         private readonly string _apiKey;
 
         // Used for OAUTH
+        public string AppId { get; private set; }
         private HubSpotToken _token;
 
         /// <summary>
@@ -28,13 +29,15 @@ namespace HubSpot.NET.Core
         /// </summary>
         /// <param name="apiKey"></param>
         /// <param name="mode"></param>
-        public HubSpotBaseClient(string apiKey, HubSpotAuthenticationMode mode = HubSpotAuthenticationMode.HAPIKEY, HubSpotToken token = null)
+        public HubSpotBaseClient(string apiKey, HubSpotAuthenticationMode mode = HubSpotAuthenticationMode.HAPIKEY, string appId = "", HubSpotToken token = null)
         { 
             _apiKey = apiKey;
             _client = new RestClient(_baseUrl);
             _mode = mode;
-            _token = null;
+            _token = token;
+            AppId = appId;
         }
+
 
         public T Execute<T>(string absoluteUriPath, T entity = default, Method method = Method.GET, bool convertToPropertiesSchema = true)
         {

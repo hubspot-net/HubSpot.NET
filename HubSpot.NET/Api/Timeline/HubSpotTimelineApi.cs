@@ -1,57 +1,46 @@
 ﻿namespace HubSpot.NET.Api.Timeline
 {
     using HubSpot.NET.Api.Timeline.Dto;
+    using HubSpot.NET.Core.Abstracts;
     using HubSpot.NET.Core.Interfaces;
-    using System;
-    using System.Collections;
     using System.Collections.Generic;
 
-    public class HubSpotTimelineApi : IHubSpotTimelineApi
+    public class HubSpotTimelineApi : ApiRoutable, IHubSpotTimelineApi
     {
         private readonly IHubSpotClient _client;
 
         public HubSpotTimelineApi(IHubSpotClient client)
         {
             _client = client;
+            MidRoute = $"/integrations/v1/{client.AppId}";
         }
 
         public TimelineEventTypeHubSpotModel CreateOrUpdateEvent(TimelineEventTypeHubSpotModel entity)
-        {
-            TimelineEventTypeHubSpotModel result = _client.Execute<TimelineEventTypeHubSpotModel>($"{entity.RouteBasePath}", entity, RestSharp.Method.POST);
-            return result;
-        }
+        => _client.Execute(GetRoute<TimelineEventTypeHubSpotModel>(), entity, RestSharp.Method.POST);
+            
 
         public void CreateEventType(TimelineEventHubSpotModel entity)
-        {
-            _client.Execute($"{entity.RouteBasePath}", entity, RestSharp.Method.POST);
-        }
+        => _client.Execute(GetRoute<TimelineEventHubSpotModel>(), entity, RestSharp.Method.POST);
+        
 
         public void DeleteEventType(long entityID)
-        {
-            string path = new TimelineEventTypeHubSpotModel().RouteBasePath;
-            _client.Execute($"{path}/{entityID}", RestSharp.Method.DELETE);
-        }
+        => _client.Execute(GetRoute<TimelineEventTypeHubSpotModel>(entityID.ToString()), RestSharp.Method.DELETE);
+        
 
         public TimelineEventHubSpotModel GetEventById(long entityID)
-        {
-            string path = new TimelineEventHubSpotModel().RouteBasePath;
-            return _client.Execute<TimelineEventHubSpotModel>($"{path}/{entityID}");
-        }
+        =>_client.Execute<TimelineEventHubSpotModel>(GetRoute<TimelineEventHubSpotModel>(entityID.ToString()));
+        
 
         public IEnumerable<TimelineEventTypeHubSpotModel> GetAllEventTypes()
-        {
-            string path = new TimelineEventTypeHubSpotModel().RouteBasePath;
-            return _client.Execute<IEnumerable<TimelineEventTypeHubSpotModel>>($"{path}");
-        }
+        => _client.Execute<IEnumerable<TimelineEventTypeHubSpotModel>>(GetRoute<TimelineEventTypeHubSpotModel>());
+        
 
         public void UpdateEvent(TimelineEventHubSpotModel entity)
-        {
-            _client.Execute($"{entity.RouteBasePath}/{entity.Id}", entity, RestSharp.Method.PUT);
-        }
+        => _client.Execute(GetRoute<TimelineEventHubSpotModel>(entity.Id.ToString()), entity, RestSharp.Method.PUT);
+        
 
         public void UpdateEventType(TimelineEventTypeHubSpotModel entity)
-        {
-            _client.Execute($"{entity.RouteBasePath}/{entity.Id}", entity, RestSharp.Method.PUT);
-        }
+        => _client.Execute(GetRoute<TimelineEventTypeHubSpotModel>(entity.Id.ToString()), entity, RestSharp.Method.PUT);
+        
     }
 }

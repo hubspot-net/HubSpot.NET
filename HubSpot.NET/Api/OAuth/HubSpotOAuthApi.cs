@@ -9,15 +9,17 @@
     using RestSharp;
     using System;
 
-    public class HubSpotOAuthApi : ApiRoutable
+    public class HubSpotOAuthApi : ApiRoutable, IHubSpotOAuthApi
     {
         public string ClientId { get; private set; }
         private string _clientSecret;
+        private IHubSpotClient _client;
 
         public override string MidRoute => " /oauth/v1/token";
 
-        public HubSpotOAuthApi(string clientId, string clientSecret)
+        public HubSpotOAuthApi(IHubSpotClient client, string clientId, string clientSecret)
         {
+            _client = client;
             ClientId = clientId;
             _clientSecret = clientSecret;
         }
@@ -31,7 +33,9 @@
                 RedirectUri = redirectUri
             };
 
-            return InitiateRequest(model, basePath);
+            HubSpotToken token = InitiateRequest(model, basePath);
+            _client.UpdateToken(token);
+            return token;
         }
 
         public HubSpotToken Refresh(string basePath, string redirectUri, HubSpotToken token)
@@ -44,7 +48,9 @@
                 RefreshToken = token.RefreshToken
             };
 
-            return InitiateRequest(model, basePath);
+            HubSpotToken refreshToken = InitiateRequest(model, basePath);
+            _client.UpdateToken(refreshToken);
+            return token;
         }
 
         public void UpdateCredentials(string id, string secret)

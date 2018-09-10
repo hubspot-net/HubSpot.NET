@@ -5,6 +5,8 @@ using HubSpot.NET.Api.Deal.Dto;
 using HubSpot.NET.Api.EmailSubscriptions;
 using HubSpot.NET.Api.Engagement;
 using HubSpot.NET.Api.Files;
+using HubSpot.NET.Api.OAuth;
+using HubSpot.NET.Api.OAuth.Dto;
 using HubSpot.NET.Api.Owner;
 using HubSpot.NET.Api.Properties;
 using HubSpot.NET.Api.Timeline;
@@ -17,20 +19,38 @@ namespace HubSpot.NET.Core
     /// </summary>
     public class HubSpotApi : IHubSpotApi
     {
-        public IHubSpotCompanyApi Company { get; }
-        public IHubSpotContactApi Contact { get; }
-        public IHubSpotDealApi Deal { get; }
-        public IHubSpotEngagementApi Engagement { get; }
-        public IHubSpotCosFileApi File { get; }
-        public IHubSpotOwnerApi Owner { get; }
-        public IHubSpotCompanyPropertiesApi CompanyProperties { get; }
+        public IHubSpotOAuthApi OAuth { get; set; }
+        public IHubSpotCompanyApi Company { get; private set; }
+        public IHubSpotContactApi Contact { get; private set; }
+        public IHubSpotDealApi Deal { get; private set; }
+        public IHubSpotEngagementApi Engagement { get; private set; }
+        public IHubSpotCosFileApi File { get; private set; }
+        public IHubSpotOwnerApi Owner { get; private set; }
+        public IHubSpotCompanyPropertiesApi CompanyProperties { get; private set; }
 
-        public IHubSpotEmailSubscriptionsApi EmailSubscriptions { get; }
-        public IHubSpotTimelineApi Timelines { get; }
-        public HubSpotApi(string apiKey, HubSpotAuthenticationMode mode = HubSpotAuthenticationMode.HAPIKEY)
+        public IHubSpotEmailSubscriptionsApi EmailSubscriptions { get; private set; }
+        public IHubSpotTimelineApi Timelines { get; private set; }
+
+
+        /// <summary>
+        /// Creates a HubSpotApi using API key authentication instead of OAuth
+        /// </summary>
+        /// <param name="apiKey">The HubSpot API key for your application.</param>
+        public HubSpotApi(string apiKey)
         {
-            IHubSpotClient client = new HubSpotBaseClient(apiKey, mode); 
+            IHubSpotClient client = new HubSpotBaseClient(apiKey, HubSpotAuthenticationMode.HAPIKEY);
+            InitializeRepos(client);
+        }
 
+        public HubSpotApi(string clientId, string clientSecret, string appId, HubSpotToken token = null)
+        {
+            IHubSpotClient client = new HubSpotBaseClient(string.Empty, HubSpotAuthenticationMode.OAUTH, appId, token);
+            InitializeRepos(client, clientId, clientSecret);
+        }
+
+        private void InitializeRepos(IHubSpotClient client, string clientId = "", string clientSecret = "")
+        {
+            OAuth = new HubSpotOAuthApi(client, clientId, clientSecret);
             Company = new HubSpotCompanyApi(client);
             Contact = new HubSpotContactApi(client);
             Deal = new HubSpotDealApi(client);
@@ -41,7 +61,6 @@ namespace HubSpot.NET.Core
             EmailSubscriptions = new HubSpotEmailSubscriptionsApi(client);
             Timelines = new HubSpotTimelineApi(client);
         }
-
     }
 
 }

@@ -12,8 +12,6 @@ namespace HubSpot.NET.Examples
              */
             var api = new HubSpotApi("YOUR API KEY HERE");
 
-
-
             Timeline.Example(api);
 
             Deals.Example(api);
