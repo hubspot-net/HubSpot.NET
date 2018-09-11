@@ -15,6 +15,8 @@ namespace HubSpot.NET.Core
 
         private string _baseUrl => "https://api.hubapi.com";
         private readonly HubSpotAuthenticationMode _mode;
+        
+        public string BasePath { get => _baseUrl; }
 
         // Used for HAPIKEY method
         private readonly string _apiKeyName = "hapikey";

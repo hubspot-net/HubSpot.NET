@@ -4,8 +4,8 @@
 
     public interface IHubSpotOAuthApi
     {
-        HubSpotToken Authorize(string basePath, string redirectCode, string redirectUri);
-        HubSpotToken Refresh(string basePath, string redirectUri, HubSpotToken token);
+        HubSpotToken Authorize(string redirectCode, string redirectUri);
+        HubSpotToken Refresh(string redirectUri, HubSpotToken token);
         void UpdateCredentials(string id, string secret);
     }
 }

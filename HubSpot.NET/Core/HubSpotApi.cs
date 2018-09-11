@@ -1,19 +1,18 @@
-﻿using HubSpot.NET.Api.Company;
-using HubSpot.NET.Api.Contact;
-using HubSpot.NET.Api.Deal;
-using HubSpot.NET.Api.Deal.Dto;
-using HubSpot.NET.Api.EmailSubscriptions;
-using HubSpot.NET.Api.Engagement;
-using HubSpot.NET.Api.Files;
-using HubSpot.NET.Api.OAuth;
-using HubSpot.NET.Api.OAuth.Dto;
-using HubSpot.NET.Api.Owner;
-using HubSpot.NET.Api.Properties;
-using HubSpot.NET.Api.Timeline;
-using HubSpot.NET.Core.Interfaces;
-
-namespace HubSpot.NET.Core
+﻿namespace HubSpot.NET.Core
 {
+    using HubSpot.NET.Api.Company;
+    using HubSpot.NET.Api.Contact;
+    using HubSpot.NET.Api.Deal;
+    using HubSpot.NET.Api.EmailSubscriptions;
+    using HubSpot.NET.Api.Engagement;
+    using HubSpot.NET.Api.Files;
+    using HubSpot.NET.Api.OAuth;
+    using HubSpot.NET.Api.OAuth.Dto;
+    using HubSpot.NET.Api.Owner;
+    using HubSpot.NET.Api.Properties;
+    using HubSpot.NET.Api.Timeline;
+    using HubSpot.NET.Core.Interfaces;
+
     /// <summary>
     /// Starting point for using HubSpot.NET
     /// </summary>

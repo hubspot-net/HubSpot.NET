@@ -1,29 +1,66 @@
 ﻿using HubSpot.NET.Core;
+using System;
 
 namespace HubSpot.NET.Examples
 {
     public class Examples
     {
+        // enable args to be presented from CLI for automated test execution 
         static void Main(string[] args)
         {
             /**
              * Initialize the API with your API Key
              * You can find or generate this under Integrations -> HubSpot API key
              */
-            var api = new HubSpotApi("YOUR API KEY HERE");
+            string hapiKey = string.Empty; // YOUR KEY GOES HERE ... or supply it as args[0] either way.
+            string clientId = string.Empty; // args[1]
+            string clientSecret = string.Empty; // args[2]
+            string appId = string.Empty; // args[3]
+            if(args.Length >= 1)
+            {
+                hapiKey = args[0];
 
-            Timeline.Example(api);
+                if(args.Length > 4)
+                {
+                    clientId = args[1];
+                    clientSecret = args[2];
+                    appId = args[3];
+                }
+            }
 
-            Deals.Example(api);
+            if(string.IsNullOrWhiteSpace(hapiKey))
+            {
+                Console.WriteLine("Invalid API Key, skipping API Key related tests...");
+            }
+            else
+            {
+                var hapiApi = new HubSpotApi(hapiKey);
+                RunApiKeyExamples(hapiApi);
+            }
 
-            Companies.Example(api);
+            if(string.IsNullOrWhiteSpace(clientId) || string.IsNullOrWhiteSpace(clientSecret) || string.IsNullOrWhiteSpace(appId))
+            {
+                Console.WriteLine("Invalid clientId, Secret, or AppID. Skipping OAuth related tests...");
+            }
+            else
+            {
+                var oauthApi = new HubSpotApi(clientId, clientSecret, appId);
+                RunOAuthExamples(oauthApi);
+            }
+        }
 
-            Contacts.Example(api);
-
-            CompanyProperties.Example(api);
-
-            EmailSubscriptions.Example(api);
-
+        private static void RunApiKeyExamples(HubSpotApi hapiApi)
+        {
+            Deals.Example(hapiApi);
+            Companies.Example(hapiApi);
+            Contacts.Example(hapiApi);
+            CompanyProperties.Example(hapiApi);
+            EmailSubscriptions.Example(hapiApi);
+        }
+        private static void RunOAuthExamples(HubSpotApi oauthApi)
+        {
+            OAuth.Example(oauthApi);
+            Timeline.Example(oauthApi);
         }
     }
 }

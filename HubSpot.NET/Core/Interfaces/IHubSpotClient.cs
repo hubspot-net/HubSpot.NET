@@ -7,6 +7,7 @@ namespace HubSpot.NET.Core.Interfaces
     public interface IHubSpotClient
     {
         string AppId { get; }
+        string BasePath { get; }
 
         T Execute<T>(string absoluteUriPath, T entity = default, Method method = Method.GET, bool convertToPropertiesSchema = true);        
         T ExecuteMultipart<T>(string absoluteUriPath, byte[] data, string filename, Dictionary<string, string> parameters, Method method = Method.POST);

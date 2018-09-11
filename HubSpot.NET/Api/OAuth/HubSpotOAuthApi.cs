@@ -24,7 +24,7 @@
             _clientSecret = clientSecret;
         }
 
-        public HubSpotToken Authorize(string basePath, string redirectCode, string redirectUri)
+        public HubSpotToken Authorize(string redirectCode, string redirectUri)
         {
             RequestTokenHubSpotModel model = new RequestTokenHubSpotModel()
             {
@@ -33,12 +33,12 @@
                 RedirectUri = redirectUri
             };
 
-            HubSpotToken token = InitiateRequest(model, basePath);
+            HubSpotToken token = InitiateRequest(model, _client.BasePath);
             _client.UpdateToken(token);
             return token;
         }
 
-        public HubSpotToken Refresh(string basePath, string redirectUri, HubSpotToken token)
+        public HubSpotToken Refresh(string redirectUri, HubSpotToken token)
         {
             RequestRefreshTokenHubSpotModel model = new RequestRefreshTokenHubSpotModel()
             {
@@ -48,7 +48,7 @@
                 RefreshToken = token.RefreshToken
             };
 
-            HubSpotToken refreshToken = InitiateRequest(model, basePath);
+            HubSpotToken refreshToken = InitiateRequest(model, _client.BasePath);
             _client.UpdateToken(refreshToken);
             return token;
         }
