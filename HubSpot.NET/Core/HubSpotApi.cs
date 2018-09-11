@@ -42,6 +42,13 @@ namespace HubSpot.NET.Core
             InitializeRepos(client);
         }
 
+        /// <summary>
+        /// Creates a HubSpotApi using OAuth 2.0 authentication for all API calls. 
+        /// </summary>
+        /// <param name="clientId"></param>
+        /// <param name="clientSecret"></param>
+        /// <param name="appId"></param>
+        /// <param name="token"></param>
         public HubSpotApi(string clientId, string clientSecret, string appId, HubSpotToken token = null)
         {
             IHubSpotClient client = new HubSpotBaseClient(string.Empty, HubSpotAuthenticationMode.OAUTH, appId, token);
@@ -62,5 +69,4 @@ namespace HubSpot.NET.Core
             Timelines = new HubSpotTimelineApi(client);
         }
     }
-
 }

@@ -13,6 +13,6 @@ namespace HubSpot.NET.Core.Interfaces
         T ExecuteList<T>(string absoluteUriPath, object entity = null, Method method = Method.GET, bool convertToPropertiesSchema = true);
         void Execute(string absoluteUriPath, object entity = null, Method method = Method.GET, bool convertToPropertiesSchema = true);
         void ExecuteBatch(string absoluteUriPath, List<object> entities, Method method = Method.GET, bool convertToPropertiesSchema = true);
-        void UpdateToken(HubSpotToken token)
+        void UpdateToken(HubSpotToken token);
     }
 }
