@@ -16,7 +16,7 @@ C# .NET Wrapper around the common HubSpot APIs:
 
 ## Authorization
 
-HubSpot.NET supports authorization by API key or through HubSpot's OAuth workflow. [As is noted in HubSpot's API documentation](), it is recommended to use the OAuth form if your integration is going to be used commercially due to an increased level of security. However, we have made it optional to target OAuth or API key authentication so you can develop against the authentication provider that best suits your needs.
+<span>HubSpot.NET</span> supports authorization by API key or through HubSpot's OAuth workflow. [As is noted in HubSpot's API documentation](), it is recommended to use the OAuth form if your integration is going to be used commercially due to an increased level of security. However, we have made it optional to target OAuth or API key authentication so you can develop against the authentication provider that best suits your needs.
 
 ## Getting Started
 To get started, install the [Nuget package](https://www.nuget.org/packages/SquaredUp.HubSpot.NET/) and create a instance of `HubSpotApi` passing your API Key as the only parameter; or if using OAuth pass in the Client ID, Client Secret, and App ID.
