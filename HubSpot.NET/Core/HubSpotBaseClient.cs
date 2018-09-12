@@ -75,9 +75,9 @@ namespace HubSpot.NET.Core
         public T ExecuteList<T>(string absoluteUriPath, object entity = null, Method method = Method.GET, bool convertToPropertiesSchema = true)
         {
             return SendRequest(absoluteUriPath, method, _serializer.SerializeEntity(entity), responseData =>
-                {
+            {
                     return _serializer.DeserializeListEntity<T>(responseData, convertToPropertiesSchema);
-                });
+            });
         }
 
         public void UpdateToken(HubSpotToken token)
