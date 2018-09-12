@@ -8,6 +8,7 @@ using HubSpot.NET.Core.Interfaces;
 
 namespace HubSpot.NET.Core.Requests
 {
+    [Obsolete]
     public class RequestDataConverter
     {
         /// <summary>
@@ -16,6 +17,7 @@ namespace HubSpot.NET.Core.Requests
         /// <param name="entity">The entity.</param>
         /// <param name="batchMode">If we're operating in batch mode the email must be specified outside of the props</param>
         /// <returns></returns>
+        [Obsolete]
         public dynamic ToHubspotDataEntity(IHubSpotModel entity, bool batchMode = false)
         {
             dynamic mapped = new ExpandoObject();
@@ -64,9 +66,11 @@ namespace HubSpot.NET.Core.Requests
         /// </summary>
         /// <param name="dynamicObject">The <see cref="ExpandoObject"/> representation of the returned json</param>
         /// <returns></returns>
+        [Obsolete]
         public T FromHubSpotResponse<T>(ExpandoObject dynamicObject)
             => ConvertSingleEntity<T>(dynamicObject);
 
+        [Obsolete]
         public T FromHubSpotListResponse<T>(ExpandoObject dynamicObject)
         {
             // get a handle to the underlying dictionary values of the ExpandoObject
@@ -142,6 +146,7 @@ namespace HubSpot.NET.Core.Requests
             return data;
         }
 
+        [Obsolete]
         private IDictionary<string, PropertyInfo> GetAllPropsWithSerializedNameAsKey(PropertyInfo[] dataProps)
         {
             var dict = new Dictionary<string, PropertyInfo>();
@@ -163,6 +168,7 @@ namespace HubSpot.NET.Core.Requests
         /// <param name="dynamicObject">An <see cref="ExpandoObject"/> instance that contains a single HubSpot entity to deserialize</param>
         /// <param name="dtoType">An instantiated DTO that shall recieve data</param>
         /// <returns>The populated DTO</returns>
+        [Obsolete]
         internal T ConvertSingleEntity<T>(ExpandoObject dynamicObject)
         {
             var expandoDict = (IDictionary<string, object>)dynamicObject;

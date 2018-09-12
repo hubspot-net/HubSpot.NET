@@ -10,7 +10,7 @@ namespace HubSpot.NET.Core
 
     public class HubSpotBaseClient : IHubSpotClient
     {
-        private readonly RequestSerializer _serializer = new RequestSerializer(new RequestDataConverter());
+        //private readonly RequestSerializer _serializer = new RequestSerializer(new RequestDataConverter());
         private readonly RestClient _client;
 
         private string _baseUrl => "https://api.hubapi.com";
