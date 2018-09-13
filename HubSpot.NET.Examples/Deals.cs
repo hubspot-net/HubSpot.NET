@@ -9,6 +9,19 @@ namespace HubSpot.NET.Examples
     {
         public static void Example(HubSpotApi api)
         {
+            try
+            {
+                Tests(api);
+                Console.WriteLine("Deals tests completed successfully!");
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("Deals tests failed!");
+                Console.WriteLine(ex.ToString());
+            }
+        }
+        private static void Tests(HubSpotApi api)
+        {
             /**
              * Create a deal
              */

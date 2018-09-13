@@ -27,7 +27,7 @@ namespace HubSpot.NET.Api.Contact.Dto
         /// The contacts.
         /// </value>
         [DataMember(Name = "contacts")]
-        public IList<T> Contacts { get; set; } = new List<T>();
+        public List<T> Contacts { get; set; } = new List<T>();
 
         /// <summary>
         /// Gets or sets the total.

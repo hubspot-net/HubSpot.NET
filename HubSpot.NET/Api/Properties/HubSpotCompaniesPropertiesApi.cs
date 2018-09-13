@@ -17,10 +17,9 @@ namespace HubSpot.NET.Api.Properties
         }
 
         public PropertiesListHubSpotModel<CompanyPropertyHubSpotModel> GetAll() 
-            => _client.ExecuteList<PropertiesListHubSpotModel<CompanyPropertyHubSpotModel>>(GetRoute<CompanyPropertyHubSpotModel>(), 
-                                                                                            convertToPropertiesSchema: false);
+            => _client.Execute<PropertiesListHubSpotModel<CompanyPropertyHubSpotModel>>(GetRoute<CompanyPropertyHubSpotModel>());
 
         public CompanyPropertyHubSpotModel Create(CompanyPropertyHubSpotModel property) 
-            => _client.Execute(GetRoute<CompanyPropertyHubSpotModel>(), property, Method.POST, convertToPropertiesSchema: false);
+            => _client.Execute<CompanyPropertyHubSpotModel, CompanyPropertyHubSpotModel>(GetRoute<CompanyPropertyHubSpotModel>(), property, Method.POST);
     }
 }

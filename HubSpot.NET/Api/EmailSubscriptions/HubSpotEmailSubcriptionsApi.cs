@@ -24,14 +24,14 @@
         /// Gets the available email subscription types available in the portal
         /// </summary>
         public SubscriptionTypeListHubSpotModel GetEmailSubscriptionTypes() 
-            => _client.ExecuteList<SubscriptionTypeListHubSpotModel>(GetRoute<SubscriptionTypeListHubSpotModel>(), convertToPropertiesSchema: false);
+            => _client.Execute<SubscriptionTypeListHubSpotModel>(GetRoute<SubscriptionTypeListHubSpotModel>());
 
         /// <summary>
         /// Get subscription status for the given email address
         /// </summary>
         /// <param name="email"></param>
         public SubscriptionStatusHubSpotModel GetStatus(string email) 
-            => _client.Execute<SubscriptionStatusHubSpotModel>(GetRoute<SubscriptionTypeListHubSpotModel>(email), convertToPropertiesSchema: false);
+            => _client.Execute<SubscriptionStatusHubSpotModel>(GetRoute<SubscriptionTypeListHubSpotModel>(email));
 
 
         /// <summary>
@@ -39,7 +39,7 @@
         /// </summary>
         /// <returns>An offset-based list of subscription change events.</returns>
         public SubscriptionTimelineHubSpotModel GetChangesTimeline()
-            => _client.Execute<SubscriptionTimelineHubSpotModel>(GetRoute<SubscriptionTimelineHubSpotModel>(), convertToPropertiesSchema: false);
+            => _client.Execute<SubscriptionTimelineHubSpotModel>(GetRoute<SubscriptionTimelineHubSpotModel>());
         
 
         /// <summary>
@@ -48,7 +48,7 @@
         /// </summary>
         /// <param name="email"></param>
         public void UnsubscribeAll(string email) 
-            => _client.Execute(GetRoute<SubscriptionTypeListHubSpotModel>(email), new { unsubscribeFromAll = true }, Method.PUT, false);
+            => _client.ExecuteOnly(GetRoute<SubscriptionTypeListHubSpotModel>(email), new { unsubscribeFromAll = true }, Method.PUT);
 
         /// <summary>
         /// Unsubscribe the given email address from the given subscription type
@@ -72,7 +72,7 @@
                 }
             };
 
-            _client.Execute(path, model, Method.PUT, false);
+            _client.ExecuteOnly(path, model, Method.PUT);
         }
     }
 }

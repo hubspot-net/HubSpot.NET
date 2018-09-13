@@ -25,8 +25,11 @@ namespace HubSpot.NET.Core.Abstracts
         /// </summary>
         /// <typeparam name="T">The IHubSpotModel-based type key used for the route.</typeparam>
         /// <returns></returns>
-        public virtual string GetRoute<T>() where T : IHubSpotModel 
-            => $"{MidRoute.TrimEnd('/')}/{(Routes[typeof(T)] ?? string.Empty).TrimStart('/')}";
+        public virtual string GetRoute<T>() where T : IHubSpotModel
+        {
+            string routeValue = Routes.ContainsKey(typeof(T)) ? Routes[typeof(T)] : string.Empty;
+            return $"{MidRoute.TrimEnd('/')}/{routeValue.TrimStart('/')}";
+        }
 
         /// <summary>
         /// Combines the parameters provided into a full URI with separating '/' characters.
@@ -36,8 +39,9 @@ namespace HubSpot.NET.Core.Abstracts
         /// <returns></returns>
         public virtual string GetRoute<T>(params string[] orderedRouteValues) where T: IHubSpotModel
         {
-            string combinedParams = string.Join("/", orderedRouteValues);
-            return $"{GetRoute<T>().TrimEnd('/')}/{combinedParams.TrimStart('/')}";
+            string[] orderValuesFiltered = orderedRouteValues.Select(x => x.Trim('/')).ToArray();
+            string combinedParams = string.Join("/", orderValuesFiltered);
+            return $"{GetRoute<T>().TrimEnd('/')}/{combinedParams}";
         }
 
         public void AddRoute<T>(string newRoute) where T : IHubSpotModel 

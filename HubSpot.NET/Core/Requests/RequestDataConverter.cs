@@ -22,41 +22,41 @@ namespace HubSpot.NET.Core.Requests
         {
             dynamic mapped = new ExpandoObject();
 
-            mapped.Properties = new List<HubspotDataEntityProp>();
+            //mapped.Properties = new List<HubspotDataEntityProp>();
 
-            var allProps = entity.GetType().GetProperties();
+            //var allProps = entity.GetType().GetProperties();
 
-            foreach (var prop in allProps)
-            {
-                if (prop.HasIgnoreDataMemberAttribute()) { continue; }
+            //foreach (var prop in allProps)
+            //{
+            //    if (prop.HasIgnoreDataMemberAttribute()) { continue; }
 
-                var propSerializedName = prop.GetPropSerializedName();
-                if (prop.Name.Equals("RouteBasePath") || prop.Name.Equals("IsNameValue")) { continue; }
+            //    var propSerializedName = prop.GetPropSerializedName();
+            //    if (prop.Name.Equals("RouteBasePath") || prop.Name.Equals("IsNameValue")) { continue; }
 
-                // IF we have an complex type on the entity that we are trying to convert, let's NOT get the 
-                // string value of it, but simply pass the object along - it will be serialized later as JSON...
-                var propValue = prop.GetValue(entity);
-                var value = propValue.IsComplexType() ? propValue : propValue?.ToString();
-                var item = new HubspotDataEntityProp
-                {
-                    Property = propSerializedName,
-                    Value = value
-                };
+            //    // IF we have an complex type on the entity that we are trying to convert, let's NOT get the 
+            //    // string value of it, but simply pass the object along - it will be serialized later as JSON...
+            //    var propValue = prop.GetValue(entity);
+            //    var value = propValue.IsComplexType() ? propValue : propValue?.ToString();
+            //    var item = new HubspotDataEntityProp
+            //    {
+            //        Property = propSerializedName,
+            //        Value = value
+            //    };
 
-                if (entity.IsNameValue)
-                {
-                    item.Property = null;
-                    item.Name = propSerializedName;
-                }
-                if (item.Value == null) { continue; }
+            //    if (entity.IsNameValue)
+            //    {
+            //        item.Property = null;
+            //        item.Name = propSerializedName;
+            //    }
+            //    if (item.Value == null) { continue; }
 
-                mapped.Properties.Add(item);
+            //    mapped.Properties.Add(item);
 
-                if (batchMode && prop.GetPropSerializedName() == "email")
-                {
-                    mapped.email = value;
-                }
-            }
+            //    if (batchMode && prop.GetPropSerializedName() == "email")
+            //    {
+            //        mapped.email = value;
+            //    }
+            //}
             
             return mapped;
         }
