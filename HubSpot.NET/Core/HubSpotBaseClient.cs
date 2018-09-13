@@ -2,15 +2,13 @@ namespace HubSpot.NET.Core
 {
     using HubSpot.NET.Api.OAuth.Dto;
     using HubSpot.NET.Core.Interfaces;
-    using HubSpot.NET.Core.Requests;
+    using HubSpot.NET.Core.Serializers;
     using Newtonsoft.Json;
     using RestSharp;
-    using System;
     using System.Collections.Generic;
 
     public class HubSpotBaseClient : IHubSpotClient
     {
-        //private readonly RequestSerializer _serializer = new RequestSerializer(new RequestDataConverter());
         private readonly RestClient _client;
 
         private string _baseUrl => "https://api.hubapi.com";
@@ -41,17 +39,30 @@ namespace HubSpot.NET.Core
         }
 
 
-        public T Execute<T>(string absoluteUriPath, T entity = default, Method method = Method.GET, bool convertToPropertiesSchema = true)
+        public T Execute<T>(string path, Method method = Method.GET) where T : new()
         {
-            string json = entity != default ? _serializer.SerializeEntity(entity, convertToPropertiesSchema) : null;
-            return SendRequest(absoluteUriPath, method, json, responseData => _serializer.DeserializeEntity<T>(responseData, convertToPropertiesSchema));
+            return SendReceiveRequest<T>(path, method);
         }
 
-        public void Execute(string absoluteUriPath, object entity = null, Method method = Method.GET, bool convertToPropertiesSchema = true) 
-            => SendRequest(absoluteUriPath, method, _serializer.SerializeEntity(entity, convertToPropertiesSchema));
+        public T Execute<T, K>(string absoluteUriPath, K entity, Method method = Method.GET) where T : new()
+        {
+            return SendReceiveRequest<T, K>(absoluteUriPath, method, entity);
+        }
 
-        public void ExecuteBatch(string absoluteUriPath, List<object> entities, Method method = Method.GET, bool convertToPropertiesSchema = true) 
-            => SendRequest(absoluteUriPath, method, _serializer.SerializeEntity(entities, convertToPropertiesSchema));
+        public void ExecuteOnly(string absoluteUriPath, Method method = Method.GET)
+        {
+            SendOnlyRequest(absoluteUriPath, method);
+        }
+
+        public void ExecuteOnly<T>(string absoluteUriPath, T entity, Method method = Method.GET)
+        {
+            SendOnlyRequest(absoluteUriPath, method, entity);
+        }
+
+        public void ExecuteBatch(string absoluteUriPath, List<object> entities, Method method = Method.GET)
+        {
+            SendOnlyRequest(absoluteUriPath, method, entities);
+        }
 
         public T ExecuteMultipart<T>(string absoluteUriPath, byte[] data, string filename, Dictionary<string,string> parameters, Method method = Method.POST)
         {
@@ -72,49 +83,106 @@ namespace HubSpot.NET.Core
             return JsonConvert.DeserializeObject<T>(response.Content);         
         }
 
-        public T ExecuteList<T>(string absoluteUriPath, object entity = null, Method method = Method.GET, bool convertToPropertiesSchema = true)
-        {
-            return SendRequest(absoluteUriPath, method, _serializer.SerializeEntity(entity), responseData =>
-            {
-                    return _serializer.DeserializeListEntity<T>(responseData, convertToPropertiesSchema);
-            });
-        }
-
+        /// <summary>
+        /// Updates the OAuth token used by the client.
+        /// </summary>
+        /// <param name="token"></param>
         public void UpdateToken(HubSpotToken token)
         {
             _token = token;
         }
 
         #region 'private methods'
-        private T SendRequest<T>(string path, Method method, string json, Func<string, T> deserializeFunc) 
+        /// <summary>
+        /// Sends requests to the given endpoint and returns an entity object of T.
+        /// </summary>
+        /// <typeparam name="T">The expected return entity type.</typeparam>
+        /// <param name="path">The path to the endpoint.</param>
+        /// <param name="method">The REST method used.</param>
+        /// <returns>An entity of type T returned from the request.</returns>
+        private T SendReceiveRequest<T>(string path, Method method) where T : new()
         {
-            string responseData = SendRequest(path, method, json);
+            RestRequest request = ConfigureRequestAuthentication(path, method);
+            IRestResponse<T> response = _client.Execute<T>(request);
 
-            if (string.IsNullOrWhiteSpace(responseData))
-                return default;            
+            if (response.IsSuccessful == false)
+                throw new HubSpotException("Error from HubSpot", response.Content);
 
-            return deserializeFunc(responseData);
+            return response.Data;
         }
 
-        private string SendRequest(string path, Method method, string json)
+        /// <summary>
+        /// Sends requests with a given entity JSON body to the target endpoint and returns a result object.
+        /// </summary>
+        /// <typeparam name="T">The type for the return object.</typeparam>
+        /// <typeparam name="K">The type of the sending object.</typeparam>
+        /// <param name="path">The path to the endpoint.</param>
+        /// <param name="method">The REST method used.</param>
+        /// <param name="entity">The entity being sent in the request.</param>
+        /// <returns>An entity of type T returned from the request.</returns>
+        private T SendReceiveRequest<T,K>(string path, Method method, K entity) where T: new()
+        {
+            RestRequest request = ConfigureRequestAuthentication(path, method);
+           
+            if(entity != default)
+                request.AddJsonBody(entity);
+            
+
+            IRestResponse<T> response = _client.Execute<T>(request);
+
+            if (response.IsSuccessful == false)
+                throw new HubSpotException("Error from HubSpot", response.Content);
+
+
+            return response.Data;
+        }
+
+        /// <summary>
+        /// Sends a one way request to the server with no return data.
+        /// </summary>
+        /// <typeparam name="T">The outbound entity type.</typeparam>
+        /// <param name="path">The endpoint target.</param>
+        /// <param name="method">The REST method to use.</param>
+        /// <param name="entity">The entity being sent to the endpoint.</param>
+        private void SendOnlyRequest<T>(string path, Method method, T entity)
         {
 
             RestRequest request = ConfigureRequestAuthentication(path, method);
 
-            if (!string.IsNullOrWhiteSpace(json))            
-                request.AddParameter("application/json", json, ParameterType.RequestBody);            
+            if (entity != default)
+                request.AddJsonBody(entity);
 
             IRestResponse response = _client.Execute(request);
 
-            if (!response.IsSuccessful())            
-                throw new HubSpotException("Error from HubSpot", response.Content);            
+            if (!response.IsSuccessful())
+                throw new HubSpotException("Error from HubSpot", response.Content);
+        }
 
-            return response.Content;
-        } 
-        
+        /// <summary>
+        /// Sends a one way request to the server with no return data.
+        /// </summary>
+        /// <param name="path">The endpoint target.</param>
+        /// <param name="method">The REST method to use.</param>
+        private void SendOnlyRequest(string path, Method method)
+        {
+
+            RestRequest request = ConfigureRequestAuthentication(path, method);
+
+            IRestResponse response = _client.Execute(request);
+
+            if (!response.IsSuccessful())
+                throw new HubSpotException("Error from HubSpot", response.Content);
+        }
+        /// <summary>
+        /// Configures a RestRequest based on the authentication scheme detected and configures the endpoint path relative to the base path.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="method"></param>
+        /// <returns></returns>
         private RestRequest ConfigureRequestAuthentication(string path, Method method)
         {
-            RestRequest request = new RestRequest(path, method);
+            string fullPath = $"{BasePath.TrimEnd('/')}/{path.Trim('/')}";
+            RestRequest request = new RestRequest(fullPath, method);
             switch(_mode)
             {
                 case HubSpotAuthenticationMode.OAUTH:
@@ -125,6 +193,8 @@ namespace HubSpot.NET.Core
                     break;
             }
 
+            request.JsonSerializer = new NewtonsoftRestSharpSerializer();
+            request.RequestFormat = DataFormat.Json;
             return request;
         }
 
@@ -134,7 +204,7 @@ namespace HubSpot.NET.Core
         }
         #endregion
     }
-
+     
     public enum HubSpotAuthenticationMode
     {
         HAPIKEY, OAUTH

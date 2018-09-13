@@ -15,6 +15,7 @@ namespace HubSpot.NET.Api.Engagement
         public HubSpotEngagementApi(IHubSpotClient client)
         {
             _client = client;
+            AddRoute<EngagementHubSpotModel>("engagements/");
         }
 
         /// <summary>
@@ -23,7 +24,7 @@ namespace HubSpot.NET.Api.Engagement
         /// <param name="entity">The engagement to create</param>
         /// <returns>The created engagement (with ID set)</returns>
         public EngagementHubSpotModel Create(EngagementHubSpotModel entity) 
-            => _client.Execute($"{GetRoute<EngagementHubSpotModel>()}/engagements", entity, Method.POST, false);
+            => _client.Execute<EngagementHubSpotModel, EngagementHubSpotModel>(GetRoute<EngagementHubSpotModel>(), entity, Method.POST);
 
         /// <summary>
         /// Updates a given engagement
@@ -34,7 +35,7 @@ namespace HubSpot.NET.Api.Engagement
             if (entity.Engagement.Id < 1)
                 throw new ArgumentException("Engagement entity must have an id set!");
 
-            _client.Execute($"{GetRoute<EngagementHubSpotModel>()}/engagements/{entity.Engagement.Id}", entity, Method.PATCH, false);
+            _client.ExecuteOnly(GetRoute<EngagementHubSpotModel>(entity.Engagement.Id.ToString()), entity, Method.PATCH);
         }
 
         /// <summary>
@@ -43,7 +44,7 @@ namespace HubSpot.NET.Api.Engagement
         /// <param name="engagementId">The ID of the engagement</param>
         /// <returns>The engagement</returns>
         public EngagementHubSpotModel GetById(long engagementId) 
-            => _client.Execute<EngagementHubSpotModel>($"{GetRoute<EngagementHubSpotModel>()}/engagements/{engagementId}", convertToPropertiesSchema: false);
+            => _client.Execute<EngagementHubSpotModel>(GetRoute<EngagementHubSpotModel>(engagementId.ToString()));
 
         /// <summary>
         /// Retrieves a paginated list of engagements
@@ -54,12 +55,12 @@ namespace HubSpot.NET.Api.Engagement
         {
             opts =  opts ?? new EngagementListRequestOptions();
 
-            var path = $"{GetRoute<T>()}/engagements/paged".SetQueryParam("limit", opts.Limit);
+            var path = $"{GetRoute<T>("paged")}".SetQueryParam("limit", opts.Limit);
 
             if (opts.Offset.HasValue)            
                 path = path.SetQueryParam("offset", opts.Offset);            
 
-            return _client.ExecuteList<EngagementListHubSpotModel<T>>(path, opts, convertToPropertiesSchema: false);            
+            return _client.Execute<EngagementListHubSpotModel<T>, EngagementListRequestOptions>(path, opts);            
         }
 
         /// <summary>
@@ -76,7 +77,7 @@ namespace HubSpot.NET.Api.Engagement
             if (opts.Offset.HasValue)            
                 path = path.SetQueryParam("offset", opts.Offset);
 
-            return _client.ExecuteList<EngagementListHubSpotModel<T>>(path, opts, convertToPropertiesSchema: false);            
+            return _client.Execute<EngagementListHubSpotModel<T>, EngagementListRequestOptions>(path, opts);           
         }
 
         /// <summary>
@@ -84,7 +85,7 @@ namespace HubSpot.NET.Api.Engagement
         /// </summary>
         /// <param name="engagementId">The ID of the engagement</param>
         public void Delete(long engagementId)
-            => _client.Execute($"{GetRoute<EngagementHubSpotModel>()}/engagements/{engagementId}", method: Method.DELETE);
+            => _client.ExecuteOnly(GetRoute<EngagementHubSpotModel>(engagementId.ToString()), method: Method.DELETE);
 
         /// <summary>
         /// Associates an engagement with a specific object type and ID 
@@ -93,7 +94,7 @@ namespace HubSpot.NET.Api.Engagement
         /// <param name="objectType">The object type, e.g CONTACT</param>
         /// <param name="objectId">The ID of the object</param>
         public void Associate(long engagementId, string objectType, long objectId) 
-            => _client.Execute($"{GetRoute<EngagementHubSpotModel>()}/engagements/{engagementId}/associations/{objectType}/{objectId}", method: Method.PUT);
+            => _client.ExecuteOnly(GetRoute<EngagementHubSpotModel>(engagementId.ToString(), "associations", objectType, objectId.ToString()), method: Method.PUT);
 
         /// <summary>
         /// Lists associated engagements for a given object type and ID
@@ -111,7 +112,7 @@ namespace HubSpot.NET.Api.Engagement
             if (opts.Offset.HasValue)            
                 path = path.SetQueryParam("offset", opts.Offset);            
 
-            return _client.ExecuteList<EngagementListHubSpotModel<T>>(path, opts, convertToPropertiesSchema: false);            
+            return _client.Execute<EngagementListHubSpotModel<T>, EngagementListRequestOptions>(path, opts);            
         }
     }
 }

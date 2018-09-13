@@ -28,7 +28,7 @@ namespace HubSpot.NET.Api.Deal
         /// <param name="entity">The entity</param>
         /// <returns>The created entity (with ID set)</returns>
         public DealHubSpotModel Create(DealHubSpotModel entity) 
-            => _client.Execute(GetRoute<DealHubSpotModel>(), entity, Method.POST);
+            => _client.Execute<DealHubSpotModel,DealHubSpotModel>(GetRoute<DealHubSpotModel>(), entity, Method.POST);
 
         /// <summary>
         /// Gets a single deal by ID
@@ -37,7 +37,7 @@ namespace HubSpot.NET.Api.Deal
         /// <typeparam name="T">Implementation of DealHubSpotModel</typeparam>
         /// <returns>The deal entity</returns>
         public DealHubSpotModel GetById(long dealId) 
-            => _client.Execute<DealHubSpotModel>($"{GetRoute<DealHubSpotModel>()}/{dealId}");
+            => _client.Execute<DealHubSpotModel>(GetRoute<DealHubSpotModel>(dealId.ToString()));
 
         /// <summary>
         /// Updates a given deal
@@ -50,7 +50,7 @@ namespace HubSpot.NET.Api.Deal
             if (entity.Id < 1)            
                 throw new ArgumentException("Deal entity must have an id set!");
 
-            return _client.Execute($"{GetRoute<DealHubSpotModel>()}/{entity.Id}", entity, method: Method.PUT);            
+            return _client.Execute<DealHubSpotModel, DealHubSpotModel>(GetRoute<DealHubSpotModel>(entity.Id.ToString()), entity, method: Method.PUT);            
         }
 
         /// <summary>
@@ -63,8 +63,7 @@ namespace HubSpot.NET.Api.Deal
         {
             opts = opts ?? new ListRequestOptions(250);         
 
-            Url path = $"{GetRoute<DealListHubSpotModel<DealHubSpotModel>>()}/deal/paged"
-                .SetQueryParam("limit", opts.Limit);
+            Url path = GetRoute<DealListHubSpotModel<DealHubSpotModel>>("deal", "paged").SetQueryParam("limit", opts.Limit);
 
             if (opts.Offset.HasValue)            
                 path = path.SetQueryParam("offset", opts.Offset);            
@@ -75,7 +74,7 @@ namespace HubSpot.NET.Api.Deal
             if (opts.PropertiesToInclude.Any())            
                 path = path.SetQueryParam("properties", opts.PropertiesToInclude);           
 
-            return _client.ExecuteList<DealListHubSpotModel<DealHubSpotModel>>(path, opts);
+            return _client.Execute<DealListHubSpotModel<DealHubSpotModel>, ListRequestOptions>(path, opts);
         }
 
         /// <summary>
@@ -103,7 +102,7 @@ namespace HubSpot.NET.Api.Deal
             if (opts.PropertiesToInclude.Any())            
                 path = path.SetQueryParam("properties", opts.PropertiesToInclude);            
 
-            return _client.ExecuteList<DealListHubSpotModel<DealHubSpotModel>>(path, opts);
+            return _client.Execute<DealListHubSpotModel<DealHubSpotModel>, ListRequestOptions>(path, opts);
         }
 
         /// <summary>
@@ -111,7 +110,7 @@ namespace HubSpot.NET.Api.Deal
         /// </summary>
         /// <param name="dealId">ID of the deal</param>
         public void Delete(long dealId) 
-            => _client.Execute($"{GetRoute<DealHubSpotModel>()}/{dealId}", method: Method.DELETE);
+            => _client.ExecuteOnly(GetRoute<DealHubSpotModel>(dealId.ToString()), method: Method.DELETE);
 
         /// <summary>
         /// Gets a list of recently created deals
@@ -135,7 +134,7 @@ namespace HubSpot.NET.Api.Deal
             if (!string.IsNullOrEmpty(opts.Since))            
                 path = path.SetQueryParam("since", opts.Since);            
 
-            return _client.ExecuteList<DealRecentListHubSpotModel<DealHubSpotModel>>(path, opts);            
+            return _client.Execute<DealRecentListHubSpotModel<DealHubSpotModel>, DealRecentRequestOptions>(path, opts);            
         }
 
         /// <summary>
@@ -160,7 +159,7 @@ namespace HubSpot.NET.Api.Deal
             if (!string.IsNullOrEmpty(opts.Since))             
                 path = path.SetQueryParam("since", opts.Since);
 
-            return _client.ExecuteList<DealRecentListHubSpotModel<DealHubSpotModel>>(path, opts);
+            return _client.Execute<DealRecentListHubSpotModel<DealHubSpotModel>, DealRecentRequestOptions>(path, opts);
         }
     }
 }

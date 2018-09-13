@@ -16,15 +16,15 @@
         }
 
         public TimelineEventTypeHubSpotModel CreateOrUpdateEvent(TimelineEventTypeHubSpotModel entity)
-        => _client.Execute(GetRoute<TimelineEventTypeHubSpotModel>(), entity, RestSharp.Method.POST);
+        => _client.Execute<TimelineEventTypeHubSpotModel, TimelineEventTypeHubSpotModel>(GetRoute<TimelineEventTypeHubSpotModel>(), entity, RestSharp.Method.POST);
             
 
         public void CreateEventType(TimelineEventHubSpotModel entity)
-        => _client.Execute(GetRoute<TimelineEventHubSpotModel>(), entity, RestSharp.Method.POST);
+        => _client.ExecuteOnly(GetRoute<TimelineEventHubSpotModel>(), entity, RestSharp.Method.POST);
         
 
         public void DeleteEventType(long entityID)
-        => _client.Execute(GetRoute<TimelineEventTypeHubSpotModel>(entityID.ToString()), RestSharp.Method.DELETE);
+        => _client.ExecuteOnly(GetRoute<TimelineEventTypeHubSpotModel>(entityID.ToString()), RestSharp.Method.DELETE);
         
 
         public TimelineEventHubSpotModel GetEventById(long entityID)
@@ -32,15 +32,15 @@
         
 
         public IEnumerable<TimelineEventTypeHubSpotModel> GetAllEventTypes()
-        => _client.Execute<IEnumerable<TimelineEventTypeHubSpotModel>>(GetRoute<TimelineEventTypeHubSpotModel>());
+        => _client.Execute<List<TimelineEventTypeHubSpotModel>>(GetRoute<TimelineEventTypeHubSpotModel>());
         
 
         public void UpdateEvent(TimelineEventHubSpotModel entity)
-        => _client.Execute(GetRoute<TimelineEventHubSpotModel>(entity.Id.ToString()), entity, RestSharp.Method.PUT);
+        => _client.ExecuteOnly(GetRoute<TimelineEventHubSpotModel>(entity.Id.ToString()), entity, RestSharp.Method.PUT);
         
 
         public void UpdateEventType(TimelineEventTypeHubSpotModel entity)
-        => _client.Execute(GetRoute<TimelineEventTypeHubSpotModel>(entity.Id.ToString()), entity, RestSharp.Method.PUT);
+        => _client.ExecuteOnly(GetRoute<TimelineEventTypeHubSpotModel>(entity.Id.ToString()), entity, RestSharp.Method.PUT);
         
     }
 }

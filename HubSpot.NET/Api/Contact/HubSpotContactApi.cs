@@ -28,7 +28,7 @@ namespace HubSpot.NET.Api.Contact
         /// <returns>The created entity (with ID set)</returns>
         /// <exception cref="NotImplementedException"></exception>
         public ContactHubSpotModel Create(ContactHubSpotModel entity)
-            => _client.Execute($"{GetRoute<ContactHubSpotModel>()}/contact", entity, Method.POST);
+            => _client.Execute<ContactHubSpotModel,ContactHubSpotModel>(GetRoute<ContactHubSpotModel>("contact"), entity, Method.POST);
 
         /// <summary>
         /// Creates or Updates a contact entity based on the Entity Email
@@ -37,7 +37,7 @@ namespace HubSpot.NET.Api.Contact
         /// <param name="entity">The entity</param>
         /// <returns>The created entity (with ID set)</returns>
         public ContactHubSpotModel CreateOrUpdate(ContactHubSpotModel entity)
-            => _client.Execute($"{GetRoute<ContactHubSpotModel>()}/contact/createOrUpdate/email/{entity.Email}/", entity, Method.POST);
+            => _client.Execute<ContactHubSpotModel,ContactHubSpotModel>(GetRoute<ContactHubSpotModel>("contact","createOrUpdate","email",entity.Email), entity, Method.POST);
 
         /// <summary>
         /// Gets a single contact by ID from hubspot
@@ -46,7 +46,7 @@ namespace HubSpot.NET.Api.Contact
         /// <typeparam name="T">Implementation of ContactHubSpotModel</typeparam>
         /// <returns>The contact entity</returns>
         public ContactHubSpotModel GetById(long contactId)
-            => _client.Execute<ContactHubSpotModel>($"{GetRoute<ContactHubSpotModel>()}/contact/vid/{contactId}/profile");
+            => _client.Execute<ContactHubSpotModel>(GetRoute<ContactHubSpotModel>("contact","vid", contactId.ToString(),"profile"));
 
         /// <summary>
         /// Gets a contact by their email address
@@ -55,7 +55,7 @@ namespace HubSpot.NET.Api.Contact
         /// <typeparam name="T">Implementation of ContactHubSpotModel</typeparam>
         /// <returns>The contact entity</returns>
         public ContactHubSpotModel GetByEmail(string email)
-            => _client.Execute<ContactHubSpotModel>($"{GetRoute<ContactHubSpotModel>()}/contact/email/{email}/profile");
+            => _client.Execute<ContactHubSpotModel>(GetRoute<ContactHubSpotModel>("contact","email",email,"profile"));
 
         /// <summary>
         /// Gets a contact by their user token
@@ -64,7 +64,7 @@ namespace HubSpot.NET.Api.Contact
         /// <typeparam name="T">Implementation of ContactHubSpotModel</typeparam>
         /// <returns>The contact entity</returns>
         public ContactHubSpotModel GetByUserToken(string userToken)
-            => _client.Execute<ContactHubSpotModel>($"{GetRoute<ContactHubSpotModel>()}/contact/utk/{userToken}/profile");
+            => _client.Execute<ContactHubSpotModel>(GetRoute<ContactHubSpotModel>("contact", "utk", userToken, "profile"));
 
         /// <summary>
         /// List all available contacts 
@@ -77,7 +77,7 @@ namespace HubSpot.NET.Api.Contact
         {
             opts = opts ?? new ListRequestOptions();            
 
-            var path = $"{GetRoute<ContactHubSpotModel>()}/lists/all/contacts/all"
+            var path = GetRoute<ContactHubSpotModel>("lists", "all", "contacts","all")
                 .SetQueryParam("count", opts.Limit);
 
             if (opts.PropertiesToInclude.Any())            
@@ -86,7 +86,7 @@ namespace HubSpot.NET.Api.Contact
             if (opts.Offset.HasValue)            
                 path = path.SetQueryParam("vidOffset", opts.Offset);            
 
-            return _client.ExecuteList<ContactListHubSpotModel<ContactHubSpotModel>>(path, opts);           
+            return _client.Execute<ContactListHubSpotModel<ContactHubSpotModel>, ListRequestOptions>(path, opts);           
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace HubSpot.NET.Api.Contact
             if (contact.Id < 1)            
                 throw new ArgumentException("Contact entity must have an id set!");                       
 
-            return _client.Execute($"{GetRoute<ContactHubSpotModel>()}/contact/vid/{contact.Id}/profile", contact, Method.POST);
+            return _client.Execute<ContactHubSpotModel, ContactHubSpotModel>(GetRoute<ContactHubSpotModel>("contact","vid", contact.Id.ToString(), "profile"), contact, Method.POST);
         }
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace HubSpot.NET.Api.Contact
         /// </summary>
         /// <param name="contactId">The ID of the contact</param>
         public void Delete(long contactId) 
-            => _client.Execute($"{GetRoute<ContactHubSpotModel>()}/contact/vid/{contactId}", method: Method.DELETE);
+            => _client.ExecuteOnly(GetRoute<ContactHubSpotModel>("contact", "vid", contactId.ToString()), method: Method.DELETE);
 
         /// <summary>
         /// Update or create a set of contacts, this is the preferred method when creating/updating in bulk.
@@ -116,7 +116,7 @@ namespace HubSpot.NET.Api.Contact
         /// <typeparam name="T">Implementation of ContactHubSpotModel</typeparam>
         /// <param name="contacts">The set of contacts to update/create</param>
         public void Batch(List<ContactHubSpotModel> contacts)
-            => _client.ExecuteBatch($"{GetRoute<ContactHubSpotModel>()}/contact/batch", contacts.Select(c => (object) c).ToList(), Method.POST);        
+            => _client.ExecuteBatch(GetRoute<ContactHubSpotModel>("contact", "batch"), contacts.Select(c => (object) c).ToList(), Method.POST);        
 
         /// <summary>
         /// Get recently updated (or created) contacts
@@ -128,7 +128,7 @@ namespace HubSpot.NET.Api.Contact
         {
             opts = opts ?? new ListRecentRequestOptions();            
 
-            Url path = $"{GetRoute<ContactHubSpotModel>()}/lists/recently_updated/contacts/recent"
+            Url path = GetRoute<ContactHubSpotModel>("lists", "recently_updated","contacts","recent")
                 .SetQueryParam("count", opts.Limit);
 
             if (opts.PropertiesToInclude.Any())            
@@ -144,14 +144,14 @@ namespace HubSpot.NET.Api.Contact
                         .SetQueryParam("formSubmissionMode", opts.FormSubmissionMode)
                         .SetQueryParam("showListMemberships", opts.ShowListMemberships);
             
-            return _client.ExecuteList<ContactListHubSpotModel<ContactHubSpotModel>>(path, opts);            
+            return _client.Execute<ContactListHubSpotModel<ContactHubSpotModel>, ListRecentRequestOptions>(path, opts);            
         }
 
         public ContactSearchHubSpotModel<ContactHubSpotModel> Search(ContactSearchRequestOptions opts = null)
         {
             opts = opts ?? new ContactSearchRequestOptions();
 
-            Url path = $"{GetRoute<ContactHubSpotModel>()}/search/query"
+            Url path = GetRoute<ContactHubSpotModel>("search","query")
                 .SetQueryParam("q", opts.Query)
                 .SetQueryParam("count", opts.Limit);
 
@@ -161,7 +161,7 @@ namespace HubSpot.NET.Api.Contact
             if (opts.Offset.HasValue)            
                 path = path.SetQueryParam("offset", opts.Offset);            
 
-            return _client.ExecuteList<ContactSearchHubSpotModel<ContactHubSpotModel>>(path, opts);            
+            return _client.Execute<ContactSearchHubSpotModel<ContactHubSpotModel>, ContactSearchRequestOptions>(path, opts);            
         }
 
         /// <summary>
@@ -174,7 +174,7 @@ namespace HubSpot.NET.Api.Contact
         {            
             opts = opts ?? new ListRecentRequestOptions();
 
-            Url path = $"{GetRoute<ContactHubSpotModel>()}/lists/all/contacts/recent"
+            Url path = GetRoute<ContactHubSpotModel>("lists","all","contacts","recent")
                 .SetQueryParam("count", opts.Limit);
 
             if (opts.PropertiesToInclude.Any())            
@@ -190,7 +190,7 @@ namespace HubSpot.NET.Api.Contact
                         .SetQueryParam("formSubmissionMode", opts.FormSubmissionMode)
                         .SetQueryParam("showListMemberships", opts.ShowListMemberships);   
             
-            return _client.ExecuteList<ContactListHubSpotModel<ContactHubSpotModel>>(path, opts);
+            return _client.Execute<ContactListHubSpotModel<ContactHubSpotModel>, ListRecentRequestOptions>(path, opts);
         }
     }
 }

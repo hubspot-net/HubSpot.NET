@@ -24,11 +24,10 @@ namespace HubSpot.NET.Api.Deal.Dto
     /// your HubSpot account.
     /// </summary>
     [DataContract]
-    public class DealHubSpotModel : IHubSpotSerializable
+    public class DealHubSpotModel : IHubSpotSerializable<DealHubSpotModel>
     {
         public DealHubSpotModel()
         {
-            Associations =  new DealHubSpotAssociations();
         }
         /// <summary>
         /// Contacts unique Id in HubSpot
@@ -59,21 +58,21 @@ namespace HubSpot.NET.Api.Deal.Dto
         public string DealType { get; set; }
 
         [IgnoreDataMember]
-        public DealHubSpotAssociations Associations { get; }
+        public DealHubSpotAssociations Associations { get; set; }
         
         public bool IsNameValue => true;
 
-        public virtual void ToHubSpotDataEntity(ref dynamic converted)
+        public virtual void ToHubSpotDataEntity(ref DealHubSpotModel converted) 
         {
             converted.Associations = Associations;
         }
 
-        public virtual void FromHubSpotDataEntity(dynamic hubspotData)
+        public virtual void FromHubSpotDataEntity(DealHubSpotModel hubspotData)
         {
-            if (hubspotData.associations != null)
+            if (hubspotData.Associations != null)
             {
-                Associations.AssociatedContacts = ((List<object>)hubspotData.associations.associatedVids).Cast<long>().ToArray();
-                Associations.AssociatedCompany = ((List<object>)hubspotData.associations.associatedCompanyIds).Cast<long>().ToArray();
+                Associations.AssociatedContacts = hubspotData.Associations.AssociatedContacts;
+                Associations.AssociatedCompany = hubspotData.Associations.AssociatedCompany;
             }
         }
     }

@@ -12,7 +12,7 @@ namespace HubSpot.NET.Examples
              * Initialize the API with your API Key
              * You can find or generate this under Integrations -> HubSpot API key
              */
-            string hapiKey = string.Empty; // YOUR KEY GOES HERE ... or supply it as args[0] either way.
+            string hapiKey = "7ea04b4d-019f-4bfa-b023-87862f6b1a40"; // YOUR KEY GOES HERE ... or supply it as args[0] either way.
             string clientId = string.Empty; // args[1]
             string clientSecret = string.Empty; // args[2]
             string appId = string.Empty; // args[3]
@@ -47,6 +47,8 @@ namespace HubSpot.NET.Examples
                 var oauthApi = new HubSpotApi(clientId, clientSecret, appId);
                 RunOAuthExamples(oauthApi);
             }
+
+            var key = Console.ReadKey();
         }
 
         private static void RunApiKeyExamples(HubSpotApi hapiApi)

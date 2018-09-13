@@ -43,7 +43,7 @@ namespace HubSpot.NET.Api.Files
         public FolderHubSpotModel CreateFolder(FolderHubSpotModel folder)
         {
             var path = $"{GetRoute<FolderHubSpotModel>()}/folders";
-            return _client.Execute(path, folder, Method.POST, false);
+            return _client.Execute<FolderHubSpotModel, FolderHubSpotModel>(path, folder, Method.POST);
         }
         
 

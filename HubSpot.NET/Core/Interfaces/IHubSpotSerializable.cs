@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace HubSpot.NET.Core.Interfaces
 {
-    public interface IHubSpotSerializable : IHubSpotModel
+    public interface IHubSpotSerializable<T> : IHubSpotModel
     {
-        void ToHubSpotDataEntity(ref dynamic dataEntity);
+        void ToHubSpotDataEntity(ref T dataEntity);
 
-        void FromHubSpotDataEntity(dynamic hubspotData);
+        void FromHubSpotDataEntity(T hubspotData);
     }
 }

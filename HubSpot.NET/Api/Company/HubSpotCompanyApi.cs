@@ -1,15 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Flurl;
-using HubSpot.NET.Api.Company.Dto;
-using HubSpot.NET.Core;
-using HubSpot.NET.Core.Abstracts;
-using HubSpot.NET.Core.Interfaces;
-using RestSharp;
-
 namespace HubSpot.NET.Api.Company
 {
+    using Flurl;
+    using HubSpot.NET.Api.Company.Dto;
+    using HubSpot.NET.Core;
+    using HubSpot.NET.Core.Abstracts;
+    using HubSpot.NET.Core.Interfaces;
+    using RestSharp;
+    using System;
+    using System.Linq;
+
     public class HubSpotCompanyApi : ApiRoutable, IHubSpotCompanyApi
     {
         private readonly IHubSpotClient _client;
@@ -28,7 +27,7 @@ namespace HubSpot.NET.Api.Company
         /// <returns>The created entity (with ID set)</returns>
         /// <exception cref="NotImplementedException"></exception>
         public CompanyHubSpotModel Create(CompanyHubSpotModel entity)
-            => _client.Execute($"{GetRoute<CompanyHubSpotModel>()}/companies", entity, Method.POST);
+            => _client.Execute<CompanyHubSpotModel,CompanyHubSpotModel>(GetRoute<CompanyHubSpotModel>("companies"), entity, Method.POST);
 
         /// <summary>
         /// Gets a specific company by it's ID
@@ -37,7 +36,7 @@ namespace HubSpot.NET.Api.Company
         /// <param name="companyId">The ID</param>
         /// <returns>The company entity</returns>
         public CompanyHubSpotModel GetById(long companyId)
-            => _client.Execute<CompanyHubSpotModel>($"{GetRoute<CompanyHubSpotModel>()}/companies/{companyId}");
+            => _client.Execute<CompanyHubSpotModel>(GetRoute<CompanyHubSpotModel>("companies", companyId.ToString()));
 
         /// <summary>
         /// Gets a company by domain name
@@ -50,16 +49,16 @@ namespace HubSpot.NET.Api.Company
         {
             opts = opts ?? new CompanySearchByDomain();
 
-            var path = $"{GetRoute<CompanyHubSpotModel>()}/domains/{domain}/companies";
+            var path = GetRoute<CompanyHubSpotModel>("domains", domain, "companies");
 
-            return _client.ExecuteList<CompanySearchResultModel<CompanyHubSpotModel>>(path, opts, Method.POST);
+            return _client.Execute<CompanySearchResultModel<CompanyHubSpotModel>, CompanySearchByDomain>(path, opts, Method.POST);
         }
 
         public CompanyListHubSpotModel<CompanyHubSpotModel> List(ListRequestOptions opts = null)
         {
             opts = opts ?? new ListRequestOptions();
 
-            var path = $"{GetRoute<CompanyHubSpotModel>()}/companies/paged".SetQueryParam("count", opts.Limit);
+            var path = GetRoute<CompanyHubSpotModel>("companies", "paged").SetQueryParam("count", opts.Limit);
 
             if (opts.PropertiesToInclude.Any())
                 path.SetQueryParam("properties", opts.PropertiesToInclude);
@@ -67,7 +66,7 @@ namespace HubSpot.NET.Api.Company
             if (opts.Offset.HasValue)
                 path = path.SetQueryParam("offset", opts.Offset);
 
-            return _client.ExecuteList<CompanyListHubSpotModel<CompanyHubSpotModel>>(path, opts);
+            return _client.Execute<CompanyListHubSpotModel<CompanyHubSpotModel>, ListRequestOptions>(path, opts);
         }
 
         /// <summary>
@@ -81,7 +80,7 @@ namespace HubSpot.NET.Api.Company
             if (entity.Id < 1)
                 throw new ArgumentException("Company entity must have an id set!");
 
-            return _client.Execute($"{GetRoute<CompanyHubSpotModel>()}/companies/{entity.Id}", entity, Method.PUT);
+            return _client.Execute<CompanyHubSpotModel, CompanyHubSpotModel>(GetRoute<CompanyHubSpotModel>("companies", entity.Id.ToString()), entity, Method.PUT);
         }
 
         /// <summary>
@@ -89,6 +88,6 @@ namespace HubSpot.NET.Api.Company
         /// </summary>
         /// <param name="companyId">ID of the company</param>
         public void Delete(long companyId)
-            => _client.Execute($"{GetRoute<CompanyHubSpotModel>()}/companies/{companyId}", method: Method.DELETE);
+            => _client.ExecuteOnly(GetRoute<CompanyHubSpotModel>("companies", companyId.ToString()), method: Method.DELETE);
     }
 }
