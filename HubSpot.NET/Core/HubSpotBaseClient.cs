@@ -39,30 +39,20 @@ namespace HubSpot.NET.Core
         }
 
 
-        public T Execute<T>(string path, Method method = Method.GET) where T : new()
-        {
-            return SendReceiveRequest<T>(path, method);
-        }
+        public T Execute<T>(string path, Method method = Method.GET) where T : new() 
+            => SendReceiveRequest<T>(path, method);
 
-        public T Execute<T, K>(string absoluteUriPath, K entity, Method method = Method.GET) where T : new()
-        {
-            return SendReceiveRequest<T, K>(absoluteUriPath, method, entity);
-        }
+        public T Execute<T, K>(string absoluteUriPath, K entity, Method method = Method.GET) where T : new() 
+            => SendReceiveRequest<T, K>(absoluteUriPath, method, entity);
 
-        public void ExecuteOnly(string absoluteUriPath, Method method = Method.GET)
-        {
-            SendOnlyRequest(absoluteUriPath, method);
-        }
+        public void ExecuteOnly(string absoluteUriPath, Method method = Method.GET) 
+            => SendOnlyRequest(absoluteUriPath, method);
 
-        public void ExecuteOnly<T>(string absoluteUriPath, T entity, Method method = Method.GET)
-        {
-            SendOnlyRequest(absoluteUriPath, method, entity);
-        }
+        public void ExecuteOnly<T>(string absoluteUriPath, T entity, Method method = Method.GET) 
+            => SendOnlyRequest(absoluteUriPath, method, entity);
 
-        public void ExecuteBatch(string absoluteUriPath, List<object> entities, Method method = Method.GET)
-        {
-            SendOnlyRequest(absoluteUriPath, method, entities);
-        }
+        public void ExecuteBatch(string absoluteUriPath, List<object> entities, Method method = Method.GET) 
+            => SendOnlyRequest(absoluteUriPath, method, entities);
 
         public T ExecuteMultipart<T>(string absoluteUriPath, byte[] data, string filename, Dictionary<string,string> parameters, Method method = Method.POST)
         {
@@ -87,10 +77,8 @@ namespace HubSpot.NET.Core
         /// Updates the OAuth token used by the client.
         /// </summary>
         /// <param name="token"></param>
-        public void UpdateToken(HubSpotToken token)
-        {
-            _token = token;
-        }
+        public void UpdateToken(HubSpotToken token) 
+            => _token = token;
 
         #region 'private methods'
         /// <summary>
@@ -198,10 +186,8 @@ namespace HubSpot.NET.Core
             return request;
         }
 
-        private string GetAuthHeader(HubSpotToken token)
-        {
-            return $"Bearer {token.AccessToken}";
-        }
+        private string GetAuthHeader(HubSpotToken token) 
+            => $"Bearer {token.AccessToken}";
         #endregion
     }
      
