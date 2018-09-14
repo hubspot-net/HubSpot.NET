@@ -5,6 +5,7 @@ using HubSpot.NET.Core.Interfaces;
 
 namespace HubSpot.NET.Api.Contact.Dto
 {
+    [DataContract]
     public class ContactSearchHubSpotModel<T> : ListHubSpotModel, IHubSpotModel where T : IHubSpotModel
     {
 

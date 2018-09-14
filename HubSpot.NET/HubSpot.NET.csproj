@@ -31,7 +31,7 @@
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
     <PackageReference Include="Microsoft.CSharp" Version="4.3.0" />
-    <PackageReference Include="System.Net.Http" Version="4.3.0"/>
+    <PackageReference Include="System.Net.Http" Version="4.3.0" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)'=='net46'">
     <Reference Include="Microsoft.CSharp" />

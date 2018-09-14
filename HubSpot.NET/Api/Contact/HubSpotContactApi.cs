@@ -28,7 +28,12 @@ namespace HubSpot.NET.Api.Contact
         /// <returns>The created entity (with ID set)</returns>
         /// <exception cref="NotImplementedException"></exception>
         public ContactHubSpotModel Create(ContactHubSpotModel entity)
-            => _client.Execute<ContactHubSpotModel,ContactHubSpotModel>(GetRoute<ContactHubSpotModel>("contact"), entity, Method.POST);
+        {
+            CreateOrUpdateContactTransportModel transport = new CreateOrUpdateContactTransportModel(entity);
+            string path = GetRoute<ContactHubSpotModel>("contact");
+
+            return _client.Execute<ContactHubSpotModel,CreateOrUpdateContactTransportModel>(path, transport, Method.POST);
+        }
 
         /// <summary>
         /// Creates or Updates a contact entity based on the Entity Email
@@ -37,7 +42,12 @@ namespace HubSpot.NET.Api.Contact
         /// <param name="entity">The entity</param>
         /// <returns>The created entity (with ID set)</returns>
         public ContactHubSpotModel CreateOrUpdate(ContactHubSpotModel entity)
-            => _client.Execute<ContactHubSpotModel,ContactHubSpotModel>(GetRoute<ContactHubSpotModel>("contact","createOrUpdate","email",entity.Email), entity, Method.POST);
+        {
+            CreateOrUpdateContactTransportModel transport = new CreateOrUpdateContactTransportModel(entity);
+            string path = GetRoute<ContactHubSpotModel>("contact", "createOrUpdate", "email", entity.Email);
+
+            return _client.Execute<ContactHubSpotModel, CreateOrUpdateContactTransportModel>(path, transport, Method.POST);
+        }
 
         /// <summary>
         /// Gets a single contact by ID from hubspot

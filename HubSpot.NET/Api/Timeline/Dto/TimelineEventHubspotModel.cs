@@ -6,6 +6,7 @@
     /// <summary>
     /// Models a set of results returned from the Timeline endpoint.
     /// </summary>
+    [DataContract]
     public class TimelineEventHubSpotModel : IHubSpotModel
     {
         [DataMember(Name = "id")]
