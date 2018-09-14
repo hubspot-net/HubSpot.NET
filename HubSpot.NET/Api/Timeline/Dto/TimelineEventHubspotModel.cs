@@ -31,6 +31,9 @@
         [DataMember(Name = "extraData")]
         public KeyValuePair<string, string> ExtraData { get; set; }
 
+        [DataMember(Name = "email")]
+        public string ContactEmail { get; set; }
+
         [DataMember(Name = "timestamp")]
         public long Timestamp { get; set; }
 

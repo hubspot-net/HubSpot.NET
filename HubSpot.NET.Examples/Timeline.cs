@@ -11,8 +11,21 @@ namespace HubSpot.NET.Examples
     {
         public static void Example(HubSpotApi api)
         {
+            try
+            {
+                Tests(api);
+                Console.Write("Timeline tests passed!");
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("Timeline tests failed!", ex.ToString());
+            }
+        }
+
+        private static void Tests(HubSpotApi api)
+        {
             var eventTypes = api.Timelines.GetAllEventTypes();
-            
+
         }
     }
 }
