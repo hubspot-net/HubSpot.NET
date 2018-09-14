@@ -1,6 +1,7 @@
 ﻿namespace HubSpot.NET.Api.Timeline.Dto
 {
     using HubSpot.NET.Core.Interfaces;
+    using System.Collections.Generic;
     using System.Runtime.Serialization;
 
     /// <summary>
@@ -28,16 +29,11 @@
         public long ObjectId { get; set; }
 
         [DataMember(Name = "extraData")]
-        public dynamic ExtraData { get; set; }
+        public KeyValuePair<string, string> ExtraData { get; set; }
 
         [DataMember(Name = "timestamp")]
         public long Timestamp { get; set; }
 
-        public string RouteBasePath => "/timeline/event";
-        public bool IsNameValue => false;
-
-        public void FromHubSpotDataEntity(dynamic hubspotData) { }
-
-        public void ToHubSpotDataEntity(ref dynamic dataEntity) { }
+        public bool IsNameValue => throw new System.NotImplementedException();
     }
 }

@@ -13,6 +13,9 @@
         {
             _client = client;
             MidRoute = $"/integrations/v1/{client.AppId}";
+
+            AddRoute<TimelineEventHubSpotModel>("/timeline/event");
+            AddRoute<TimelineEventTypeHubSpotModel>("/timeline/event-types");
         }
 
         public TimelineEventTypeHubSpotModel CreateOrUpdateEvent(TimelineEventTypeHubSpotModel entity)
