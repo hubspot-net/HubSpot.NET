@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
      <metadata>
           <id>HubSpot.NET</id>
-          <version>0.7.3.32</version>
+          <version>0.7.3.34</version>
           <description>C# .NET Wrapper around the common HubSpot APIs</description>
           <authors>David Clarke</authors>
           <dependencies>
