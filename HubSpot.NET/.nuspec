@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
      <metadata>
-     <id>HubSpot.NET</id>
+          <id>HubSpot.NET</id>
           <version>0.7.3.32</version>
           <description>C# .NET Wrapper around the common HubSpot APIs</description>
           <authors>David Clarke</authors>
+          <dependencies>
+               <dependency id="RestSharp" version="106.3.1" />
+               <dependency id="Newtonsoft.Json" version="11.0.2" />
+               <dependency id="Flurl" version="2.8.0">
+          </dependencies>
      </metadata>
 
      <files>
