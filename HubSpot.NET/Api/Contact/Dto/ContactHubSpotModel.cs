@@ -46,7 +46,7 @@ namespace HubSpot.NET.Api.Contact.Dto
         public long? OwnerId { get;set; }    
 
         [DataMember(Name = "properties")]
-        public NameValuePair[] CustomProperties { get; set; }    
+        public PropertyValuePair[] Properties { get; set; }    
         public bool IsNameValue => false;
     }
 }
