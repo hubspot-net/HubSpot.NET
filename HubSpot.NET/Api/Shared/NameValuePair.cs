@@ -1,12 +1,15 @@
-﻿namespace HubSpot.NET.Api.Shared
-{
-    using System.Runtime.Serialization;
+﻿using System;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
+using System.Text;
 
+namespace HubSpot.NET.Api.Shared
+{
     [DataContract]
     public class NameValuePair
     {
-        [DataMember(Name = "property")]
-        public string Property { get; set; }
+        [DataMember(Name = "name")]
+        public string Name { get; set; }
 
         [DataMember(Name = "value")]
         public string Value { get; set; }
