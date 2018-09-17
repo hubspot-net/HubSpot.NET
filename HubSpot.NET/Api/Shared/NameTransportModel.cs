@@ -8,7 +8,7 @@
     public class NameTransportModel<T>
     {
         [DataMember(Name = "properties")]
-        public List<PropertyValuePair> Properties { get; set; } = new List<PropertyValuePair>();
+        public List<NameValuePair> Properties { get; set; } = new List<NameValuePair>();
 
 
         public void ToPropertyTransportModel(T model)
@@ -23,7 +23,21 @@
                 {
                     continue;
                 }
-                Properties.Add(new PropertyValuePair() { Property = memberAttrib.Name, Value = value.ToString() });
+
+                if (prop.PropertyType.IsArray && typeof(NameValuePair).IsAssignableFrom(prop.PropertyType.GetElementType()))
+                {
+                    NameValuePair[] pairs = value as NameValuePair[];
+                    Properties.AddRange(pairs);
+                    continue;
+                }
+                else if (typeof(IEnumerable<>).IsAssignableFrom(prop.PropertyType) && typeof(NameValuePair).IsAssignableFrom(prop.PropertyType.GetElementType()))
+                {
+                    IEnumerable<NameValuePair> pairs = value as IEnumerable<NameValuePair>;
+                    Properties.AddRange(pairs);
+                    continue;
+                }
+
+                Properties.Add(new NameValuePair() { Name = memberAttrib.Name, Value = value.ToString() });
             }
         }
 
@@ -37,7 +51,7 @@
             {
                 var memberAttrib = prop.GetCustomAttribute(typeof(DataMemberAttribute)) as DataMemberAttribute;
 
-                PropertyValuePair pair = Properties.Find(x => x.Property == memberAttrib.Name);
+                NameValuePair pair = Properties.Find(x => x.Name == memberAttrib.Name);
                 prop.SetValue(model, pair.Value);
             }
         }

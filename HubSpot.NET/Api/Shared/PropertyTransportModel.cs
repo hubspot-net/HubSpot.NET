@@ -1,5 +1,6 @@
 ﻿namespace HubSpot.NET.Api.Shared
 {
+    using System;
     using System.Collections.Generic;
     using System.Reflection;
     using System.Runtime.Serialization;
@@ -19,10 +20,25 @@
             {
                 var memberAttrib = prop.GetCustomAttribute(typeof(DataMemberAttribute)) as DataMemberAttribute;
                 object value = prop.GetValue(model);
+
                 if (value == null || memberAttrib == null)
                 {
                     continue;
                 }
+
+                if (prop.PropertyType.IsArray && typeof(PropertyValuePair).IsAssignableFrom(prop.PropertyType.GetElementType()))
+                {
+                    PropertyValuePair[] pairs = value as PropertyValuePair[];
+                    Properties.AddRange(pairs);
+                    continue;
+                }
+                else if(typeof(IEnumerable<>).IsAssignableFrom(prop.PropertyType) && typeof(PropertyValuePair).IsAssignableFrom(prop.PropertyType.GetElementType()))
+                {
+                    IEnumerable<PropertyValuePair> pairs = value as IEnumerable<PropertyValuePair>;
+                    Properties.AddRange(pairs);
+                    continue;
+                }
+
                 Properties.Add(new PropertyValuePair() { Property = memberAttrib.Name, Value = value.ToString() });
             }
         }
