@@ -37,6 +37,6 @@
         [DataMember(Name = "timestamp")]
         public long Timestamp { get; set; }
 
-        public bool IsNameValue => throw new System.NotImplementedException();
+        public bool IsNameValue => false;
     }
 }
