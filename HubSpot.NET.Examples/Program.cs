@@ -53,11 +53,11 @@ namespace HubSpot.NET.Examples
 
         private static void RunApiKeyExamples(HubSpotApi hapiApi)
         {
-            Deals.Example(hapiApi);
-            Companies.Example(hapiApi);
-            Contacts.Example(hapiApi);
-            CompanyProperties.Example(hapiApi);
             EmailSubscriptions.Example(hapiApi);
+            Deals.Example(hapiApi);
+            Contacts.Example(hapiApi);
+            Companies.Example(hapiApi);
+            CompanyProperties.Example(hapiApi);
         }
         private static void RunOAuthExamples(HubSpotApi oauthApi)
         {

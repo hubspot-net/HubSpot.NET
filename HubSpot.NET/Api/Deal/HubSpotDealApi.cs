@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Flurl;
 using HubSpot.NET.Api.Deal.Dto;
+using HubSpot.NET.Api.Shared;
 using HubSpot.NET.Core;
 using HubSpot.NET.Core.Abstracts;
 using HubSpot.NET.Core.Interfaces;
@@ -27,8 +28,13 @@ namespace HubSpot.NET.Api.Deal
         /// <typeparam name="T">Implementation of DealHubSpotModel</typeparam>
         /// <param name="entity">The entity</param>
         /// <returns>The created entity (with ID set)</returns>
-        public DealHubSpotModel Create(DealHubSpotModel entity) 
-            => _client.Execute<DealHubSpotModel,DealHubSpotModel>(GetRoute<DealHubSpotModel>(), entity, Method.POST);
+        public DealHubSpotModel Create(DealHubSpotModel entity)
+        {
+            NameTransportModel<DealHubSpotModel> model = new NameTransportModel<DealHubSpotModel>();
+            model.ToPropertyTransportModel(entity);
+
+            return _client.Execute<DealHubSpotModel,NameTransportModel<DealHubSpotModel>>(GetRoute<DealHubSpotModel>(), model, Method.POST);
+        }
 
         /// <summary>
         /// Gets a single deal by ID

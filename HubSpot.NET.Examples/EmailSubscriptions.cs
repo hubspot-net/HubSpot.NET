@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using HubSpot.NET.Core;
 
 namespace HubSpot.NET.Examples
@@ -6,6 +7,20 @@ namespace HubSpot.NET.Examples
     public class EmailSubscriptions
     {
         public static void Example(HubSpotApi api)
+        {
+            try
+            {
+                Tests(api);
+                Console.WriteLine("Email Subscriptions tests passed.");
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("Email Subscriptions tests failed!");
+                Console.WriteLine(ex.ToString());
+            }
+        }
+
+        private static void Tests(HubSpotApi api)
         {
            /**
              * Get the available subscription types
@@ -31,7 +46,6 @@ namespace HubSpot.NET.Examples
              */
             var type = all.Types.First();
             api.EmailSubscriptions.UnsubscribeFrom("dan@squaredup.com", type.Id);
-
         }
     }
 }

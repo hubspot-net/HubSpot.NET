@@ -5,12 +5,12 @@
     using System.Runtime.Serialization;
 
     [DataContract]
-    public abstract class PropertyTransportModel<T>
+    public class NameTransportModel<T>
     {
         [DataMember(Name = "properties")]
         public List<PropertyValuePair> Properties { get; set; } = new List<PropertyValuePair>();
 
-        
+
         public void ToPropertyTransportModel(T model)
         {
             PropertyInfo[] properties = model.GetType().GetProperties();
@@ -29,7 +29,7 @@
 
         public void FromPropertyTransportModel(out T model)
         {
-            model = (T) Assembly.GetAssembly(typeof(T)).CreateInstance(typeof(T).FullName);
+            model = (T)Assembly.GetAssembly(typeof(T)).CreateInstance(typeof(T).FullName);
 
             PropertyInfo[] props = model.GetType().GetProperties();
 

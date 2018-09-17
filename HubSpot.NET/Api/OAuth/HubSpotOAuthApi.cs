@@ -8,6 +8,8 @@
     using Newtonsoft.Json;
     using RestSharp;
     using System;
+    using System.Collections.Generic;
+    using System.Text;
 
     public class HubSpotOAuthApi : ApiRoutable, IHubSpotOAuthApi
     {
@@ -16,6 +18,25 @@
         private IHubSpotClient _client;
 
         public override string MidRoute => " /oauth/v1/token";
+
+        private Dictionary<OAuthScopes, string> OAuthScopeNameConversions = new Dictionary<OAuthScopes, string>
+        {
+            { OAuthScopes.Automation , "automation" },
+            { OAuthScopes.BusinessIntelligence, "business-intelligence" },
+            { OAuthScopes.Contacts , "contacts" },
+            { OAuthScopes.Content , "content" },
+            { OAuthScopes.ECommerce , "e-commerce" },
+            { OAuthScopes.Files , "files" },
+            { OAuthScopes.Forms , "forms" },
+            { OAuthScopes.HubDb , "hubdb" },
+            { OAuthScopes.IntegrationSync , "integration-sync" },
+            { OAuthScopes.Reports , "reports" },
+            { OAuthScopes.Social , "social" },
+            { OAuthScopes.Tickets , "tickets" },
+            { OAuthScopes.Timeline , "timeline" },
+            { OAuthScopes.TransactionalEmail , "transactional-email" }
+        };
+
 
         public HubSpotOAuthApi(IHubSpotClient client, string clientId, string clientSecret)
         {
@@ -59,13 +80,29 @@
             _clientSecret = secret;
         }
 
-        private HubSpotToken InitiateRequest<K>(K model, string basePath)
+        private HubSpotToken InitiateRequest<K>(K model, string basePath, params OAuthScopes[] scopes)
         {
             RestClient client = new RestClient();
             string path = $"{basePath.TrimEnd('/')}/{MidRoute}";
-            RestRequest request = new RestRequest(new Uri(path));
+            Uri uriPath = new Uri(path);
+            
+            StringBuilder builder = new StringBuilder();
+            foreach(OAuthScopes scope in scopes)
+            {
+                if (builder.Length == 0)
+                {
+                    builder.Append($"{OAuthScopeNameConversions[scope]}");
+                }
+                else
+                {
+                    builder.Append($"%20{OAuthScopeNameConversions[scope]}");
+                }
+            }
+
+            RestRequest request = new RestRequest(uriPath);
             request.JsonSerializer = new NewtonsoftRestSharpSerializer(); // because we need a hero, one that can serialize all the things
             request.AddBody(model);
+            request.AddQueryParameter("scope", builder.ToString());
 
             IRestResponse<HubSpotToken> serverReponse = client.Post<HubSpotToken>(request);
 
