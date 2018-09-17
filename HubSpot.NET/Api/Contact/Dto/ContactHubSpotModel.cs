@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using HubSpot.NET.Api.Shared;
 using HubSpot.NET.Core.Interfaces;
 
 namespace HubSpot.NET.Api.Contact.Dto
@@ -42,7 +43,10 @@ namespace HubSpot.NET.Api.Contact.Dto
         public long? AssociatedCompanyId { get;set; }
 
         [DataMember(Name="hubspot_owner_id")]
-        public long? OwnerId { get;set; }        
+        public long? OwnerId { get;set; }    
+
+        [DataMember(Name = "properties")]
+        public NameValuePair[] CustomProperties { get; set; }    
         public bool IsNameValue => false;
     }
 }
