@@ -19,6 +19,6 @@
         }
 
         public override string ToString()
-            => $"Status: {ErrorCode}; Description: {Description}";        
+            => $"Status: {(string.IsNullOrWhiteSpace(ErrorCode) ? "No Code": ErrorCode)}; Description: {(string.IsNullOrWhiteSpace(Description) ? "No Description" : Description)}";        
     }
 }
