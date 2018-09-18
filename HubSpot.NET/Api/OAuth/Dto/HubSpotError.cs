@@ -17,5 +17,8 @@
             ErrorCode = code;
             Description = desc;
         }
+
+        public override string ToString()
+            => $"Status: {ErrorCode}; Description: {Description}";        
     }
 }
