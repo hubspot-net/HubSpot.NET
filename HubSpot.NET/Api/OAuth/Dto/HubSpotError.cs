@@ -9,5 +9,13 @@
 
         [DataMember(Name = "error_description")]
         public string Description { get; set; }
+
+        public HubSpotError() { }
+
+        public HubSpotError(string code, string desc)
+        {
+            ErrorCode = code;
+            Description = desc;
+        }
     }
 }
