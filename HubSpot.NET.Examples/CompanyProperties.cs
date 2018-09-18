@@ -1,4 +1,5 @@
 ﻿using HubSpot.NET;
+using HubSpot.NET.Api.Properties.Dto;
 using HubSpot.NET.Core;
 
 namespace HubSpot.NET.Examples
