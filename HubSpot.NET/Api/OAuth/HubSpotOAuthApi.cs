@@ -100,7 +100,8 @@
 
             RestRequest request = new RestRequest(MidRoute);
             request.JsonSerializer = new NewtonsoftRestSharpSerializer(); // because we need a hero, one that can serialize all the things
-            request.AddBody(model);
+            
+            request.AddJsonBody(model);
             if(builder.Length > 0)
                 request.AddQueryParameter("scope", builder.ToString());
 
