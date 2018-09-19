@@ -68,14 +68,28 @@ namespace HubSpot.NET.Api.Contact
             }
         }
 
+        public ContactHubSpotModel GetById(long Id)
+        {
+            return GetById(Id, true);
+        }
+
         /// <summary>
         /// Gets a contact by their email address
         /// </summary>
         /// <param name="email">Email address to search for</param>
         /// <typeparam name="T">Implementation of ContactHubSpotModel</typeparam>
         /// <returns>The contact entity</returns>
-        public ContactHubSpotModel GetByEmail(string email)
-            => _client.Execute<ContactHubSpotModel>(GetRoute<ContactHubSpotModel>("contact","email",email,"profile"));
+        public ContactHubSpotModel GetByEmail(string email, bool IncludeHistory = true)
+        {
+            if (IncludeHistory)
+            {
+                return _client.Execute<ContactHubSpotModel>(GetRoute<ContactHubSpotModel>("contact", "email", email, "profile"));
+            }
+            else
+            {
+                return _client.Execute<ContactHubSpotModel>(GetRoute<ContactHubSpotModel>("contact", "email", email, "profile?propertyMode=value_only"));
+            }
+        }
 
         /// <summary>
         /// Gets a contact by their user token
@@ -83,8 +97,17 @@ namespace HubSpot.NET.Api.Contact
         /// <param name="userToken">User token to search for from hubspotutk cookie</param>
         /// <typeparam name="T">Implementation of ContactHubSpotModel</typeparam>
         /// <returns>The contact entity</returns>
-        public ContactHubSpotModel GetByUserToken(string userToken)
-            => _client.Execute<ContactHubSpotModel>(GetRoute<ContactHubSpotModel>("contact", "utk", userToken, "profile"));
+        public ContactHubSpotModel GetByUserToken(string userToken, bool IncludeHistory = true)
+        {
+            if(IncludeHistory)
+            {
+                return _client.Execute<ContactHubSpotModel>(GetRoute<ContactHubSpotModel>("contact", "utk", userToken, "profile"));
+            }
+            else
+            {
+                return _client.Execute<ContactHubSpotModel>(GetRoute<ContactHubSpotModel>("contact", "utk", userToken, "profile?propertyMode=value_only"));
+            }
+        }
 
         /// <summary>
         /// List all available contacts 

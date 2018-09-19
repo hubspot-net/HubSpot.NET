@@ -15,8 +15,9 @@ namespace HubSpot.NET.Core.Interfaces
         ContactListHubSpotModel<T> RecentlyCreated(ListRecentRequestOptions opts = null);
         ContactListHubSpotModel<T> RecentlyUpdated(ListRecentRequestOptions opts = null);
         ContactSearchHubSpotModel<T> Search(ContactSearchRequestOptions opts = null);
-        T GetByEmail(string email);
-        T GetByUserToken(string userToken);
+        T GetByEmail(string email, bool IncludeHistory = true);
+        T GetByUserToken(string userToken, bool IncludeHistory = true);
+        T GetById(long contactId, bool IncludeHistory = true);
         T CreateOrUpdate(T entity);
         void Batch(List<T> entities);
     }
