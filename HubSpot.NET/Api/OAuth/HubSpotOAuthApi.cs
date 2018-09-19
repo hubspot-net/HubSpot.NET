@@ -50,6 +50,7 @@
             RequestTokenHubSpotModel model = new RequestTokenHubSpotModel()
             {
                 ClientId = ClientId,
+                ClientSecret = _clientSecret,
                 RedirectCode = redirectCode,
                 RedirectUri = redirectUri
             };
@@ -102,13 +103,14 @@
             RestRequest request = new RestRequest(uriPath);
             request.JsonSerializer = new NewtonsoftRestSharpSerializer(); // because we need a hero, one that can serialize all the things
             request.AddBody(model);
-            request.AddQueryParameter("scope", builder.ToString());
+            if(builder.Length > 0)
+                request.AddQueryParameter("scope", builder.ToString());
 
             IRestResponse<HubSpotToken> serverReponse = client.Post<HubSpotToken>(request);
 
             if (serverReponse.ResponseStatus != ResponseStatus.Completed)
             {
-                throw new TimeoutException("Server did not respond to authorization request.");
+                throw new TimeoutException("Server did not respond to authorization request. Content: " + serverReponse.Content);
             }
 
             if (serverReponse.StatusCode == System.Net.HttpStatusCode.BadRequest)
