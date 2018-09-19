@@ -7,6 +7,7 @@
     using System.Text;
     using System.Threading.Tasks;
 
+    [DataContract]
     public class RequestRefreshTokenHubSpotModel
     {
         [DataMember(Name = "grant_type")]

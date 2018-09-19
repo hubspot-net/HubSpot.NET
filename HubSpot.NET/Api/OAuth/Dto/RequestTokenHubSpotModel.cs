@@ -2,6 +2,7 @@
 {
     using System.Runtime.Serialization;
 
+    [DataContract]
     public class RequestTokenHubSpotModel
     {
         [DataMember(Name = "grant_type")]
