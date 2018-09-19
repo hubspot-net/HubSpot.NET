@@ -94,7 +94,7 @@ namespace HubSpot.NET.Core
             IRestResponse<T> response = _client.Execute<T>(request);
 
             if (response.IsSuccessful == false)
-                throw new HubSpotException("Error from HubSpot", response.Content);
+                throw new HubSpotException("Error from HubSpot", new HubSpotError(response.StatusCode.ToString(), response.StatusDescription));
 
             return response.Data;
         }

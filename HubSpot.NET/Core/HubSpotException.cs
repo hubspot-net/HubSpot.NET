@@ -32,6 +32,6 @@ namespace HubSpot.NET.Core
         }
 
         
-        public override String Message => base.Message + $", JSONResponse={RawJsonResponse??"Empty"}";
+        public override string Message => base.Message + $", Response = {(string.IsNullOrWhiteSpace(RawJsonResponse) ? ReturnedError.ToString() : RawJsonResponse)}";
     }
 }

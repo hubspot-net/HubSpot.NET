@@ -57,10 +57,9 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HubSpot.NET\HubSpot.NET.csproj">
-      <Project>{2D45B6F1-77AE-427E-846B-75BB380BE93B}</Project>
+      <Project>{2d45b6f1-77ae-427e-846b-75bb380be93b}</Project>
       <Name>HubSpot.NET</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
