@@ -7,6 +7,7 @@
     using HubSpot.NET.Core.Serializers;
     using Newtonsoft.Json;
     using RestSharp;
+    using RestSharp.Serializers;
     using System;
     using System.Collections.Generic;
     using System.Text;
@@ -99,10 +100,24 @@
             }
 
             RestRequest request = new RestRequest(MidRoute);
-            request.RequestFormat = DataFormat.Json;
-            request.JsonSerializer = new NewtonsoftRestSharpSerializer(); // because we need a hero, one that can serialize all the things
-            request.AddJsonBody(model);
-            if(builder.Length > 0)
+            request.JsonSerializer = new FakeSerializer();
+            
+
+            Dictionary<string, string> jsonPreStringPairs = JsonConvert.DeserializeObject<Dictionary<string, string>>(JsonConvert.SerializeObject(model));
+
+            StringBuilder bodyBuilder = new StringBuilder();
+            foreach(KeyValuePair<string,string> pair in jsonPreStringPairs)
+            {
+                if (bodyBuilder.Length > 0)
+                { bodyBuilder.Append("&"); }
+
+                bodyBuilder.Append($"{pair.Key}={pair.Value}");
+            }
+
+            request.AddJsonBody(bodyBuilder.ToString());
+            request.AddHeader("ContentType", "application/x-www-form-urlencoded");
+
+            if (builder.Length > 0)
                 request.AddQueryParameter("scope", builder.ToString());
 
             IRestResponse<HubSpotToken> serverReponse = client.Post<HubSpotToken>(request);
@@ -118,6 +133,23 @@
             }
 
             return serverReponse.Data;
+        }
+    }
+
+    internal class FakeSerializer : ISerializer
+    {
+        public string RootElement { get; set; }
+        public string Namespace { get; set; }
+        public string DateFormat { get; set; }
+        public string ContentType { get; set; }
+
+        internal FakeSerializer()
+        {
+            ContentType = "application/x-www-form-urlencoded";
+        }
+        public string Serialize(object obj)
+        {
+            return obj.ToString();
         }
     }
 }
