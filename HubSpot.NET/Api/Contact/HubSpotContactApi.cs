@@ -55,8 +55,18 @@ namespace HubSpot.NET.Api.Contact
         /// <param name="contactId">ID of the contact</param>
         /// <typeparam name="T">Implementation of ContactHubSpotModel</typeparam>
         /// <returns>The contact entity</returns>
-        public ContactHubSpotModel GetById(long contactId)
-            => _client.Execute<ContactHubSpotModel>(GetRoute<ContactHubSpotModel>("contact","vid", contactId.ToString(),"profile"));
+        public ContactHubSpotModel GetById(long contactId, bool IncludeHistory = true)
+        {
+            if(IncludeHistory)
+            {
+                return _client.Execute<ContactHubSpotModel>(GetRoute<ContactHubSpotModel>("contact","vid", contactId.ToString(),"profile"));
+
+            }
+            else
+            {
+                return _client.Execute<ContactHubSpotModel>(GetRoute<ContactHubSpotModel>("contact", "vid", contactId.ToString(), "profile?propertyMode=value_only"));
+            }
+        }
 
         /// <summary>
         /// Gets a contact by their email address

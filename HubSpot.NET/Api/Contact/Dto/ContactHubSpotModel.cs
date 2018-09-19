@@ -1,9 +1,9 @@
-﻿using System.Runtime.Serialization;
-using HubSpot.NET.Api.Shared;
-using HubSpot.NET.Core.Interfaces;
-
-namespace HubSpot.NET.Api.Contact.Dto
+﻿namespace HubSpot.NET.Api.Contact.Dto
 {
+    using HubSpot.NET.Core.Interfaces;
+    using System.Collections.Generic;
+    using System.Runtime.Serialization;
+
     /// <summary>
     /// Models a Contact entity within HubSpot. Default properties are included here
     /// with the intention that you'd extend this class with properties specific to 
@@ -46,7 +46,7 @@ namespace HubSpot.NET.Api.Contact.Dto
         public long? OwnerId { get;set; }    
 
         [DataMember(Name = "properties")]
-        public PropertyValuePair[] Properties { get; set; }    
+        public Dictionary<string, ContactProperty> Properties { get; set; }
         public bool IsNameValue => false;
     }
 }
