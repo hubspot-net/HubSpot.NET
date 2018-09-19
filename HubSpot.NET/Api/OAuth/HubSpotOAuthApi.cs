@@ -17,7 +17,7 @@
         private string _clientSecret;
         private IHubSpotClient _client;
 
-        public override string MidRoute => " /oauth/v1/token";
+        public override string MidRoute => "oauth/v1/token";
 
         private Dictionary<OAuthScopes, string> OAuthScopeNameConversions = new Dictionary<OAuthScopes, string>
         {
@@ -83,9 +83,7 @@
 
         private HubSpotToken InitiateRequest<K>(K model, string basePath, params OAuthScopes[] scopes)
         {
-            RestClient client = new RestClient();
-            string path = $"{basePath.TrimEnd('/')}/{MidRoute}";
-            Uri uriPath = new Uri(path);
+            RestClient client = new RestClient(basePath);
             
             StringBuilder builder = new StringBuilder();
             foreach(OAuthScopes scope in scopes)
@@ -100,7 +98,7 @@
                 }
             }
 
-            RestRequest request = new RestRequest(uriPath);
+            RestRequest request = new RestRequest(MidRoute);
             request.JsonSerializer = new NewtonsoftRestSharpSerializer(); // because we need a hero, one that can serialize all the things
             request.AddBody(model);
             if(builder.Length > 0)
