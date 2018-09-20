@@ -12,7 +12,7 @@ namespace HubSpot.NET.Api.Contact.Dto
         public string Value { get; set; }
 
         [DataMember(Name = "versions")]
-        ContactPropertyVersion[] Versions { get; set; }
+        List<ContactPropertyVersion> Versions { get; set; }
     }
 
     [DataContract]

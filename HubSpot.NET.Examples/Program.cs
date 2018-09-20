@@ -1,4 +1,6 @@
-﻿using HubSpot.NET.Core;
+﻿using HubSpot.NET.Api.Contact.Dto;
+using HubSpot.NET.Core;
+using Newtonsoft.Json;
 using System;
 
 namespace HubSpot.NET.Examples
@@ -63,6 +65,11 @@ namespace HubSpot.NET.Examples
         {
             OAuth.Example(oauthApi);
             Timeline.Example(oauthApi);
+        }
+
+        private static string GetContactString()
+        {
+            return System.IO.File.ReadAllText("ContactExample.txt");
         }
     }
 }

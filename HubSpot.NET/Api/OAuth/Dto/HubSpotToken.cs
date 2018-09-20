@@ -16,7 +16,7 @@
         public int ExpiresIn { get; set; }
 
         [JsonIgnore]
-        public readonly DateTimeOffset Created;
+        public DateTimeOffset Created { get; private set; }
 
         public HubSpotToken()
         {

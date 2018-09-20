@@ -1,0 +1,519 @@
+﻿{
+	"vid": 101,
+	"canonical-vid": 101,
+	"merged-vids": [],
+	"portal-id": 4919589,
+	"is-contact": true,
+	"profile-token": "AO_T-mMEkdWVmr2zRgcvhCR21mzqfKcbE1nTP17dhViIPNz0lccKutbYY83RmYG9xyvgfAvoN4lqfad6ayHG7rjFRQ1XBvuhXTfxeW0YnLeY7pWpJOm37gFaogmeZDxSADxEx3SnEKpp",
+	"profile-url": "https://app.hubspot.com/contacts/4919589/lists/public/contact/_AO_T-mMEkdWVmr2zRgcvhCR21mzqfKcbE1nTP17dhViIPNz0lccKutbYY83RmYG9xyvgfAvoN4lqfad6ayHG7rjFRQ1XBvuhXTfxeW0YnLeY7pWpJOm37gFaogmeZDxSADxEx3SnEKpp/",
+	"properties": {
+		"hs_all_accessible_team_ids": {
+			"value": "",
+			"versions": [{
+				"value": "",
+				"source-type": "CRM_UI",
+				"source-id": "PermissionsUpdater",
+				"source-label": null,
+				"timestamp": 1536954940699,
+				"selected": false
+			}]
+		},
+		"firstname": {
+			"value": "kitten",
+			"versions": [{
+				"value": "kitten",
+				"source-type": "CRM_UI",
+				"source-id": "turner@vtrpro.com",
+				"source-label": null,
+				"timestamp": 1536954938859,
+				"selected": false
+			}]
+		},
+		"num_unique_conversion_events": {
+			"value": "0",
+			"versions": [{
+				"value": "0",
+				"source-type": "CALCULATED",
+				"source-id": null,
+				"source-label": null,
+				"timestamp": 0,
+				"selected": false
+			}]
+		},
+		"hs_email_quarantined": {
+			"value": "",
+			"versions": [{
+				"value": "",
+				"source-type": "EMAIL",
+				"source-id": "Updated in response to a contact being created.",
+				"source-label": "turner@hrcecredits.com",
+				"timestamp": 1536954938872,
+				"selected": false
+			}]
+		},
+		"hs_analytics_revenue": {
+			"value": "0.0",
+			"versions": [{
+				"value": "0.0",
+				"source-type": "ANALYTICS",
+				"source-id": "ContactAnalyticsDetailsUpdateWorker",
+				"source-label": null,
+				"timestamp": 1536954940800,
+				"selected": false
+			}]
+		},
+		"hs_all_team_ids": {
+			"value": "",
+			"versions": [{
+				"value": "",
+				"source-type": "CRM_UI",
+				"source-id": "PermissionsUpdater",
+				"source-label": null,
+				"timestamp": 1536954940699,
+				"selected": false
+			}]
+		},
+		"hs_social_num_broadcast_clicks": {
+			"value": "0",
+			"versions": [{
+				"value": "0",
+				"source-type": "ANALYTICS",
+				"source-id": "ContactAnalyticsDetailsUpdateWorker",
+				"source-label": null,
+				"timestamp": 1536954940800,
+				"selected": false
+			}]
+		},
+		"createdate": {
+			"value": "1536954938872",
+			"versions": [{
+				"value": "1536954938872",
+				"source-type": "CONTACTS",
+				"source-id": "CRM_UI",
+				"source-label": null,
+				"timestamp": 1536954938872,
+				"selected": false
+			}]
+		},
+		"hs_email_optout_5359530": {
+			"value": "",
+			"versions": [{
+				"value": "",
+				"source-type": "EMAIL",
+				"source-id": "Updated in response to a contact being created.",
+				"source-label": "turner@hrcecredits.com",
+				"timestamp": 1536954938872,
+				"selected": false
+			}]
+		},
+		"hs_email_recipient_fatigue_recovery_time": {
+			"value": "",
+			"versions": [{
+				"value": "",
+				"source-type": "EMAIL",
+				"source-id": "Updated in response to a contact being created.",
+				"source-label": "turner@hrcecredits.com",
+				"timestamp": 1536954938872,
+				"selected": false
+			}]
+		},
+		"hs_email_optout": {
+			"value": "",
+			"versions": [{
+				"value": "",
+				"source-type": "EMAIL",
+				"source-id": "Updated in response to a contact being created.",
+				"source-label": "turner@hrcecredits.com",
+				"timestamp": 1536954938872,
+				"selected": false
+			}]
+		},
+		"hs_analytics_last_timestamp": {
+			"value": "",
+			"versions": [{
+				"value": "",
+				"source-type": "ANALYTICS",
+				"source-id": "ContactAnalyticsDetailsUpdateWorker",
+				"source-label": null,
+				"timestamp": 1536954940800,
+				"selected": false
+			}]
+		},
+		"hs_email_optout_5359532": {
+			"value": "",
+			"versions": [{
+				"value": "",
+				"source-type": "EMAIL",
+				"source-id": "Updated in response to a contact being created.",
+				"source-label": "turner@hrcecredits.com",
+				"timestamp": 1536954938872,
+				"selected": false
+			}]
+		},
+		"hs_analytics_num_visits": {
+			"value": "0",
+			"versions": [{
+				"value": "0",
+				"source-type": "ANALYTICS",
+				"source-id": "ContactAnalyticsDetailsUpdateWorker",
+				"source-label": null,
+				"timestamp": 1536954940800,
+				"selected": false
+			}]
+		},
+		"hs_email_optout_5359533": {
+			"value": "",
+			"versions": [{
+				"value": "",
+				"source-type": "EMAIL",
+				"source-id": "Updated in response to a contact being created.",
+				"source-label": "turner@hrcecredits.com",
+				"timestamp": 1536954938872,
+				"selected": false
+			}]
+		},
+		"hubspot_team_id": {
+			"value": "",
+			"versions": [{
+				"value": "",
+				"source-type": "CRM_UI",
+				"source-id": "PermissionsUpdater",
+				"source-label": null,
+				"timestamp": 1536954940699,
+				"selected": false
+			}]
+		},
+		"hs_social_linkedin_clicks": {
+			"value": "0",
+			"versions": [{
+				"value": "0",
+				"source-type": "ANALYTICS",
+				"source-id": "ContactAnalyticsDetailsUpdateWorker",
+				"source-label": null,
+				"timestamp": 1536954940800,
+				"selected": false
+			}]
+		},
+		"hs_analytics_last_visit_timestamp": {
+			"value": "",
+			"versions": [{
+				"value": "",
+				"source-type": "ANALYTICS",
+				"source-id": "ContactAnalyticsDetailsUpdateWorker",
+				"source-label": null,
+				"timestamp": 1536954940800,
+				"selected": false
+			}]
+		},
+		"hubspot_owner_id": {
+			"value": "33612764",
+			"versions": [{
+				"value": "33612764",
+				"source-type": "CRM_UI",
+				"source-id": "turner@vtrpro.com",
+				"source-label": null,
+				"timestamp": 1536954938859,
+				"selected": false
+			}]
+		},
+		"hs_social_last_engagement": {
+			"value": "",
+			"versions": [{
+				"value": "",
+				"source-type": "ANALYTICS",
+				"source-id": "ContactAnalyticsDetailsUpdateWorker",
+				"source-label": null,
+				"timestamp": 1536954940800,
+				"selected": false
+			}]
+		},
+		"hs_analytics_source": {
+			"value": "OFFLINE",
+			"versions": [{
+				"value": "OFFLINE",
+				"source-type": "ANALYTICS",
+				"source-id": "ContactAnalyticsDetailsUpdateWorker",
+				"source-label": null,
+				"timestamp": 1536954940800,
+				"selected": false
+			}]
+		},
+		"hs_email_domain": {
+			"value": "hrcecredits.com",
+			"versions": [{
+				"value": "hrcecredits.com",
+				"source-type": "CALCULATED",
+				"source-id": null,
+				"source-label": null,
+				"timestamp": 0,
+				"selected": false
+			}]
+		},
+		"hs_analytics_num_page_views": {
+			"value": "0",
+			"versions": [{
+				"value": "0",
+				"source-type": "ANALYTICS",
+				"source-id": "ContactAnalyticsDetailsUpdateWorker",
+				"source-label": null,
+				"timestamp": 1536954940800,
+				"selected": false
+			}]
+		},
+		"hs_analytics_first_touch_converting_campaign": {
+			"value": "",
+			"versions": [{
+				"value": "",
+				"source-type": "ANALYTICS",
+				"source-id": "ContactAnalyticsDetailsUpdateWorker",
+				"source-label": null,
+				"timestamp": 1536954940800,
+				"selected": false
+			}]
+		},
+		"hs_all_owner_ids": {
+			"value": "33612764",
+			"versions": [{
+				"value": "33612764",
+				"source-type": "CRM_UI",
+				"source-id": "PermissionsUpdater",
+				"source-label": null,
+				"timestamp": 1536954940699,
+				"selected": false
+			}]
+		},
+		"email": {
+			"value": "turner@hrcecredits.com",
+			"versions": [{
+				"value": "turner@hrcecredits.com",
+				"source-type": "CONTACTS",
+				"source-id": "CRM_UI",
+				"source-label": null,
+				"timestamp": 1536954938872,
+				"selected": false
+			}]
+		},
+		"jobtitle": {
+			"value": "A Kitten",
+			"versions": [{
+				"value": "A Kitten",
+				"source-type": "CRM_UI",
+				"source-id": "turner@vtrpro.com",
+				"source-label": null,
+				"timestamp": 1536954938859,
+				"selected": false
+			}]
+		},
+		"hs_analytics_first_visit_timestamp": {
+			"value": "",
+			"versions": [{
+				"value": "",
+				"source-type": "ANALYTICS",
+				"source-id": "ContactAnalyticsDetailsUpdateWorker",
+				"source-label": null,
+				"timestamp": 1536954940800,
+				"selected": false
+			}]
+		},
+		"lastmodifieddate": {
+			"value": "1536954946384",
+			"versions": [{
+				"value": "1536954946384",
+				"source-type": "CALCULATED",
+				"source-id": null,
+				"source-label": null,
+				"timestamp": 1536954946384,
+				"selected": false
+			}]
+		},
+		"hs_analytics_first_timestamp": {
+			"value": "1536954938859",
+			"versions": [{
+				"value": "1536954938859",
+				"source-type": "ANALYTICS",
+				"source-id": "ContactAnalyticsDetailsUpdateWorker",
+				"source-label": null,
+				"timestamp": 1536954940800,
+				"selected": false
+			}]
+		},
+		"hs_social_google_plus_clicks": {
+			"value": "0",
+			"versions": [{
+				"value": "0",
+				"source-type": "ANALYTICS",
+				"source-id": "ContactAnalyticsDetailsUpdateWorker",
+				"source-label": null,
+				"timestamp": 1536954940800,
+				"selected": false
+			}]
+		},
+		"hs_analytics_last_touch_converting_campaign": {
+			"value": "",
+			"versions": [{
+				"value": "",
+				"source-type": "ANALYTICS",
+				"source-id": "ContactAnalyticsDetailsUpdateWorker",
+				"source-label": null,
+				"timestamp": 1536954940800,
+				"selected": false
+			}]
+		},
+		"hs_analytics_average_page_views": {
+			"value": "0",
+			"versions": [{
+				"value": "0",
+				"source-type": "ANALYTICS",
+				"source-id": "ContactAnalyticsDetailsUpdateWorker",
+				"source-label": null,
+				"timestamp": 1536954940800,
+				"selected": false
+			}]
+		},
+		"lastname": {
+			"value": "mittens",
+			"versions": [{
+				"value": "mittens",
+				"source-type": "CRM_UI",
+				"source-id": "turner@vtrpro.com",
+				"source-label": null,
+				"timestamp": 1536954938859,
+				"selected": false
+			}]
+		},
+		"hs_social_facebook_clicks": {
+			"value": "0",
+			"versions": [{
+				"value": "0",
+				"source-type": "ANALYTICS",
+				"source-id": "ContactAnalyticsDetailsUpdateWorker",
+				"source-label": null,
+				"timestamp": 1536954940800,
+				"selected": false
+			}]
+		},
+		"hubspot_owner_assigneddate": {
+			"value": "1536954938859",
+			"versions": [{
+				"value": "1536954938859",
+				"source-type": "CRM_UI",
+				"source-id": "turner@vtrpro.com",
+				"source-label": null,
+				"timestamp": 1536954938859,
+				"selected": false
+			}]
+		},
+		"num_conversion_events": {
+			"value": "0",
+			"versions": [{
+				"value": "0",
+				"source-type": "CALCULATED",
+				"source-id": null,
+				"source-label": null,
+				"timestamp": 0,
+				"selected": false
+			}]
+		},
+		"hs_analytics_num_event_completions": {
+			"value": "0",
+			"versions": [{
+				"value": "0",
+				"source-type": "ANALYTICS",
+				"source-id": "ContactAnalyticsDetailsUpdateWorker",
+				"source-label": null,
+				"timestamp": 1536954940800,
+				"selected": false
+			}]
+		},
+		"hs_social_twitter_clicks": {
+			"value": "0",
+			"versions": [{
+				"value": "0",
+				"source-type": "ANALYTICS",
+				"source-id": "ContactAnalyticsDetailsUpdateWorker",
+				"source-label": null,
+				"timestamp": 1536954940800,
+				"selected": false
+			}]
+		},
+		"hs_analytics_source_data_2": {
+			"value": "CRM_UI",
+			"versions": [{
+				"value": "CRM_UI",
+				"source-type": "ANALYTICS",
+				"source-id": "ContactAnalyticsDetailsUpdateWorker",
+				"source-label": null,
+				"timestamp": 1536954941817,
+				"selected": false
+			},
+			{
+				"value": "",
+				"source-type": "ANALYTICS",
+				"source-id": "ContactAnalyticsDetailsUpdateWorker",
+				"source-label": null,
+				"timestamp": 1536954940800,
+				"selected": false
+			}]
+		},
+		"hs_lifecyclestage_lead_date": {
+			"value": "1536954938859",
+			"versions": [{
+				"value": "1536954938859",
+				"source-type": "CRM_UI",
+				"source-id": "turner@vtrpro.com",
+				"source-label": null,
+				"timestamp": 1536954938859,
+				"selected": false
+			}]
+		},
+		"hs_analytics_source_data_1": {
+			"value": "CONTACTS",
+			"versions": [{
+				"value": "CONTACTS",
+				"source-type": "ANALYTICS",
+				"source-id": "ContactAnalyticsDetailsUpdateWorker",
+				"source-label": null,
+				"timestamp": 1536954941817,
+				"selected": false
+			},
+			{
+				"value": "",
+				"source-type": "ANALYTICS",
+				"source-id": "ContactAnalyticsDetailsUpdateWorker",
+				"source-label": null,
+				"timestamp": 1536954940800,
+				"selected": false
+			}]
+		},
+		"lifecyclestage": {
+			"value": "lead",
+			"versions": [{
+				"value": "lead",
+				"source-type": "CRM_UI",
+				"source-id": "turner@vtrpro.com",
+				"source-label": null,
+				"timestamp": 1536954938859,
+				"selected": false
+			}]
+		}
+	},
+	"form-submissions": [],
+	"list-memberships": [],
+	"identity-profiles": [{
+		"vid": 101,
+		"saved-at-timestamp": 1536954938881,
+		"deleted-changed-timestamp": 0,
+		"identities": [{
+			"type": "EMAIL",
+			"value": "turner@hrcecredits.com",
+			"timestamp": 1536954938872,
+			"is-primary": true
+		},
+		{
+			"type": "LEAD_GUID",
+			"value": "e3018249-46d5-45c1-aaf8-a969eecb73f4",
+			"timestamp": 1536954938877
+		}]
+	}],
+	"merge-audits": []
+}
