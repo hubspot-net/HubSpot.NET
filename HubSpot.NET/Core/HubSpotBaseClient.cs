@@ -94,7 +94,7 @@ namespace HubSpot.NET.Core
             IRestResponse<T> response = _client.Execute<T>(request);
 
             if (response.IsSuccessful == false)
-                throw new HubSpotException("Error from HubSpot", new HubSpotError(response.StatusCode.ToString(), response.StatusDescription));
+                throw new HubSpotException("Error from HubSpot", new HubSpotError(response.StatusCode, response.StatusDescription), response.Content);
 
             return response.Data;
         }
@@ -119,7 +119,7 @@ namespace HubSpot.NET.Core
             IRestResponse<T> response = _client.Execute<T>(request);
 
             if (response.IsSuccessful == false)
-                throw new HubSpotException("Error from HubSpot", response.Content);
+                throw new HubSpotException("Error from HubSpot", new HubSpotError(response.StatusCode, response.StatusDescription), response.Content);
 
 
             return response.Data;
@@ -143,7 +143,7 @@ namespace HubSpot.NET.Core
             IRestResponse response = _client.Execute(request);
 
             if (!response.IsSuccessful())
-                throw new HubSpotException("Error from HubSpot", response.Content);
+                throw new HubSpotException("Error from HubSpot", new HubSpotError(response.StatusCode, response.StatusDescription), response.Content);
         }
 
         /// <summary>
@@ -159,7 +159,7 @@ namespace HubSpot.NET.Core
             IRestResponse response = _client.Execute(request);
 
             if (!response.IsSuccessful())
-                throw new HubSpotException("Error from HubSpot", response.Content);
+                throw new HubSpotException("Error from HubSpot", new HubSpotError(response.StatusCode, response.StatusDescription), response.Content);
         }
         /// <summary>
         /// Configures a RestRequest based on the authentication scheme detected and configures the endpoint path relative to the base path.

@@ -1,5 +1,6 @@
 using HubSpot.NET.Api.OAuth.Dto;
 using System;
+using System.Net;
 
 namespace HubSpot.NET.Core
 {
@@ -8,6 +9,7 @@ namespace HubSpot.NET.Core
     {
         public string RawJsonResponse { get; set; }
         public HubSpotError ReturnedError { get; set; }
+        HttpStatusCode StatusCode { get; set; }
 
         public HubSpotException()
         {
@@ -23,12 +25,12 @@ namespace HubSpot.NET.Core
         }
 
         public HubSpotException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
+        { }
 
-        public HubSpotException(string message, HubSpotError error) : base(message)
+        public HubSpotException(string message, HubSpotError error, string responseContent) : base(message)
         {
             ReturnedError = error;
+            RawJsonResponse = responseContent;
         }
 
         
