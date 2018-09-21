@@ -4,7 +4,6 @@
     using HubSpot.NET.Core;
     using HubSpot.NET.Core.Abstracts;
     using HubSpot.NET.Core.Interfaces;
-    using HubSpot.NET.Core.Serializers;
     using Newtonsoft.Json;
     using RestSharp;
     using RestSharp.Serializers;
@@ -73,7 +72,7 @@
 
             HubSpotToken refreshToken = InitiateRequest(model, _client.BasePath);
             _client.UpdateToken(refreshToken);
-            return token;
+            return refreshToken;
         }
 
         public void UpdateCredentials(string id, string secret)

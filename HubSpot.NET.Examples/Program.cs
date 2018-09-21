@@ -1,10 +1,8 @@
-﻿using HubSpot.NET.Api.Contact.Dto;
-using HubSpot.NET.Core;
-using Newtonsoft.Json;
-using System;
-
-namespace HubSpot.NET.Examples
+﻿namespace HubSpot.NET.Examples
 {
+    using HubSpot.NET.Core;
+    using System;
+
     public class Examples
     {
         // enable args to be presented from CLI for automated test execution 
