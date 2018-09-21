@@ -123,12 +123,12 @@
 
             if (serverReponse.ResponseStatus != ResponseStatus.Completed)
             {
-                throw new TimeoutException("Server did not respond to authorization request. Content: " + serverReponse.Content);
+                throw new HubSpotException("Server did not respond to authorization request. Content: " + serverReponse.Content, new HubSpotError(serverReponse.StatusCode, serverReponse.Content), serverReponse.Content);
             }
 
             if (serverReponse.StatusCode == System.Net.HttpStatusCode.BadRequest)
             {
-                throw new HubSpotException("Error generating authentication token.", JsonConvert.DeserializeObject<HubSpotError>(serverReponse.Content));
+                throw new HubSpotException("Error generating authentication token.", JsonConvert.DeserializeObject<HubSpotError>(serverReponse.Content), serverReponse.Content);
             }
 
             return serverReponse.Data;
