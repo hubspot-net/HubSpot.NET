@@ -35,7 +35,7 @@
         public bool IsFormField { get; set; }
 
         [DataMember(Name = "deleted")]
-        public bool IsDeleted { get; set; }
+        public bool? IsDeleted { get; set; }
 
         [DataMember(Name = "readOnlyValue")]
         public bool IsValueReadOnly { get; set; }
