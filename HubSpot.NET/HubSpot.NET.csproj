@@ -24,7 +24,7 @@
   <ItemGroup>
     <PackageReference Include="Flurl" Version="2.8.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-    <PackageReference Include="RestSharp" Version="106.4.1" />
+    <PackageReference Include="RestSharp" Version="106.4.2" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
