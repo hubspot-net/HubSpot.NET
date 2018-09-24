@@ -7,7 +7,7 @@
     using System.Collections.Generic;
     using System.Text;
 
-    public class HubSpotContactPropertyApi : ApiRoutable
+    public class HubSpotContactPropertyApi : ApiRoutable, IHubSpotContactPropertyApi
     {
         private readonly IHubSpotClient _client;
 
