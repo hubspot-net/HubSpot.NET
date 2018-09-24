@@ -96,7 +96,7 @@ namespace HubSpot.NET.Core
             if (response.IsSuccessful == false)
                 throw new HubSpotException("Error from HubSpot", new HubSpotError(response.StatusCode, response.StatusDescription), response.Content);
 
-            return response.Data;
+            return JsonConvert.DeserializeObject<T>(response.Content);
         }
 
         /// <summary>
@@ -122,7 +122,7 @@ namespace HubSpot.NET.Core
                 throw new HubSpotException("Error from HubSpot", new HubSpotError(response.StatusCode, response.StatusDescription), response.Content);
 
 
-            return response.Data;
+            return JsonConvert.DeserializeObject<T>(response.Content);
         }
 
         /// <summary>
