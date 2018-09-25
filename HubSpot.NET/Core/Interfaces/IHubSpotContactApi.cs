@@ -19,6 +19,7 @@ namespace HubSpot.NET.Core.Interfaces
         T GetByUserToken(string userToken, bool IncludeHistory = true);
         T GetById(long contactId, bool IncludeHistory = true);
         T CreateOrUpdate(T entity);
+        T CreateOrUpdate(string originalEmail, T entity);
         void Batch(List<T> entities);
     }
 }
