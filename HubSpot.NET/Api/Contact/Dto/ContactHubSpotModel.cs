@@ -23,7 +23,11 @@
         private string _Email;
         [DataMember(Name = "email")]
         public string Email {
-            set { _Email = value; }
+            set {
+                _Email = value;
+                if (Properties.ContainsKey("email"))
+                    Properties["email"].Value = value;
+            }
             get
             {
                 if (string.IsNullOrWhiteSpace(_Email))
@@ -35,7 +39,11 @@
         private string _FirstName;
         [DataMember(Name = "firstname")]
         public string FirstName {
-            set { _FirstName = value; }
+            set {
+                _FirstName = value;
+                if (Properties.ContainsKey("firstname"))
+                    Properties["firstname"].Value = value;
+            }
             get
             {
                 if(string.IsNullOrWhiteSpace(_FirstName))
@@ -47,7 +55,11 @@
         private string _LastName;
         [DataMember(Name = "lastname")]
         public string LastName {
-            set { _LastName = value; }
+            set {
+                _LastName = value;
+                if (Properties.ContainsKey("lastname"))
+                    Properties["lastname"].Value = value;
+            }
             get
             {
                 if(string.IsNullOrWhiteSpace(_LastName))
@@ -59,7 +71,11 @@
         private string _Website;
         [DataMember(Name = "website")]
         public string Website {
-            set { _Website = value; }
+            set {
+                _Website = value;
+                if (Properties.ContainsKey("website"))
+                    Properties["website"].Value = value;
+            }
             get
             {
                 if(string.IsNullOrWhiteSpace(_Website))
@@ -71,7 +87,11 @@
         private string _Company;
         [DataMember(Name = "company")]
         public string Company {
-            set { _Company = value; }
+            set {
+                _Company = value;
+                if (Properties.ContainsKey("company"))
+                    Properties["company"].Value = value;
+            }
             get
             {
                 if(string.IsNullOrWhiteSpace(_Company))
@@ -83,7 +103,11 @@
         private string _Phone;
         [DataMember(Name = "phone")]
         public string Phone {
-            set { _Phone = value; }
+            set {
+                _Phone = value;
+                if (Properties.ContainsKey("phone"))
+                    Properties["phone"].Value = value;
+            }
             get
             {
                 if(string.IsNullOrWhiteSpace(_Phone))
@@ -95,7 +119,11 @@
         private string _Address;
         [DataMember(Name = "address")]
         public string Address {
-            set { _Address = value; }
+            set {
+                _Address = value;
+                if (Properties.ContainsKey("address"))
+                    Properties["address"].Value = value;
+            }
             get
             {
                 if(string.IsNullOrWhiteSpace(_Address))
@@ -107,7 +135,11 @@
         private string _City;
         [DataMember(Name = "city")]
         public string City {
-            set { _City = value; }
+            set {
+                _City = value;
+                if (Properties.ContainsKey("city"))
+                    Properties["city"].Value = value;
+            }
             get
             {
                 if (string.IsNullOrWhiteSpace(_City))
@@ -119,7 +151,11 @@
         private string _State;
         [DataMember(Name = "state")]
         public string State {
-            set { _State = value; }
+            set {
+                _State = value;
+                if (Properties.ContainsKey("state"))
+                    Properties["state"].Value = value;
+            }
             get
             {
                 if(string.IsNullOrWhiteSpace(_State))
@@ -131,7 +167,11 @@
         private string _ZipCode;
         [DataMember(Name = "zip")]
         public string ZipCode {
-            set { _ZipCode = value; }
+            set {
+                _ZipCode = value;
+                if (Properties.ContainsKey("zip"))
+                    Properties["zip"].Value = value;
+            }
             get {
                 if (string.IsNullOrWhiteSpace(_ZipCode))
                 { _ZipCode = Properties.ContainsKey("zip") ? Properties["zip"].Value : string.Empty; }      
