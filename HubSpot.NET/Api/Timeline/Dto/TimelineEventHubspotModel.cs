@@ -29,7 +29,7 @@
         public long ObjectId { get; set; }
 
         [DataMember(Name = "extraData")]
-        public KeyValuePair<string, string> ExtraData { get; set; }
+        public Dictionary<string, string> ExtraData { get; set; }
 
         [DataMember(Name = "email")]
         public string ContactEmail { get; set; }

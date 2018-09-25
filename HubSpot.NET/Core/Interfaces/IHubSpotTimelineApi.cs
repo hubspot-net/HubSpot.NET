@@ -10,8 +10,8 @@
     public interface IHubSpotTimelineApi
     {
 
-        TimelineEventTypeHubSpotModel CreateOrUpdateEvent(TimelineEventTypeHubSpotModel entity);
-        void CreateEventType(TimelineEventHubSpotModel entity);
+        TimelineEventTypeHubSpotModel CreateOrUpdateEvent(TimelineEventHubSpotModel entity);
+        void CreateEventType(TimelineEventTypeHubSpotModel entity);
         void DeleteEventType(long entityID);
         void UpdateEventType(TimelineEventTypeHubSpotModel entity);
         TimelineEventHubSpotModel GetEventById(long entityID);
