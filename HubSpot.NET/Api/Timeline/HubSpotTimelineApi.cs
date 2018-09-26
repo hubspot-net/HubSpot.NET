@@ -18,10 +18,10 @@
             AddRoute<TimelineEventTypeHubSpotModel>("/timeline/event-types");
         }
 
-        public TimelineEventTypeHubSpotModel CreateOrUpdateEvent(TimelineEventHubSpotModel entity)
+        public void CreateOrUpdateEvent(TimelineEventHubSpotModel entity)
         {
             CreateTimelineEvenModel transportModel = new CreateTimelineEvenModel(entity.EventTypeId, entity.Id, entity.ContactEmail, entity.ExtraData);
-            return _client.Execute<TimelineEventTypeHubSpotModel, CreateTimelineEvenModel>(GetRoute<TimelineEventHubSpotModel>(), transportModel, RestSharp.Method.PUT);
+            _client.ExecuteOnly(GetRoute<TimelineEventHubSpotModel>(), transportModel, RestSharp.Method.PUT);
         }
             
 
