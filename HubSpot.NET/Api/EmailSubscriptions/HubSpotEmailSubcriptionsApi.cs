@@ -58,7 +58,7 @@
         /// <param name="id">The ID of the subscription type</param>
         public void UnsubscribeFrom(string email, long id)
         {
-            var path = GetRoute<SubscriptionTypeListHubSpotModel>(email);
+            string path = GetRoute<SubscriptionTypeListHubSpotModel>(email);
 
             SubscriptionStatusHubSpotModel model = new SubscriptionStatusHubSpotModel
             {
@@ -73,6 +73,17 @@
             };
 
             _client.ExecuteOnly(path, model, Method.PUT);
+        }
+
+        public void SubscribeAll(string email)
+        {
+            string path = GetRoute<SubscriptionTypeListHubSpotModel>(email);
+        }
+
+        public void SubscribeTo(string email, long id)
+        {
+            string path = GetRoute<SubscriptionTypeListHubSpotModel>(email);
+
         }
     }
 }

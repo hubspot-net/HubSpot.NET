@@ -19,7 +19,7 @@
 
         public override string MidRoute => "oauth/v1/token";
 
-        private Dictionary<OAuthScopes, string> OAuthScopeNameConversions = new Dictionary<OAuthScopes, string>
+        private readonly Dictionary<OAuthScopes, string> OAuthScopeNameConversions = new Dictionary<OAuthScopes, string>
         {
             { OAuthScopes.Automation , "automation" },
             { OAuthScopes.BusinessIntelligence, "business-intelligence" },
@@ -84,9 +84,9 @@
         private HubSpotToken InitiateRequest<K>(K model, string basePath, params OAuthScopes[] scopes)
         {
             RestClient client = new RestClient(basePath);
-            
+
             StringBuilder builder = new StringBuilder();
-            foreach(OAuthScopes scope in scopes)
+            foreach (OAuthScopes scope in scopes)
             {
                 if (builder.Length == 0)
                 {
@@ -98,9 +98,10 @@
                 }
             }
 
-            RestRequest request = new RestRequest(MidRoute);
-            request.JsonSerializer = new FakeSerializer();
-            
+            RestRequest request = new RestRequest(MidRoute)
+            {
+                JsonSerializer = new FakeSerializer()
+            };
 
             Dictionary<string, string> jsonPreStringPairs = JsonConvert.DeserializeObject<Dictionary<string, string>>(JsonConvert.SerializeObject(model));
 

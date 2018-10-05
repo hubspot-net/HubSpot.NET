@@ -8,7 +8,7 @@ using System.Text;
 namespace HubSpot.NET.Api.Timeline.Dto
 {
     [DataContract]
-    public class CreateTimelineEvenModel : IHubSpotModel
+    public class CreateTimelineEventModel : IHubSpotModel
     {
         [DataMember(Name = "id")]
         public long Id { get; set; }
@@ -24,9 +24,9 @@ namespace HubSpot.NET.Api.Timeline.Dto
 
         public bool IsNameValue => false;
 
-        public CreateTimelineEvenModel() { }
+        public CreateTimelineEventModel() { }
 
-        public CreateTimelineEvenModel(long EventTypeId, long EventId, string Email)
+        public CreateTimelineEventModel(long EventTypeId, long EventId, string Email)
         {
             Id = EventId;
             this.EventTypeId = EventTypeId;
@@ -34,7 +34,7 @@ namespace HubSpot.NET.Api.Timeline.Dto
 
         }
 
-        public CreateTimelineEvenModel(long EventTypeId, long EventId, string Email, Dictionary<string,string> ExtraData) : this(EventTypeId, EventId, Email)
+        public CreateTimelineEventModel(long EventTypeId, long EventId, string Email, Dictionary<string,string> ExtraData) : this(EventTypeId, EventId, Email)
         {
             this.ExtraData = ExtraData;
         }
