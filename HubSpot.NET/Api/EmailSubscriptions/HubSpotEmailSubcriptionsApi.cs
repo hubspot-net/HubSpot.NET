@@ -75,15 +75,20 @@
             _client.ExecuteOnly(path, model, Method.PUT);
         }
 
-        public void SubscribeAll(string email)
-        {
-            string path = GetRoute<SubscriptionTypeListHubSpotModel>(email);
-        }
+        // TODO Add subscription capabilities
+        //public void SubscribeAll(string email)
+        //{
+        //    string path = GetRoute<SubscriptionTypeListHubSpotModel>(email);
 
-        public void SubscribeTo(string email, long id)
-        {
-            string path = GetRoute<SubscriptionTypeListHubSpotModel>(email);
+        //    SubscriptionTypeListHubSpotModel subs = GetEmailSubscriptionTypes();
 
-        }
+
+        //}
+
+        //public void SubscribeTo(string email, long id)
+        //{
+        //    string path = GetRoute<SubscriptionTypeListHubSpotModel>(email);
+
+        //}
     }
 }
