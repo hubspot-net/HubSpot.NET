@@ -21,6 +21,7 @@
         public IHubSpotOAuthApi OAuth { get; set; }
         public IHubSpotCompanyApi Company { get; private set; }
         public IHubSpotContactApi Contact { get; private set; }
+        public IHubSpotContactPropertyApi ContactProperty { get; private set; }
         public IHubSpotDealApi Deal { get; private set; }
         public IHubSpotEngagementApi Engagement { get; private set; }
         public IHubSpotCosFileApi File { get; private set; }
@@ -59,6 +60,7 @@
             OAuth = new HubSpotOAuthApi(client, clientId, clientSecret);
             Company = new HubSpotCompanyApi(client);
             Contact = new HubSpotContactApi(client);
+            ContactProperty = new HubSpotContactPropertyApi(client);
             Deal = new HubSpotDealApi(client);
             Engagement = new HubSpotEngagementApi(client);
             File = new HubSpotCosFileApi(client);

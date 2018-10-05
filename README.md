@@ -9,7 +9,7 @@ C# .NET Wrapper around the common HubSpot APIs:
 * Engagement
 * Owners
 * COS Files API (adds the ability to upload files to use as attachments to engagements)
-* Email Subscriptions
+* Email Subscriptions (currently GET & PUT)
 * Timeline API
   * Timeline EventTypes
   * Timeline Events

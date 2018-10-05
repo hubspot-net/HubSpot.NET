@@ -1,6 +1,6 @@
 ﻿namespace HubSpot.NET.Api.Shared
 {
-    using System;
+    using HubSpot.NET.Api.Contact.Dto;
     using System.Collections.Generic;
     using System.Reflection;
     using System.Runtime.Serialization;
@@ -40,6 +40,14 @@
                 }
 
                 Properties.Add(new PropertyValuePair() { Property = memberAttrib.Name, Value = value.ToString() });
+            }
+        }
+
+        public void ToPropertyTransportModel(ContactHubSpotModel model)
+        {
+            foreach(KeyValuePair<string, ContactProperty> pair in model.Properties)
+            {
+                Properties.Add(new PropertyValuePair() { Property = pair.Key, Value = pair.Value.Value });
             }
         }
 

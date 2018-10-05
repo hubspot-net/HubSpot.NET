@@ -50,6 +50,20 @@ namespace HubSpot.NET.Api.Contact
         }
 
         /// <summary>
+        /// Creates or updates a contact entity based on the entity's current email.
+        /// </summary>
+        /// <param name="originalEmail">The email the server knows, assuming the entity email may be different.</param>
+        /// <param name="entity">The contact entity to update on the server.</param>
+        /// <returns>The updated entity (with ID set)</returns>
+        public ContactHubSpotModel CreateOrUpdate(string originalEmail, ContactHubSpotModel entity)
+        {
+            CreateOrUpdateContactTransportModel transport = new CreateOrUpdateContactTransportModel(entity);
+            string path = GetRoute<ContactHubSpotModel>("contact", "createOrUpdate", "email", originalEmail);
+
+            return _client.Execute<ContactHubSpotModel, CreateOrUpdateContactTransportModel>(path, transport, Method.POST);
+        }
+
+        /// <summary>
         /// Gets a single contact by ID from hubspot
         /// </summary>
         /// <param name="contactId">ID of the contact</param>
