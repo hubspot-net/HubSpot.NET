@@ -38,7 +38,6 @@ namespace HubSpot.NET.Core
             AppId = appId;
         }
 
-
         public T Execute<T>(string path, Method method = Method.GET) where T : new() 
             => SendReceiveRequest<T>(path, method);
 
@@ -170,7 +169,7 @@ namespace HubSpot.NET.Core
         private RestRequest ConfigureRequestAuthentication(string path, Method method)
         {
             string fullPath = $"{BasePath.TrimEnd('/')}/{path.Trim('/')}";
-            RestRequest request = new RestRequest(fullPath, method);
+            RestRequest request = new RestRequest(fullPath, method, DataFormat.Json);
             switch(_mode)
             {
                 case HubSpotAuthenticationMode.OAUTH:
@@ -181,8 +180,7 @@ namespace HubSpot.NET.Core
                     break;
             }
 
-            request.JsonSerializer = new NewtonsoftRestSharpSerializer();
-            request.RequestFormat = DataFormat.Json;
+            request.JsonSerializer = new NewtonsoftRestSharpSerializer();            
             return request;
         }
 

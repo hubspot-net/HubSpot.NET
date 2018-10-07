@@ -27,8 +27,29 @@ namespace HubSpot.NET.Core.Abstracts
         /// <returns></returns>
         public virtual string GetRoute<T>() where T : IHubSpotModel
         {
-            string routeValue = Routes.ContainsKey(typeof(T)) ? Routes[typeof(T)] : string.Empty;
+            string routeValue = TryGetRouteValue<T>();
             return $"{MidRoute.TrimEnd('/')}/{routeValue.TrimStart('/')}";
+        }
+
+        /// <summary>
+        /// Provides the route to the midroute endpoint for the DTO group.
+        /// This should be used when there is no need to add any parameters
+        /// </summary>
+        /// <returns>The midroute</returns>
+        public virtual string GetRoute() 
+            => $"{MidRoute.TrimEnd('/')}";
+
+        /// <summary>
+        /// Provides the route to the midroute endpoint for the DTO group,
+        /// including the 
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns>The full route for the request</returns>
+        public virtual string GetRoute(params string[] orderedRouteValues)
+        {
+            string[] orderValuesFiltered = FilterRouteValues(orderedRouteValues);
+            string combinedParams = string.Join("/", orderValuesFiltered);
+            return $"{GetRoute()}/{combinedParams}";
         }
 
         /// <summary>
@@ -36,15 +57,26 @@ namespace HubSpot.NET.Core.Abstracts
         /// </summary>
         /// <typeparam name="T">The IHubSpotModel-based type key used for the route.</typeparam>
         /// <param name="orderedRouteValues">One or more route parameters to be combined, sans</param>
-        /// <returns></returns>
+        /// <returns>The full route for the request</returns>
         public virtual string GetRoute<T>(params string[] orderedRouteValues) where T: IHubSpotModel
         {
-            string[] orderValuesFiltered = orderedRouteValues.Select(x => x.Trim('/')).ToArray();
+            string[] orderValuesFiltered = FilterRouteValues(orderedRouteValues);
             string combinedParams = string.Join("/", orderValuesFiltered);
             return $"{GetRoute<T>().TrimEnd('/')}/{combinedParams}";
         }
 
         public void AddRoute<T>(string newRoute) where T : IHubSpotModel 
-            => Routes.Add(typeof(T), newRoute);       
+            => Routes.Add(typeof(T), newRoute);
+
+        /// <summary>
+        /// Cleans the provided strings to not have any leading or training '/'s
+        /// </summary>
+        /// <param name="values">The string values to be cleaned</param>
+        /// <returns>An array of cleaned string parameters</returns>
+        private string[] FilterRouteValues(string[] values)
+            => values.Select(x => x.Trim('/')).ToArray();
+
+        private string TryGetRouteValue<T>() where T : IHubSpotModel 
+            => Routes.ContainsKey(typeof(T)) ? Routes[typeof(T)] : string.Empty;
     }
 }

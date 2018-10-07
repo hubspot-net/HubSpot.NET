@@ -8,6 +8,10 @@ using HubSpot.NET.Core.Interfaces;
 
 namespace HubSpot.NET.Api.EmailSubscriptions.Dto
 {
+    /// <summary>
+    /// Returned from HubSpot's GET endpoint
+    /// to get the subsctiptions statuses for one email address
+    /// </summary>
     public class SubscriptionStatusHubSpotModel : IHubSpotModel
     {
         [DataMember(Name = "subscribed")]
@@ -26,7 +30,7 @@ namespace HubSpot.NET.Api.EmailSubscriptions.Dto
         public string Status { get; set; }
 
         [DataMember(Name = "subscriptionStatuses")]
-        public List<SubscriptionStatusDetailHubSpotModel> SubscriptionStatuses { get; set; }
+        public List<SubscriptionStatusDetailHubSpotModel> SubscriptionStatuses { get; set; } = new List<SubscriptionStatusDetailHubSpotModel>();
 
         public bool IsNameValue { get; }        
     }
