@@ -16,18 +16,19 @@ namespace HubSpot.NET.Api.EmailSubscriptions.Dto
     {
         public SubscriptionStatusDetailHubSpotModel() { }
 
-        public SubscriptionStatusDetailHubSpotModel(long id, bool subscribed)
+        public SubscriptionStatusDetailHubSpotModel(long id, bool subscribed) : this()
         {
             Id = id;
             Subscribed = subscribed;
         }
 
         /// <summary>
-        /// The basic SubscriptionStatusDetail, for use when GDPR compliance is not enabled on portal
+        ///     The basic SubscriptionStatusDetail, for use when GDPR compliance is not enabled on portal
         /// </summary>
         /// <param name="id">The target subscription's ID</param>
         /// <param name="subscribed">Whether or not the contact is subscribing (if false, they are unsubscribing)</param>
-        public SubscriptionStatusDetailHubSpotModel(long id, bool subscribed, OptState optState)
+        /// <param name="optState">The OptState of the contact for this subscription</param>
+        public SubscriptionStatusDetailHubSpotModel(long id, bool subscribed, OptState optState) : this(id, subscribed)
         {
             OptInState = OptStates.GetState(optState);
         }
@@ -37,6 +38,7 @@ namespace HubSpot.NET.Api.EmailSubscriptions.Dto
         /// </summary>
         /// <param name="id">The target subscription's ID</param>
         /// <param name="subscribed">Whether or not the contact is subscribing (if false, they are unsubscribing)</param>
+        /// <param name="optState">The OptState of the contact for this subscription</param>
         /// <param name="legalBasis">The legal basis on which the contact can be added to this subscription</param>
         /// <param name="explanation">A brief explanation of why they should be subscribed</param>
         public SubscriptionStatusDetailHubSpotModel(long id, bool subscribed, OptState optState, GDPRLegalBasis legalBasis, string explanation) : this(id, subscribed, optState)

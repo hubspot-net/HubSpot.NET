@@ -14,6 +14,7 @@
     <PackageTags>hubspot api wrapper c# contact company deal engagement properties crm</PackageTags>
     <PackageReleaseNotes>0.5.1</PackageReleaseNotes>
     <PackageId>SquaredUp.HubSpot.NET</PackageId>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <LangVersion>7.1</LangVersion>

@@ -65,10 +65,5 @@
       <Name>HubSpot.NET</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="ContactExample.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -23,7 +23,7 @@
         /// Gets the available email subscription types available in the portal
         /// </summary>
         public SubscriptionTypeListHubSpotModel GetEmailSubscriptionTypes() 
-            => _client.Execute<SubscriptionTypeListHubSpotModel>(GetRoute<SubscriptionTypeListHubSpotModel>());
+            => _client.Execute<SubscriptionTypeListHubSpotModel>(GetRoute());
 
         /// <summary>
         ///     Gets a single subscription type filtered from the list of all subscriptions
@@ -39,16 +39,15 @@
         /// </summary>
         /// <param name="email"></param>
         public SubscriptionStatusHubSpotModel GetStatus(string email) 
-            => _client.Execute<SubscriptionStatusHubSpotModel>(GetRoute<SubscriptionTypeListHubSpotModel>(email));
+            => _client.Execute<SubscriptionStatusHubSpotModel>(GetRoute(email));
 
 
         /// <summary>
-        /// Gets the timeline of subscription events for the portal
+        ///     Gets the timeline of subscription events for the portal
         /// </summary>
         /// <returns>An offset-based list of subscription change events.</returns>
         public SubscriptionTimelineHubSpotModel GetChangesTimeline()
-            => _client.Execute<SubscriptionTimelineHubSpotModel>(GetRoute<SubscriptionTimelineHubSpotModel>());
-        
+            => _client.Execute<SubscriptionTimelineHubSpotModel>(GetRoute<SubscriptionTimelineHubSpotModel>());        
 
         /// <summary>
         /// Unsubscribe the given email address from ALL email
@@ -56,7 +55,7 @@
         /// </summary>
         /// <param name="email"></param>
         public void UnsubscribeAll(string email) 
-            => _client.ExecuteOnly(GetRoute<SubscriptionTypeListHubSpotModel>(email), new { unsubscribeFromAll = true }, Method.PUT);
+            => _client.ExecuteOnly(GetRoute(email), new { unsubscribeFromAll = true }, Method.PUT);
 
         /// <summary>
         ///     Unsubscribe the given email address from the given subscription type
@@ -66,12 +65,10 @@
         /// <param name="id">The ID of the subscription type</param>
         public void UnsubscribeFrom(string email, long id)
         {
-            string path = GetRoute<SubscriptionTypeListHubSpotModel>(email);
-
             SubscriptionStatusHubSpotModel model = new SubscriptionStatusHubSpotModel();
             model.SubscriptionStatuses.Add(new SubscriptionStatusDetailHubSpotModel(id, false));            
 
-            _client.ExecuteOnly(path, model, Method.PUT);
+            _client.ExecuteOnly(GetRoute(email), model, Method.PUT);
         }
 
         /// <summary>
@@ -114,8 +111,6 @@
 
             SendSubscriptionRequest(GetRoute(email), subRequest);
         }
-
-
 
         /// <summary>
         ///     Subscribes a contact to one subscription type by email. Can only be used when portal's GDPR compliance setting is turned off.
