@@ -16,15 +16,22 @@
             string clientId = string.Empty; // args[1]
             string clientSecret = string.Empty; // args[2]
             string appId = string.Empty; // args[3]
+            string portalId = string.Empty; // args[4] target portal id
             if(args.Length >= 1)
             {
                 hapiKey = args[0];
 
-                if(args.Length > 4)
+                if(args.Length > 3)
                 {
                     clientId = args[1];
                     clientSecret = args[2];
                     appId = args[3];
+
+                    if (args.Length > 4)
+                    {
+                        // A target portal ID has been supplied load that into a local variable as well.
+                        portalId = args[4];
+                    }
                 }
             }
 

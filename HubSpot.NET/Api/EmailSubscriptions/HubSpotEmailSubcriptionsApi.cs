@@ -41,7 +41,6 @@
         public SubscriptionStatusHubSpotModel GetStatus(string email) 
             => _client.Execute<SubscriptionStatusHubSpotModel>(GetRoute(email));
 
-
         /// <summary>
         ///     Gets the timeline of subscription events for the portal
         /// </summary>

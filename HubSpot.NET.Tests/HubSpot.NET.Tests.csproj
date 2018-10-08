@@ -14,7 +14,6 @@
 
   <ItemGroup>
     <Folder Include="Api\" />
-    <Folder Include="Core\" />
   </ItemGroup>
 
 </Project>
