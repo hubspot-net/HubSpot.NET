@@ -14,16 +14,18 @@ namespace HubSpot.NET.Core.Dictionaries
         private static readonly Dictionary<OptState, string> OptStatesDictionary = new Dictionary<OptState, string>
         {
             { OptState.OPT_IN , "OPT_IN" },
-            { OptState.NOT_OPTED, "NOT_OPTED" }
+            { OptState.NOT_OPTED, "NOT_OPTED" },
+            { OptState.OPT_OUT, "OPT_OUT" }
         };
 
         public static string GetState(OptState state)
-            => OptStatesDictionary[state];       
+            => OptStatesDictionary[state];               
     }
 
     public enum OptState
     {
         OPT_IN = 0,
-        NOT_OPTED = 1
+        NOT_OPTED = 1,
+        OPT_OUT = 2
     }
 }

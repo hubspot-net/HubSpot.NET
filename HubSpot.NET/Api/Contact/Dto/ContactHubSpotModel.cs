@@ -184,10 +184,8 @@
         [DataMember(Name = "hubspot_owner_id")]
         public long? OwnerId { get; set; }
 
-        [DataMember(Name = "properties")]     
-        public Dictionary<string, ContactProperty> Properties { get; set; }
+        [DataMember(Name = "properties")]
+        public Dictionary<string, ContactProperty> Properties { get; set; } = new Dictionary<string, ContactProperty>();
         public bool IsNameValue => false;
     }
-
-
 }

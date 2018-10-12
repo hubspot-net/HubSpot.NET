@@ -25,13 +25,13 @@ namespace HubSpot.NET.Examples
            /**
              * Get the available subscription types
              */
-            var all = api.EmailSubscriptions.GetEmailSubscriptionTypes();
+            var all = api.EmailSubscriptions.GetSubscriptionTypes();
 
             /**
              * Get the subscription statuses for the given email address
              * A missing type implies that they have not opted out
              */
-            var john = api.EmailSubscriptions.GetStatus("john@squaredup.com");
+            var john = api.EmailSubscriptions.GetSubscriptionStatusForContact("john@squaredup.com");
 
             /**
              * Unsubscribe a user from ALL emails
