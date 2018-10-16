@@ -31,13 +31,13 @@ namespace HubSpot.NET.Examples
              * Get the subscription statuses for the given email address
              * A missing type implies that they have not opted out
              */
-            var john = api.EmailSubscriptions.GetSubscriptionStatusForContact("john@squaredup.com");
+            //var john = api.EmailSubscriptions.GetSubscriptionStatusForContact("john@squaredup.com");
 
             /**
              * Unsubscribe a user from ALL emails
              * WARNING: You cannot undo this
              */
-            api.EmailSubscriptions.UnsubscribeAll("john@squaredup.com");
+           // api.EmailSubscriptions.UnsubscribeAll("john@squaredup.com");
 
 
             /**
@@ -45,7 +45,9 @@ namespace HubSpot.NET.Examples
              * WARNING: You cannot undo this
              */
             var type = all.Types.First();
-            api.EmailSubscriptions.UnsubscribeFrom("dan@squaredup.com", type.Id);
+           // api.EmailSubscriptions.UnsubscribeFrom("dan@squaredup.com", type.Id);
+
+            api.EmailSubscriptions.SubscribeTo("dev@vtrpro.com", type.Id);
         }
     }
 }

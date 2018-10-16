@@ -37,7 +37,7 @@
         public void UnsubscribeFrom(string email, long id)
         {
             SubscriptionStatusHubSpotModel model = new SubscriptionStatusHubSpotModel();
-            model.SubscriptionStatuses.Add(new SubscriptionStatusDetailHubSpotModel(id, false));            
+            model.SubscriptionStatuses.Add(new SubscriptionStatusDetailHubSpotModel(id, false, OptState.OPT_OUT));            
 
            SendSubscriptionRequest(GetRoute(email), model);
         }
@@ -49,7 +49,7 @@
 
             GetSubscriptionTypes().Types.ForEach(sub =>
             {
-                subs.Add(new SubscriptionStatusDetailHubSpotModel(sub.Id, true));
+                subs.Add(new SubscriptionStatusDetailHubSpotModel(sub.Id, true, OptState.OPT_IN));
             });
 
             subRequest.SubscriptionStatuses.AddRange(subs);
@@ -79,8 +79,8 @@
                 throw new KeyNotFoundException("The SubscriptionType ID provided does not exist in the SubscriptionType list");
 
             SubscriptionSubscribeHubSpotModel subRequest = new SubscriptionSubscribeHubSpotModel();
-            subRequest.SubscriptionStatuses.Add(new SubscriptionStatusDetailHubSpotModel(singleSub.Id, true));
-
+            subRequest.SubscriptionStatuses.Add(new SubscriptionStatusDetailHubSpotModel(singleSub.Id, true, OptState.OPT_IN));
+            
             SendSubscriptionRequest(GetRoute(email), subRequest);
         }
 
