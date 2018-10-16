@@ -99,5 +99,21 @@
 
         private void SendSubscriptionRequest(string path, object payload)
             => _client.ExecuteOnly(path, payload, Method.PUT);
+
+        public void UnsubscribeFrom(string email, params long[] ids)
+        {
+            foreach (var id in ids)
+            {
+                UnsubscribeFrom(email, id);
+            }
+        }
+
+        public void SubscribeTo(string email, params long[] ids)
+        {
+            foreach (var id in ids)
+            {
+                SubscribeTo(email, id);
+            }
+        }
     }
 }

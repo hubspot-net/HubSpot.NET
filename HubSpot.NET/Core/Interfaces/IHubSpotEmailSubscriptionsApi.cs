@@ -36,6 +36,12 @@ namespace HubSpot.NET.Core.Interfaces
         /// <param name="id">The ID of the subscription type</param>
         void UnsubscribeFrom(string email, long id);
         /// <summary>
+        /// Enables unsubscribing from multiple email subscriptions at once.
+        /// </summary>
+        /// <param name="email">The contact's email.</param>
+        /// <param name="ids">Target Subscription Ids</param>
+        void UnsubscribeFrom(string email, params long[] ids);
+        /// <summary>
         /// Subscribes a contact to all subscription types.
         /// Can only be used when portal's GDPR compliance setting is turned off.
         /// </summary>
@@ -47,6 +53,12 @@ namespace HubSpot.NET.Core.Interfaces
         /// <param name="email">The contact's email</param>
         /// <param name="id">The Id of the target SubscriptionType</param>
         void SubscribeTo(string email, long id);
+        /// <summary>
+        /// Enables subscribing to multiple email subscriptions at once.
+        /// </summary>
+        /// <param name="email">The contact's email.</param>
+        /// <param name="ids">Target Subscription Ids</param>
+        void SubscribeTo(string email, params long[] ids);
         /// <summary>
         /// Subscribes a contact to all available subscriptions when GDPR compliance is enabled on portal
         /// </summary>
