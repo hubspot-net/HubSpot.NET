@@ -16,6 +16,8 @@ namespace HubSpot.NET.Api.EmailSubscriptions.Dto
     {
         [DataMember(Name = "subscriptionDefinitions")]
         public List<SubscriptionTypeHubSpotModel> Types { get; set; } = new List<SubscriptionTypeHubSpotModel>();
+
+        [IgnoreDataMember]
         public bool IsNameValue => false;
 
         internal SubscriptionTypeHubSpotModel Where()

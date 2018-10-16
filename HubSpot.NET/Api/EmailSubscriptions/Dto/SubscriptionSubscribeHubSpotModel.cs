@@ -28,6 +28,7 @@ namespace HubSpot.NET.Api.EmailSubscriptions.Dto
         [DataMember(Name = "portalSubscriptionLegalBasisExplanation")]
         public string PortalSubscriptionLegalBasisExplanation { get; set; }
 
+        [IgnoreDataMember]
         public bool IsNameValue { get; }
     }
 }

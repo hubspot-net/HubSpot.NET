@@ -26,6 +26,7 @@ namespace HubSpot.NET.Api.EmailSubscriptions.Dto
         [DataMember(Name = "name")]
         public string Name { get;set; }
 
+        [IgnoreDataMember]
         public bool IsNameValue { get; }        
     }
 }

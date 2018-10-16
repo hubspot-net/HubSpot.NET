@@ -32,6 +32,7 @@ namespace HubSpot.NET.Api.EmailSubscriptions.Dto
         [DataMember(Name = "subscriptionStatuses")]
         public List<SubscriptionStatusDetailHubSpotModel> SubscriptionStatuses { get; set; } = new List<SubscriptionStatusDetailHubSpotModel>();
 
+        [IgnoreDataMember]
         public bool IsNameValue { get; }        
     }
 }

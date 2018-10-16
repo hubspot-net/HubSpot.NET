@@ -62,6 +62,7 @@ namespace HubSpot.NET.Api.EmailSubscriptions.Dto
         [DataMember(Name = "legalBasisExplanation")]
         public string LegalBasisExplanation { get; set; }
 
+        [IgnoreDataMember]
         public bool IsNameValue { get; }
     }
 }

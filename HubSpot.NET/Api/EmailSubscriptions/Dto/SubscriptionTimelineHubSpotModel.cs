@@ -26,6 +26,7 @@
         [DataMember(Name = "timeline")]
         public IOrderedEnumerable<SubscriptionTimelineChangeHubSpotModel> Timeline { get; set; }
 
-        public bool IsNameValue => throw new NotImplementedException();
+        [IgnoreDataMember]
+        public bool IsNameValue => false;
     }
 }
