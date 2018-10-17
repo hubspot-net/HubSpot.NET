@@ -12,6 +12,7 @@ namespace HubSpot.NET.Api.EmailSubscriptions.Dto
     /// Returned from HubSpot's GET endpoint
     /// to get the subsctiptions statuses for one email address
     /// </summary>
+    [DataContract]
     public class SubscriptionStatusHubSpotModel : IHubSpotModel
     {
         [DataMember(Name = "subscribed")]

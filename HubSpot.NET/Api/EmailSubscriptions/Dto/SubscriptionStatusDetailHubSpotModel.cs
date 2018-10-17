@@ -12,6 +12,7 @@ namespace HubSpot.NET.Api.EmailSubscriptions.Dto
     ///         /email/public/v1/subscriptions/:email_address
     ///     </para>
     /// </summary>
+    [DataContract]
     public class SubscriptionStatusDetailHubSpotModel : IHubSpotModel
     {
         public SubscriptionStatusDetailHubSpotModel() { }

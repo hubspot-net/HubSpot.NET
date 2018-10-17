@@ -11,6 +11,7 @@
     ///         For reference: <see href="https://developers.hubspot.com/docs/methods/email/get_subscriptions_timeline"/>
     ///     </para>
     /// </summary>
+    [DataContract]
     public class SubscriptionTimelineChangeHubSpotModel
     {
         [DataMember(Name = "change")]

@@ -15,6 +15,7 @@
         ///     /email/public/v1/subscriptions/timeline
         /// </para>
     /// </summary>
+    [DataContract]
     public class SubscriptionTimelineHubSpotModel : IHubSpotModel
     {
         [DataMember(Name = "hasMore")]

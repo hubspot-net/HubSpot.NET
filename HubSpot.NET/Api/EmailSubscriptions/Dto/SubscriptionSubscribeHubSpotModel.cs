@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace HubSpot.NET.Api.EmailSubscriptions.Dto
 {
+    [DataContract]
     public class SubscriptionSubscribeHubSpotModel : IHubSpotModel
     {
         public SubscriptionSubscribeHubSpotModel() { }
