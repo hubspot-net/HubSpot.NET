@@ -28,16 +28,6 @@ namespace HubSpot.NET.Api.EmailSubscriptions.Dto
         [DataMember(Name = "subscriptionStatuses")]
         public List<SubscriptionStatusDetailHubSpotModel> SubscriptionStatuses { get; set; }
 
-        public bool IsNameValue { get; }
-
-        public void ToHubSpotDataEntity(ref dynamic dataEntity)
-        {
-        }
-
-        public void FromHubSpotDataEntity(dynamic hubspotData)
-        {
-        }
-
-        public string RouteBasePath => "/email/public/v1";
+        public bool IsNameValue { get; }        
     }
 }

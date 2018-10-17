@@ -11,17 +11,6 @@ namespace HubSpot.NET.Api.EmailSubscriptions.Dto
     {
         [DataMember(Name = "subscriptionDefinitions")]
         public IList<SubscriptionTypeHubSpotModel> Types { get; set; } = new List<SubscriptionTypeHubSpotModel>();
-        
-        public string RouteBasePath => "/email/public/v1";
-
         public bool IsNameValue => false;
-
-        public virtual void ToHubSpotDataEntity(ref dynamic converted)
-        {
-        }
-
-        public virtual void FromHubSpotDataEntity(dynamic hubspotData)
-        {
-        }
     }
 }

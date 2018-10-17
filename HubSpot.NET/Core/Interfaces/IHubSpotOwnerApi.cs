@@ -4,6 +4,6 @@ namespace HubSpot.NET.Core.Interfaces
 {
     public interface IHubSpotOwnerApi
     {
-        OwnerListHubSpotModel<T> GetAll<T>() where T: OwnerHubSpotModel, new();
+        OwnerListHubSpotModel<T> GetAll<T>() where T : OwnerHubSpotModel;
     }
 }

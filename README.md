@@ -1,6 +1,6 @@
 [![NuGet](https://img.shields.io/nuget/v/SquaredUp.HubSpot.NET.svg)](https://www.nuget.org/packages/SquaredUp.HubSpot.NET/) [![Build status](https://ci.appveyor.com/api/projects/status/w4skc8uolatt97j0?svg=true)](https://ci.appveyor.com/project/clarkd/hubspot-net)
 
-# HubSpot.NET
+# <span>HubSpot.NET</span>
 C# .NET Wrapper around the common HubSpot APIs:
 
 * Contact
@@ -9,12 +9,37 @@ C# .NET Wrapper around the common HubSpot APIs:
 * Engagement
 * Owners
 * COS Files API (adds the ability to upload files to use as attachments to engagements)
+* Email Subscriptions (currently GET & PUT)
+* Timeline API
+  * Timeline EventTypes
+  * Timeline Events
+
+## Authorization
+
+<span>HubSpot.NET</span> supports authorization by API key or through HubSpot's OAuth workflow. [As is noted in HubSpot's API documentation](), it is recommended to use the OAuth form if your integration is going to be used commercially due to an increased level of security. However, we have made it optional to target OAuth or API key authentication so you can develop against the authentication provider that best suits your needs.
 
 ## Getting Started
-To get started, install the [Nuget package](https://www.nuget.org/packages/SquaredUp.HubSpot.NET/) and create a instance of `HubSpotApi` passing your API Key as the only parameter. 
+To get started, install the [Nuget package](https://www.nuget.org/packages/SquaredUp.HubSpot.NET/) and create a instance of `HubSpotApi` passing your API Key as the only parameter; or if using OAuth pass in the Client ID, Client Secret, and App ID.
 
-```
+### API Key
+```csharp
   var api = new HubSpotApi("MY API KEY");
+  
+  // Create a contact
+  var contact = api.Contact.Create(new ContactHubSpotModel()
+  {
+      Email = "john@squaredup.com",
+      FirstName = "John",
+      LastName = "Smith",
+      Phone = "00000 000000",
+      Company = "Squared Up Ltd."
+  });
+  
+```
+
+### OAuth
+```csharp
+  var api = new HubSpotApi("clientID", "clientSecret", "HubSpotAppID");
   
   // Create a contact
   var contact = api.Contact.Create(new ContactHubSpotModel()
@@ -32,7 +57,7 @@ To get started, install the [Nuget package](https://www.nuget.org/packages/Squar
 ### Using your own models
 As HubSpot lets you create and add custom properties to your contacts, companies and deals it's likely you'll want to implement your own models. This is straightforward, simply extend the models shipped with this library, e.g. `ContactHubSpotModel` and add your own properties. Use the `DataMember` attributes to indicate the internal name. For example
 
-```
+```csharp
   public class Contact : ContactHubSpotModel
   {
       [DataMember(Name = "activities")]

@@ -3,21 +3,14 @@ using HubSpot.NET.Api.Deal.Dto;
 
 namespace HubSpot.NET.Core.Interfaces
 {
-    public interface IHubSpotDealApi
+    public interface IHubSpotDealApi<T> : ICRUDable<T>
+        where T : IHubSpotModel   
     {
-        T Create<T>(T entity) where T : DealHubSpotModel, new();
-        void Delete(long dealId);
-        T GetById<T>(long dealId) where T : DealHubSpotModel, new();
-        T Update<T>(T entity) where T : DealHubSpotModel, new();
-
-        DealListHubSpotModel<T> List<T>(bool includeAssociations, ListRequestOptions opts = null)
-            where T : DealHubSpotModel, new();
-
-        DealRecentListHubSpotModel<T> RecentlyCreated<T>(DealRecentRequestOptions opts = null)
-            where T : DealHubSpotModel, new();
-
-        DealRecentListHubSpotModel<T> RecentlyUpdated<T>(DealRecentRequestOptions opts = null)
-            where T : DealHubSpotModel, new();
-        DealListHubSpotModel<T> ListAssociated<T>(bool includeAssociations, long hubId, ListRequestOptions opts = null, string objectName = "contact") where T :DealHubSpotModel, new();
+        DealListHubSpotModel<T> List(bool includeAssociations, ListRequestOptions opts = null);     
+        DealListHubSpotModel<T> ListAssociated(bool includeAssociations, long hubId, ListRequestOptions opts = null, string objectName = "contact");
+        DealRecentListHubSpotModel<T> RecentlyCreated(DealRecentRequestOptions opts = null);
+        DealRecentListHubSpotModel<T> RecentlyUpdated(DealRecentRequestOptions opts = null);
     }
+
+    public interface IHubSpotDealApi : IHubSpotDealApi<DealHubSpotModel> { }
 }
