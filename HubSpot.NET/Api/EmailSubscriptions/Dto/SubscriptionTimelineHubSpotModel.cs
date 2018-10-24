@@ -8,6 +8,14 @@
     using System.Text;
     using System.Threading.Tasks;
 
+    /// <summary>
+        /// Returned from HubSpot's GET endpoint to view the time-ordered
+        /// list of subscriptions for a portal
+        /// <para>
+        ///     /email/public/v1/subscriptions/timeline
+        /// </para>
+    /// </summary>
+    [DataContract]
     public class SubscriptionTimelineHubSpotModel : IHubSpotModel
     {
         [DataMember(Name = "hasMore")]
@@ -19,6 +27,7 @@
         [DataMember(Name = "timeline")]
         public IOrderedEnumerable<SubscriptionTimelineChangeHubSpotModel> Timeline { get; set; }
 
-        public bool IsNameValue => throw new NotImplementedException();
+        [IgnoreDataMember]
+        public bool IsNameValue => false;
     }
 }

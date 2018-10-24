@@ -8,6 +8,9 @@ using HubSpot.NET.Core.Interfaces;
 
 namespace HubSpot.NET.Api.EmailSubscriptions.Dto
 {
+    /// <summary>
+    /// A single instance of a subscription type
+    /// </summary>
     [DataContract]
     public class SubscriptionTypeHubSpotModel : IHubSpotModel
     {
@@ -23,6 +26,7 @@ namespace HubSpot.NET.Api.EmailSubscriptions.Dto
         [DataMember(Name = "name")]
         public string Name { get;set; }
 
+        [IgnoreDataMember]
         public bool IsNameValue { get; }        
     }
 }

@@ -14,6 +14,7 @@
     <PackageTags>hubspot api wrapper c# contact company deal engagement properties crm</PackageTags>
     <PackageReleaseNotes>0.5.1</PackageReleaseNotes>
     <PackageId>SquaredUp.HubSpot.NET</PackageId>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <LangVersion>7.1</LangVersion>
@@ -24,7 +25,7 @@
   <ItemGroup>
     <PackageReference Include="Flurl" Version="2.8.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-    <PackageReference Include="RestSharp" Version="106.4.2" />
+    <PackageReference Include="RestSharp" Version="106.5.0" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

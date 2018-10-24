@@ -25,11 +25,11 @@ namespace HubSpot.NET.Examples
              */
             var contact = api.Contact.Create(new ContactHubSpotModel()
             {
-                Email = "john@squaredup.com",
+                Email = "another@person.com",
                 FirstName = "John",
                 LastName = "Smith",
                 Phone = "00000 000000",
-                Company = "Squared Up Ltd."
+                Company = "Oliver & Co"
             });
 
             /**

@@ -25,8 +25,10 @@
         public string Email {
             set {
                 _Email = value;
-                if (Properties.ContainsKey("email"))
-                    Properties["email"].Value = value;
+                //if (Properties.ContainsKey("email"))
+                //    Properties["email"].Value = value;
+
+                Properties["email"] = new ContactProperty(value);
             }
             get
             {
@@ -166,17 +168,21 @@
 
         private string _ZipCode;
         [DataMember(Name = "zip")]
-        public string ZipCode {
-            set {
+        public string ZipCode
+        {
+            set
+            {
                 _ZipCode = value;
                 if (Properties.ContainsKey("zip"))
                     Properties["zip"].Value = value;
             }
-            get {
+            get
+            {
                 if (string.IsNullOrWhiteSpace(_ZipCode))
-                { _ZipCode = Properties.ContainsKey("zip") ? Properties["zip"].Value : string.Empty; }      
+                { _ZipCode = Properties.ContainsKey("zip") ? Properties["zip"].Value : string.Empty; }
                 return _ZipCode;
-            } }
+            }
+        }
 
         [DataMember(Name = "associatedcompanyid")]
         public long? AssociatedCompanyId { get; set; }
@@ -184,10 +190,10 @@
         [DataMember(Name = "hubspot_owner_id")]
         public long? OwnerId { get; set; }
 
-        [DataMember(Name = "properties")]     
-        public Dictionary<string, ContactProperty> Properties { get; set; }
+        [DataMember(Name = "properties")]
+        public Dictionary<string, ContactProperty> Properties { get; set; } = new Dictionary<string, ContactProperty>();
+
+        [IgnoreDataMember]
         public bool IsNameValue => false;
     }
-
-
 }

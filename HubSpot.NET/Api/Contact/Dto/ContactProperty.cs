@@ -8,11 +8,18 @@ namespace HubSpot.NET.Api.Contact.Dto
     [DataContract]
     public class ContactProperty
     {
+        public ContactProperty() { }
+
+        public ContactProperty(string value)
+        {
+            Value = value;
+        }
+
         [DataMember(Name = "value")]
         public string Value { get; set; }
 
         [DataMember(Name = "versions")]
-        List<ContactPropertyVersion> Versions { get; set; }
+        List<ContactPropertyVersion> Versions { get; set; } = new List<ContactPropertyVersion>();
     }
 
     [DataContract]

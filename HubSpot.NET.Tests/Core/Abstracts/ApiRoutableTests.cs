@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HubSpot.NET.Core.Interfaces
+namespace HubSpot.NET.Tests.Core.Abstracts
 {
-    public interface IHubSpotModel
-    {        
-        bool IsNameValue { get; }        
+    public class ApiRoutableTests
+    {
+        
     }
 }
