@@ -66,7 +66,7 @@ namespace HubSpot.NET.Core
             }
 
             var response = _client.Execute(request);
-            if (!response.IsSuccessful())
+            if (!response.IsSuccessful)
                 throw new HubSpotException("Error from HubSpot", response.Content); // lettuce get some good exception info back
 
             return JsonConvert.DeserializeObject<T>(response.Content);         
@@ -141,7 +141,7 @@ namespace HubSpot.NET.Core
 
             IRestResponse response = _client.Execute(request);
 
-            if (!response.IsSuccessful())
+            if (!response.IsSuccessful)
                 throw new HubSpotException("Error from HubSpot", new HubSpotError(response.StatusCode, response.StatusDescription), response.Content);
         }
 
@@ -157,7 +157,7 @@ namespace HubSpot.NET.Core
 
             IRestResponse response = _client.Execute(request);
 
-            if (!response.IsSuccessful())
+            if (!response.IsSuccessful)
                 throw new HubSpotException("Error from HubSpot", new HubSpotError(response.StatusCode, response.StatusDescription), response.Content);
         }
         /// <summary>
