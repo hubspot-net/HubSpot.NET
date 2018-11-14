@@ -1,6 +1,7 @@
 ﻿using HubSpot.NET.Api.Company;
 using HubSpot.NET.Api.Contact;
 using HubSpot.NET.Api.Deal;
+using HubSpot.NET.Api.EmailEvents;
 using HubSpot.NET.Api.EmailSubscriptions;
 using HubSpot.NET.Api.Engagement;
 using HubSpot.NET.Api.Files;
@@ -16,27 +17,29 @@ namespace HubSpot.NET.Core
     public class HubSpotApi : IHubSpotApi
     {
         public IHubSpotCompanyApi Company { get; }
+        public IHubSpotCompanyPropertiesApi CompanyProperties { get; }
         public IHubSpotContactApi Contact { get; }
         public IHubSpotDealApi Deal { get; }
+        public IHubSpotEmailEventsApi EmailEvents { get; }
+        public IHubSpotEmailSubscriptionsApi EmailSubscriptions { get; }
         public IHubSpotEngagementApi Engagement { get; }
         public IHubSpotCosFileApi File { get; }
         public IHubSpotOwnerApi Owner { get; }
-        public IHubSpotCompanyPropertiesApi CompanyProperties { get; }
 
-        public IHubSpotEmailSubscriptionsApi EmailSubscriptions { get; }
 
         public HubSpotApi(string apiKey)
         {
             IHubSpotClient client = new HubSpotBaseClient(apiKey);
 
             Company = new HubSpotCompanyApi(client);
+            CompanyProperties = new HubSpotCompaniesPropertiesApi(client);
             Contact = new HubSpotContactApi(client);
             Deal = new HubSpotDealApi(client);
+            EmailEvents = new HubSpotEmailEventsApi(client);
+            EmailSubscriptions = new HubSpotEmailSubscriptionsApi(client);
             Engagement = new HubSpotEngagementApi(client);
             File = new HubSpotCosFileApi(client);
             Owner = new HubSpotOwnerApi(client);
-            CompanyProperties = new HubSpotCompaniesPropertiesApi(client);
-            EmailSubscriptions = new HubSpotEmailSubscriptionsApi(client);
         }
 
     }
