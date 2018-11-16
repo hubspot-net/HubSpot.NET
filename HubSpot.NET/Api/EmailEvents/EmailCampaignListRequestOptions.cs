@@ -28,7 +28,7 @@ namespace HubSpot.NET.Api.EmailEvents
                 if (value < 1)
                 {
                     throw new ArgumentException(
-                        $"Number of campaigns to return must be a positive ingeteger greater than 0 - you provided {value}");
+                        $"Number of campaigns to return must be a positive integer greater than 0 - you provided {value}");
                 }
                 _limit = value;
             }
