@@ -32,7 +32,7 @@ namespace HubSpot.NET.Api.Contact
             CreateOrUpdateContactTransportModel transport = new CreateOrUpdateContactTransportModel(entity);
             string path = GetRoute<ContactHubSpotModel>("contact");
 
-            return _client.Execute<ContactHubSpotModel,CreateOrUpdateContactTransportModel>(path, transport, Method.POST);
+            return _client.Execute<ContactHubSpotModel, CreateOrUpdateContactTransportModel>(path, transport, Method.POST);
         }
 
         /// <summary>

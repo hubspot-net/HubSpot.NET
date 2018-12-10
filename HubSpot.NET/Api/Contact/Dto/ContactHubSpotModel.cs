@@ -25,9 +25,6 @@
         public string Email {
             set {
                 _Email = value;
-                //if (Properties.ContainsKey("email"))
-                //    Properties["email"].Value = value;
-
                 Properties["email"] = new ContactProperty(value);
             }
             get
@@ -43,8 +40,7 @@
         public string FirstName {
             set {
                 _FirstName = value;
-                if (Properties.ContainsKey("firstname"))
-                    Properties["firstname"].Value = value;
+                Properties["firstname"] = new ContactProperty(value);
             }
             get
             {
@@ -59,8 +55,7 @@
         public string LastName {
             set {
                 _LastName = value;
-                if (Properties.ContainsKey("lastname"))
-                    Properties["lastname"].Value = value;
+                Properties["lastname"] = new ContactProperty(value);
             }
             get
             {
@@ -75,8 +70,7 @@
         public string Website {
             set {
                 _Website = value;
-                if (Properties.ContainsKey("website"))
-                    Properties["website"].Value = value;
+                Properties["website"] = new ContactProperty(value);
             }
             get
             {
@@ -91,8 +85,7 @@
         public string Company {
             set {
                 _Company = value;
-                if (Properties.ContainsKey("company"))
-                    Properties["company"].Value = value;
+                Properties["company"] = new ContactProperty(value);
             }
             get
             {
@@ -107,8 +100,7 @@
         public string Phone {
             set {
                 _Phone = value;
-                if (Properties.ContainsKey("phone"))
-                    Properties["phone"].Value = value;
+                Properties["phone"] = new ContactProperty(value);
             }
             get
             {
@@ -122,9 +114,8 @@
         [DataMember(Name = "address")]
         public string Address {
             set {
-                _Address = value;
-                if (Properties.ContainsKey("address"))
-                    Properties["address"].Value = value;
+                _Address = value;                
+                Properties["address"] = new ContactProperty(value);
             }
             get
             {
@@ -138,9 +129,8 @@
         [DataMember(Name = "city")]
         public string City {
             set {
-                _City = value;
-                if (Properties.ContainsKey("city"))
-                    Properties["city"].Value = value;
+                _City = value;                
+                Properties["city"] = new ContactProperty(value);
             }
             get
             {
@@ -154,9 +144,8 @@
         [DataMember(Name = "state")]
         public string State {
             set {
-                _State = value;
-                if (Properties.ContainsKey("state"))
-                    Properties["state"].Value = value;
+                _State = value;                
+                Properties["state"] = new ContactProperty(value);
             }
             get
             {
@@ -172,9 +161,8 @@
         {
             set
             {
-                _ZipCode = value;
-                if (Properties.ContainsKey("zip"))
-                    Properties["zip"].Value = value;
+                _ZipCode = value;                
+                Properties["zip"] = new ContactProperty(value);
             }
             get
             {
