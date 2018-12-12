@@ -25,7 +25,7 @@
         public string Email {
             set {
                 _Email = value;
-                Properties["email"] = new ContactProperty(value);
+                //Properties["email"] = new ContactProperty(value);
             }
             get
             {
@@ -40,7 +40,7 @@
         public string FirstName {
             set {
                 _FirstName = value;
-                Properties["firstname"] = new ContactProperty(value);
+                //Properties["firstname"] = new ContactProperty(value);
             }
             get
             {
@@ -55,7 +55,7 @@
         public string LastName {
             set {
                 _LastName = value;
-                Properties["lastname"] = new ContactProperty(value);
+                //Properties["lastname"] = new ContactProperty(value);
             }
             get
             {
@@ -70,7 +70,7 @@
         public string Website {
             set {
                 _Website = value;
-                Properties["website"] = new ContactProperty(value);
+                //Properties["website"] = new ContactProperty(value);
             }
             get
             {
@@ -85,7 +85,7 @@
         public string Company {
             set {
                 _Company = value;
-                Properties["company"] = new ContactProperty(value);
+                //Properties["company"] = new ContactProperty(value);
             }
             get
             {
@@ -100,7 +100,7 @@
         public string Phone {
             set {
                 _Phone = value;
-                Properties["phone"] = new ContactProperty(value);
+                //Properties["phone"] = new ContactProperty(value);
             }
             get
             {
@@ -115,7 +115,7 @@
         public string Address {
             set {
                 _Address = value;                
-                Properties["address"] = new ContactProperty(value);
+                //Properties["address"] = new ContactProperty(value);
             }
             get
             {
@@ -130,7 +130,7 @@
         public string City {
             set {
                 _City = value;                
-                Properties["city"] = new ContactProperty(value);
+                //Properties["city"] = new ContactProperty(value);
             }
             get
             {
@@ -145,7 +145,7 @@
         public string State {
             set {
                 _State = value;                
-                Properties["state"] = new ContactProperty(value);
+                //Properties["state"] = new ContactProperty(value);
             }
             get
             {
@@ -162,7 +162,7 @@
             set
             {
                 _ZipCode = value;                
-                Properties["zip"] = new ContactProperty(value);
+                //Properties["zip"] = new ContactProperty(value);
             }
             get
             {

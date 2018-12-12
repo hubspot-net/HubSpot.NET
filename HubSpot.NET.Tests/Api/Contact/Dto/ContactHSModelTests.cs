@@ -109,6 +109,6 @@ namespace HubSpot.NET.Tests.Api.Contact.Dto
             Assert.Equal(sut.Properties["city"].Value, sut.City);
             Assert.Equal(sut.Properties["state"].Value, sut.State);
             Assert.Equal(sut.Properties["zip"].Value, sut.ZipCode);
-        }
+        }        
     }
 }

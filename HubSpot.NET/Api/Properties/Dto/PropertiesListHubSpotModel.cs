@@ -20,8 +20,7 @@ namespace HubSpot.NET.Api.Properties.Dto
         public IEnumerator<T> GetEnumerator() 
             => Properties.GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator() 
-            => GetEnumerator();
+        IEnumerator IEnumerable.Enumerator => GetEnumerator();
 
         public void Add(T item) 
             => Properties.Add(item);

@@ -5,6 +5,13 @@
     [DataContract]
     public class PropertyValuePair
     {
+        public PropertyValuePair() { }
+        public PropertyValuePair(string prop, string value) : this()
+        {
+            Property = prop;
+            Value = value;
+        }
+
         [DataMember(Name = "property")]
         public string Property { get; set; }
 

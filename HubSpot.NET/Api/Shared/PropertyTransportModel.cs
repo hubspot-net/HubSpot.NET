@@ -9,8 +9,7 @@
     public abstract class PropertyTransportModel<T>
     {
         [DataMember(Name = "properties")]
-        public List<PropertyValuePair> Properties { get; set; } = new List<PropertyValuePair>();
-
+        public PropertyValuePairCollection Properties { get; set; } = new PropertyValuePairCollection();
         
         public void ToPropertyTransportModel(T model)
         {
@@ -29,27 +28,33 @@
                 if (prop.PropertyType.IsArray && typeof(PropertyValuePair).IsAssignableFrom(prop.PropertyType.GetElementType()))
                 {
                     PropertyValuePair[] pairs = value as PropertyValuePair[];
-                    Properties.AddRange(pairs);
+                    foreach (var item in pairs)
+                    {
+                        Properties.Add(item);
+                    }
                     continue;
                 }
                 else if(typeof(IEnumerable<>).IsAssignableFrom(prop.PropertyType) && typeof(PropertyValuePair).IsAssignableFrom(prop.PropertyType.GetElementType()))
                 {
                     IEnumerable<PropertyValuePair> pairs = value as IEnumerable<PropertyValuePair>;
-                    Properties.AddRange(pairs);
+                    foreach (var item in pairs)
+                    {
+                        Properties.Add(item);
+                    }
                     continue;
                 }
 
-                Properties.Add(new PropertyValuePair() { Property = memberAttrib.Name, Value = value.ToString() });
+                Properties.Add(new PropertyValuePair(memberAttrib.Name, value.ToString()));
             }
         }
 
-        public void ToPropertyTransportModel(ContactHubSpotModel model)
-        {
-            foreach(KeyValuePair<string, ContactProperty> pair in model.Properties)
-            {
-                Properties.Add(new PropertyValuePair() { Property = pair.Key, Value = pair.Value.Value });
-            }
-        }
+        //public void ToPropertyTransportModel(ContactHubSpotModel model)
+        //{
+        //    foreach (KeyValuePair<string, ContactProperty> pair in model.Properties)
+        //    {
+        //        Properties.Add(new PropertyValuePair() { Property = pair.Key, Value = pair.Value.Value });
+        //    }
+        //}
 
         public void FromPropertyTransportModel(out T model)
         {
@@ -61,7 +66,7 @@
             {
                 var memberAttrib = prop.GetCustomAttribute(typeof(DataMemberAttribute)) as DataMemberAttribute;
 
-                PropertyValuePair pair = Properties.Find(x => x.Property == memberAttrib.Name);
+                PropertyValuePair pair = Properties[memberAttrib.Name];
                 prop.SetValue(model, pair.Value);
             }
         }
