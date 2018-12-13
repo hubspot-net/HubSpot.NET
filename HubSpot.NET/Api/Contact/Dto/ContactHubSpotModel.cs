@@ -29,8 +29,8 @@
             }
             get
             {
-                if (string.IsNullOrWhiteSpace(_Email))
-                { _Email = Properties.ContainsKey("email") ? Properties["email"].Value : string.Empty; }
+                //if (string.IsNullOrWhiteSpace(_Email))
+                //{ _Email = Properties.ContainsKey("email") ? Properties["email"].Value : string.Empty; }
                 return _Email;
             }
         }
@@ -44,8 +44,8 @@
             }
             get
             {
-                if(string.IsNullOrWhiteSpace(_FirstName))
-                { _FirstName = Properties.ContainsKey("firstname") ? Properties["firstname"].Value : string.Empty; }
+                //if(string.IsNullOrWhiteSpace(_FirstName))
+                //{ _FirstName = Properties.ContainsKey("firstname") ? Properties["firstname"].Value : string.Empty; }
                 return _FirstName;
             }
         }
@@ -59,8 +59,8 @@
             }
             get
             {
-                if(string.IsNullOrWhiteSpace(_LastName))
-                { _LastName = Properties.ContainsKey("lastname") ? Properties["lastname"].Value : string.Empty; }
+                //if(string.IsNullOrWhiteSpace(_LastName))
+                //{ _LastName = Properties.ContainsKey("lastname") ? Properties["lastname"].Value : string.Empty; }
                 return _LastName;
             }
         }
@@ -74,8 +74,8 @@
             }
             get
             {
-                if(string.IsNullOrWhiteSpace(_Website))
-                { _Website = Properties.ContainsKey("website") ? Properties["website"].Value : string.Empty; }
+                //if(string.IsNullOrWhiteSpace(_Website))
+                //{ _Website = Properties.ContainsKey("website") ? Properties["website"].Value : string.Empty; }
                 return _Website;
             }
         }
@@ -89,8 +89,8 @@
             }
             get
             {
-                if(string.IsNullOrWhiteSpace(_Company))
-                { _Company = Properties.ContainsKey("company") ? Properties["company"].Value : string.Empty; }
+                //if(string.IsNullOrWhiteSpace(_Company))
+                //{ _Company = Properties.ContainsKey("company") ? Properties["company"].Value : string.Empty; }
                 return _Company;
             }
         }
@@ -104,8 +104,8 @@
             }
             get
             {
-                if(string.IsNullOrWhiteSpace(_Phone))
-                { _Phone = Properties.ContainsKey("phone") ? Properties["phone"].Value : string.Empty; }
+                //if(string.IsNullOrWhiteSpace(_Phone))
+                //{ _Phone = Properties.ContainsKey("phone") ? Properties["phone"].Value : string.Empty; }
                 return _Phone;
             }
         }
@@ -119,8 +119,8 @@
             }
             get
             {
-                if(string.IsNullOrWhiteSpace(_Address))
-                { _Address = Properties.ContainsKey("address") ? Properties["address"].Value : string.Empty; }
+                //if(string.IsNullOrWhiteSpace(_Address))
+                //{ _Address = Properties.ContainsKey("address") ? Properties["address"].Value : string.Empty; }
                 return _Address;
             }
         }
@@ -134,8 +134,8 @@
             }
             get
             {
-                if (string.IsNullOrWhiteSpace(_City))
-                { _City = Properties.ContainsKey("city") ? Properties["city"].Value : string.Empty; }
+                //if (string.IsNullOrWhiteSpace(_City))
+                //{ _City = Properties.ContainsKey("city") ? Properties["city"].Value : string.Empty; }
                 return _City;
             }
         }
@@ -149,8 +149,8 @@
             }
             get
             {
-                if(string.IsNullOrWhiteSpace(_State))
-                { _State = Properties.ContainsKey("state") ? Properties["state"].Value : string.Empty; }
+                //if(string.IsNullOrWhiteSpace(_State))
+                //{ _State = Properties.ContainsKey("state") ? Properties["state"].Value : string.Empty; }
                 return _State;
             }
         }
@@ -166,8 +166,8 @@
             }
             get
             {
-                if (string.IsNullOrWhiteSpace(_ZipCode))
-                { _ZipCode = Properties.ContainsKey("zip") ? Properties["zip"].Value : string.Empty; }
+                //if (string.IsNullOrWhiteSpace(_ZipCode))
+                //{ _ZipCode = Properties.ContainsKey("zip") ? Properties["zip"].Value : string.Empty; }
                 return _ZipCode;
             }
         }
