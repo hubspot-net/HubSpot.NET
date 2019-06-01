@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace HubSpot.NET.Api.Contact.Dto
+namespace HubSpot.NET.Api.Shared
 {
     [DataContract]
     public class LabelValuePair

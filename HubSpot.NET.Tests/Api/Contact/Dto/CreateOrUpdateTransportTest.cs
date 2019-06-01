@@ -56,13 +56,13 @@ namespace HubSpot.NET.Tests.Api.Contact.Dto
             Assert.True(sut.Properties["email"] == null || email == sut.Properties["email"].Value);
             Assert.True(sut.Properties["firstname"] == null || fName == sut.Properties["firstname"].Value);
             Assert.True(sut.Properties["lastname"] == null || lName == sut.Properties["lastname"].Value);
-            Assert.True(sut.Properties["webite"] == null || site == sut.Properties["website"].Value);
-            //Assert.Equal(comp, sut.Properties["company"].Value);
-            //Assert.Equal(phone, sut.Properties["phone"].Value);
-            //Assert.Equal(addr, sut.Properties["address"].Value);
-            //Assert.Equal(city, sut.Properties["city"].Value);
-            //Assert.Equal(state, sut.Properties["state"].Value);
-            //Assert.Equal(zip, sut.Properties["zip"].Value);
+            Assert.True(sut.Properties["website"] == null || site == sut.Properties["website"].Value);
+            Assert.True(sut.Properties["company"] == null || comp == sut.Properties["company"].Value);
+            Assert.True(sut.Properties["phone"] == null || phone == sut.Properties["phone"].Value);
+            Assert.True(sut.Properties["address"] == null || addr == sut.Properties["address"].Value);
+            Assert.True(sut.Properties["city"] == null || city == sut.Properties["city"].Value);
+            Assert.True(sut.Properties["state"] == null || state == sut.Properties["state"].Value);
+            Assert.True(sut.Properties["zip"] == null || zip == sut.Properties["zip"].Value);
         }
 
         [Fact]
@@ -73,9 +73,7 @@ namespace HubSpot.NET.Tests.Api.Contact.Dto
             var sut = new CreateOrUpdateContactTransportModel(payload);
 
             Assert.Equal(payload.Flavor, sut.Properties.Where(x => x.Property == "flavor").First().Value);
-
         }
-
     }
 
     internal class CustomContact : ContactHubSpotModel

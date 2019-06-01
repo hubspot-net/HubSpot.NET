@@ -6,7 +6,7 @@
     using System.Runtime.Serialization;
 
     [DataContract]
-    public abstract class PropertyTransportModel<T>
+    public abstract class PropertyTransportManager<T>
     {
         [DataMember(Name = "properties")]
         public PropertyValuePairCollection Properties { get; set; } = new PropertyValuePairCollection();
