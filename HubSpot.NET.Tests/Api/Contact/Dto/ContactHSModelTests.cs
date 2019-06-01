@@ -51,16 +51,18 @@ namespace HubSpot.NET.Tests.Api.Contact.Dto
                 ZipCode = zip
             };
 
-            Assert.Equal(email, sut.Properties["email"].Value);
-            Assert.Equal(fName, sut.Properties["firstname"].Value);
-            Assert.Equal(lName, sut.Properties["lastname"].Value);
-            Assert.Equal(site, sut.Properties["website"].Value);
-            Assert.Equal(comp, sut.Properties["company"].Value);
-            Assert.Equal(phone, sut.Properties["phone"].Value);
-            Assert.Equal(addr, sut.Properties["address"].Value);
-            Assert.Equal(city, sut.Properties["city"].Value);
-            Assert.Equal(state, sut.Properties["state"].Value);
-            Assert.Equal(zip, sut.Properties["zip"].Value);
+            sut.LoadProperties();
+
+            Assert.True(!sut.Properties.ContainsKey("email") || email == sut.Properties["email"].Value as string);
+            Assert.True(!sut.Properties.ContainsKey("firstname") || fName == sut.Properties["firstname"].Value as string);
+            Assert.True(!sut.Properties.ContainsKey("lastname") || lName == sut.Properties["lastname"].Value as string);
+            Assert.True(!sut.Properties.ContainsKey("website") || site == sut.Properties["website"].Value as string);
+            Assert.True(!sut.Properties.ContainsKey("company") || comp == sut.Properties["company"].Value as string);
+            Assert.True(!sut.Properties.ContainsKey("phone") || phone == sut.Properties["phone"].Value as string);
+            Assert.True(!sut.Properties.ContainsKey("address") || addr == sut.Properties["address"].Value as string);
+            Assert.True(!sut.Properties.ContainsKey("city") || city == sut.Properties["city"].Value as string);
+            Assert.True(!sut.Properties.ContainsKey("state") || state == sut.Properties["state"].Value as string);
+            Assert.True(!sut.Properties.ContainsKey("zip") ||  zip == sut.Properties["zip"].Value as string);
         }
 
         [Theory]
@@ -99,26 +101,32 @@ namespace HubSpot.NET.Tests.Api.Contact.Dto
                 ZipCode = zip
             };
 
-            //Assert.Equal(sut.Properties["email"].Value, sut.Email);
-            //Assert.Equal(sut.Properties["firstname"].Value, sut.FirstName);
-            //Assert.Equal(sut.Properties["lastname"].Value, sut.LastName);
-            //Assert.Equal(sut.Properties["website"].Value, sut.Website);
-            //Assert.Equal(sut.Properties["company"].Value, sut.Company);
-            //Assert.Equal(sut.Properties["phone"].Value, sut.Phone);
-            //Assert.Equal(sut.Properties["address"].Value, sut.Address);
-            //Assert.Equal(sut.Properties["city"].Value, sut.City);
-            //Assert.Equal(sut.Properties["state"].Value, sut.State);
-            //Assert.Equal(sut.Properties["zip"].Value, sut.ZipCode);
-            Assert.True(sut.Properties["email"] == null || email == sut.Properties["email"].Value);
-            Assert.True(sut.Properties["firstname"] == null || fName == sut.Properties["firstname"].Value);
-            Assert.True(sut.Properties["lastname"] == null || lName == sut.Properties["lastname"].Value);
-            Assert.True(sut.Properties["website"] == null || site == sut.Properties["website"].Value);
-            Assert.True(sut.Properties["company"] == null || comp == sut.Properties["company"].Value);
-            Assert.True(sut.Properties["phone"] == null || phone == sut.Properties["phone"].Value);
-            Assert.True(sut.Properties["address"] == null || addr == sut.Properties["address"].Value);
-            Assert.True(sut.Properties["city"] == null || city == sut.Properties["city"].Value);
-            Assert.True(sut.Properties["state"] == null || state == sut.Properties["state"].Value);
-            Assert.True(sut.Properties["zip"] == null || zip == sut.Properties["zip"].Value);
+            sut.LoadProperties();
+
+            Assert.True(!sut.Properties.ContainsKey("email") || email == sut.Properties["email"].Value as string);
+            Assert.True(!sut.Properties.ContainsKey("firstname") || fName == sut.Properties["firstname"].Value as string);
+            Assert.True(!sut.Properties.ContainsKey("lastname") || lName == sut.Properties["lastname"].Value as string);
+            Assert.True(!sut.Properties.ContainsKey("website") || site == sut.Properties["website"].Value as string);
+            Assert.True(!sut.Properties.ContainsKey("company") || comp == sut.Properties["company"].Value as string);
+            Assert.True(!sut.Properties.ContainsKey("phone") || phone == sut.Properties["phone"].Value as string);
+            Assert.True(!sut.Properties.ContainsKey("address") || addr == sut.Properties["address"].Value as string);
+            Assert.True(!sut.Properties.ContainsKey("city") || city == sut.Properties["city"].Value as string);
+            Assert.True(!sut.Properties.ContainsKey("state") || state == sut.Properties["state"].Value as string);
+            Assert.True(!sut.Properties.ContainsKey("zip") || zip == sut.Properties["zip"].Value as string);
         }        
+
+        [Fact]
+        public void CustomContactModels_WillLoadTheirProperties_IntoThePropertiesDictionary_OnLoadProperties()
+        {
+            sut = new CustomContact("cheese", 5);
+
+            sut.LoadProperties();
+
+            Assert.True(sut.Properties.ContainsKey("flavor"));
+            Assert.True(sut.Properties.ContainsKey("legs"));
+
+            Assert.Equal("cheese", sut.Properties["flavor"].Value);
+            Assert.Equal(5, sut.Properties["legs"].Value);
+        }
     }
 }

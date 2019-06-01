@@ -6,7 +6,7 @@
     using System.Runtime.Serialization;
 
     [DataContract]
-    public abstract class PropertyTransportManager<T>
+    public abstract class PropertyTransport<T>
     {
         [DataMember(Name = "properties")]
         public PropertyValuePairCollection Properties { get; set; } = new PropertyValuePairCollection();
@@ -45,14 +45,6 @@
                 Properties.Add(new PropertyValuePair(memberAttrib.Name, value.ToString()));
             }
         }
-
-        //public void ToPropertyTransportModel(ContactHubSpotModel model)
-        //{
-        //    foreach (KeyValuePair<string, ContactProperty> pair in model.Properties)
-        //    {
-        //        Properties.Add(new PropertyValuePair() { Property = pair.Key, Value = pair.Value.Value });
-        //    }
-        //}
 
         public void FromPropertyTransportModel(out T model)
         {

@@ -74,7 +74,6 @@ namespace HubSpot.NET.Api.Contact
             if(IncludeHistory)
             {
                 return _client.Execute<ContactHubSpotModel>(GetRoute<ContactHubSpotModel>("contact","vid", contactId.ToString(),"profile"));
-
             }
             else
             {
@@ -82,10 +81,7 @@ namespace HubSpot.NET.Api.Contact
             }
         }
 
-        public ContactHubSpotModel GetById(long Id)
-        {
-            return GetById(Id, true);
-        }
+        public ContactHubSpotModel GetById(long Id) => GetById(Id, true);
 
         /// <summary>
         /// Gets a contact by their email address

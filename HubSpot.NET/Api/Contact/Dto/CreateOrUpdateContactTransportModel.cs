@@ -4,7 +4,7 @@
     using System.Runtime.Serialization;
 
     [DataContract]
-    public class CreateOrUpdateContactTransportModel : PropertyTransportManager<ContactHubSpotModel>
+    public class CreateOrUpdateContactTransportModel : PropertyTransport<ContactHubSpotModel>
     {
         public CreateOrUpdateContactTransportModel() { }
 
