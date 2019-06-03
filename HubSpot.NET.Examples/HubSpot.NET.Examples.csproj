@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EmailEvents.cs" />
     <Compile Include="EmailSubscriptions.cs" />
     <Compile Include="CompanyProperties.cs" />
     <Compile Include="Companies.cs" />
