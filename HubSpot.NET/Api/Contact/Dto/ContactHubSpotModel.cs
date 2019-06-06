@@ -3,6 +3,7 @@
     using HubSpot.NET.Core.Interfaces;
     using Newtonsoft.Json;
     using System.Collections.Generic;
+    using System.Reflection;
     using System.Runtime.Serialization;
 
     /// <summary>
@@ -13,176 +14,38 @@
     [DataContract]
     public class ContactHubSpotModel : IHubSpotModel
     {
+        public ContactHubSpotModel() { }
+
         /// <summary>
         /// Contacts unique ID in HubSpot
         /// </summary>
         [DataMember(Name = "vid")]
         [IgnoreDataMember]
         public long? Id { get; set; }
-
-        private string _Email;
+        
         [DataMember(Name = "email")]
-        public string Email {
-            set {
-                _Email = value;
-                //if (Properties.ContainsKey("email"))
-                //    Properties["email"].Value = value;
-
-                Properties["email"] = new ContactProperty(value);
-            }
-            get
-            {
-                if (string.IsNullOrWhiteSpace(_Email))
-                { _Email = Properties.ContainsKey("email") ? Properties["email"].Value : string.Empty; }
-                return _Email;
-            }
-        }
-
-        private string _FirstName;
+        public string Email { get; set; }
+        
         [DataMember(Name = "firstname")]
-        public string FirstName {
-            set {
-                _FirstName = value;
-                if (Properties.ContainsKey("firstname"))
-                    Properties["firstname"].Value = value;
-            }
-            get
-            {
-                if(string.IsNullOrWhiteSpace(_FirstName))
-                { _FirstName = Properties.ContainsKey("firstname") ? Properties["firstname"].Value : string.Empty; }
-                return _FirstName;
-            }
-        }
-
-        private string _LastName;
+        public string FirstName { get; set; }
+        
         [DataMember(Name = "lastname")]
-        public string LastName {
-            set {
-                _LastName = value;
-                if (Properties.ContainsKey("lastname"))
-                    Properties["lastname"].Value = value;
-            }
-            get
-            {
-                if(string.IsNullOrWhiteSpace(_LastName))
-                { _LastName = Properties.ContainsKey("lastname") ? Properties["lastname"].Value : string.Empty; }
-                return _LastName;
-            }
-        }
-
-        private string _Website;
+        public string LastName { get; set; }
+        
         [DataMember(Name = "website")]
-        public string Website {
-            set {
-                _Website = value;
-                if (Properties.ContainsKey("website"))
-                    Properties["website"].Value = value;
-            }
-            get
-            {
-                if(string.IsNullOrWhiteSpace(_Website))
-                { _Website = Properties.ContainsKey("website") ? Properties["website"].Value : string.Empty; }
-                return _Website;
-            }
-        }
-
-        private string _Company;
+        public string Website { get; set; }
         [DataMember(Name = "company")]
-        public string Company {
-            set {
-                _Company = value;
-                if (Properties.ContainsKey("company"))
-                    Properties["company"].Value = value;
-            }
-            get
-            {
-                if(string.IsNullOrWhiteSpace(_Company))
-                { _Company = Properties.ContainsKey("company") ? Properties["company"].Value : string.Empty; }
-                return _Company;
-            }
-        }
-
-        private string _Phone;
+        public string Company { set; get; }
         [DataMember(Name = "phone")]
-        public string Phone {
-            set {
-                _Phone = value;
-                if (Properties.ContainsKey("phone"))
-                    Properties["phone"].Value = value;
-            }
-            get
-            {
-                if(string.IsNullOrWhiteSpace(_Phone))
-                { _Phone = Properties.ContainsKey("phone") ? Properties["phone"].Value : string.Empty; }
-                return _Phone;
-            }
-        }
-
-        private string _Address;
+        public string Phone { set; get; }
         [DataMember(Name = "address")]
-        public string Address {
-            set {
-                _Address = value;
-                if (Properties.ContainsKey("address"))
-                    Properties["address"].Value = value;
-            }
-            get
-            {
-                if(string.IsNullOrWhiteSpace(_Address))
-                { _Address = Properties.ContainsKey("address") ? Properties["address"].Value : string.Empty; }
-                return _Address;
-            }
-        }
-
-        private string _City;
+        public string Address { set; get; }
         [DataMember(Name = "city")]
-        public string City {
-            set {
-                _City = value;
-                if (Properties.ContainsKey("city"))
-                    Properties["city"].Value = value;
-            }
-            get
-            {
-                if (string.IsNullOrWhiteSpace(_City))
-                { _City = Properties.ContainsKey("city") ? Properties["city"].Value : string.Empty; }
-                return _City;
-            }
-        }
-
-        private string _State;
+        public string City { set; get; }
         [DataMember(Name = "state")]
-        public string State {
-            set {
-                _State = value;
-                if (Properties.ContainsKey("state"))
-                    Properties["state"].Value = value;
-            }
-            get
-            {
-                if(string.IsNullOrWhiteSpace(_State))
-                { _State = Properties.ContainsKey("state") ? Properties["state"].Value : string.Empty; }
-                return _State;
-            }
-        }
-
-        private string _ZipCode;
+        public string State { set; get; }
         [DataMember(Name = "zip")]
-        public string ZipCode
-        {
-            set
-            {
-                _ZipCode = value;
-                if (Properties.ContainsKey("zip"))
-                    Properties["zip"].Value = value;
-            }
-            get
-            {
-                if (string.IsNullOrWhiteSpace(_ZipCode))
-                { _ZipCode = Properties.ContainsKey("zip") ? Properties["zip"].Value : string.Empty; }
-                return _ZipCode;
-            }
-        }
+        public string ZipCode { set; get; }
 
         [DataMember(Name = "associatedcompanyid")]
         public long? AssociatedCompanyId { get; set; }
@@ -190,8 +53,28 @@
         [DataMember(Name = "hubspot_owner_id")]
         public long? OwnerId { get; set; }
 
+        // Used for return values
         [DataMember(Name = "properties")]
         public Dictionary<string, ContactProperty> Properties { get; set; } = new Dictionary<string, ContactProperty>();
+
+        /// <summary>
+        /// Loads all properties into the ContactProperty Dictionary even from custom contact models
+        /// </summary>
+        public void LoadProperties()
+        {
+            PropertyInfo[] properties = GetType().GetProperties();
+
+            foreach (PropertyInfo prop in properties)
+            {
+                var key = prop.GetCustomAttribute(typeof(DataMemberAttribute)) as DataMemberAttribute;
+                object value = prop.GetValue(this);
+
+                if (value == null || key == null || key.Name == "properties")
+                    continue;
+
+                Properties.Add(key.Name, new ContactProperty(value));
+            }
+        }
 
         [IgnoreDataMember]
         public bool IsNameValue => false;

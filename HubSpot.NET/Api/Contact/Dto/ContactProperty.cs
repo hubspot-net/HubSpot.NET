@@ -10,13 +10,13 @@ namespace HubSpot.NET.Api.Contact.Dto
     {
         public ContactProperty() { }
 
-        public ContactProperty(string value)
+        public ContactProperty(object value)
         {
             Value = value;
         }
 
         [DataMember(Name = "value")]
-        public string Value { get; set; }
+        public object Value { get; set; }
 
         [DataMember(Name = "versions")]
         List<ContactPropertyVersion> Versions { get; set; } = new List<ContactPropertyVersion>();
