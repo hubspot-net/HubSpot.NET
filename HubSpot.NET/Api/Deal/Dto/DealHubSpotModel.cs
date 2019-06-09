@@ -19,6 +19,9 @@ namespace HubSpot.NET.Api.Deal.Dto
         [DataMember(Name = "associatedVids")]
         public long[] AssociatedContacts { get; set; }
 
+        [DataMember(Name = "associatedDealIds")]
+        public long[] AssociatedDeals { get; set; }
+
         public void AddContactById(long contactId)
         {
             int index = AssociatedContacts.Length - 1;
@@ -37,6 +40,16 @@ namespace HubSpot.NET.Api.Deal.Dto
                 index = 0;
 
             AssociatedCompanies[index] = companyId;
+        }
+
+        public void AddDealById(long dealId)
+        {
+            int index = AssociatedDeals.Length - 1;
+
+            if (index < 0)
+                index = 0;
+
+            AssociatedDeals[index] = dealId;
         }
     }
 
@@ -94,6 +107,12 @@ namespace HubSpot.NET.Api.Deal.Dto
         {
             if (company.Id.HasValue)
                 Associations.AddCompanyById(company.Id.Value);
+        }
+
+        public void AssociateDeal(DealHubSpotModel deal)
+        {
+            if (deal.Id.HasValue && deal.Id.Value != Id.Value)
+                Associations.AddDealById(deal.Id.Value);
         }
 
         public virtual void ToHubSpotDataEntity(ref DealHubSpotModel converted) 

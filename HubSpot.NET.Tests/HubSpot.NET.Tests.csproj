@@ -16,4 +16,8 @@
     <ProjectReference Include="..\HubSpot.NET\HubSpot.NET.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Api\Deal\" />
+  </ItemGroup>
+
 </Project>

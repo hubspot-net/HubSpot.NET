@@ -30,10 +30,10 @@ namespace HubSpot.NET.Api.Deal
         /// <returns>The created entity (with ID set)</returns>
         public DealHubSpotModel Create(DealHubSpotModel entity)
         {
-            NameTransportModel<DealHubSpotModel> model = new NameTransportModel<DealHubSpotModel>();
+            NameValuePairCollection<DealHubSpotModel> model = new NameValuePairCollection<DealHubSpotModel>();
             model.ToPropertyTransportModel(entity);
 
-            return _client.Execute<DealHubSpotModel,NameTransportModel<DealHubSpotModel>>(GetRoute<DealHubSpotModel>(), model, Method.POST);
+            return _client.Execute<DealHubSpotModel,NameValuePairCollection<DealHubSpotModel>>(GetRoute<DealHubSpotModel>(), model, Method.POST);
         }
 
         /// <summary>
@@ -92,6 +92,7 @@ namespace HubSpot.NET.Api.Deal
         /// <param name="objectName">String name of Hubspot object related to deals (contact\account)</param>
         /// <param name="opts">Options (limit, offset) relating to request</param>
         /// <returns>List of deals</returns>
+        [Obsolete("This endpoint has been deprecated by HubSpot, instead use the CRM Associations API")]
         public DealListHubSpotModel<DealHubSpotModel> ListAssociated(bool includeAssociations, long hubId, ListRequestOptions opts = null, string objectName = "contact")
         {
             opts = opts ?? new ListRequestOptions();            

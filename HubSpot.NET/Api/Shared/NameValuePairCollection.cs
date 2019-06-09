@@ -5,11 +5,10 @@
     using System.Runtime.Serialization;
 
     [DataContract]
-    public class NameTransportModel<T>
+    public class NameValuePairCollection<T>
     {
         [DataMember(Name = "properties")]
         public List<NameValuePair> Properties { get; set; } = new List<NameValuePair>();
-
 
         public void ToPropertyTransportModel(T model)
         {
