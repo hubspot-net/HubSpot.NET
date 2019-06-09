@@ -3,21 +3,21 @@
     using System.Runtime.Serialization;
 
     [DataContract]
-    public class PropertyValuePair
+    public class PropertyValuePair : INameValuePair
     {
         public PropertyValuePair() { }
         public PropertyValuePair(string prop, string value) : this()
         {
-            Property = prop;
+            Name = prop;
             Value = value;
         }
 
         [DataMember(Name = "property")]
-        public string Property { get; set; }
+        public string Name { get; set; }
 
         [DataMember(Name = "value")]
         public string Value { get; set; }
 
-        public override string ToString() => $"{Property}: {Value}";
+        public override string ToString() => $"{Name}: {Value}";
     }
 }

@@ -6,7 +6,7 @@ using System.Text;
 namespace HubSpot.NET.Api.Shared
 {
     [DataContract]
-    public class NameValuePair
+    public class NameValuePair : INameValuePair
     {
         [DataMember(Name = "name")]
         public string Name { get; set; }

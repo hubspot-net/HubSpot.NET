@@ -3,10 +3,10 @@
 namespace HubSpot.NET.Api.Shared
 {
     [DataContract]
-    public class LabelValuePair
+    public class LabelValuePair : INameValuePair
     {
         [DataMember(Name = "label")]
-        public string Label { get; set; }
+        public string Name { get; set; }
 
         [DataMember(Name = "value")]
         public string Value { get; set; }

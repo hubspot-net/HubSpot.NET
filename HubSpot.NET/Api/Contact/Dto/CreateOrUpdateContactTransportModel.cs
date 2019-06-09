@@ -10,7 +10,7 @@
 
         public CreateOrUpdateContactTransportModel(ContactHubSpotModel model)
         {
-            ToPropertyTransportModel(model);
+            LoadProperties(model);
         }
     }
 }
