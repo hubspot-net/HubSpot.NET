@@ -8,10 +8,16 @@
     using System.Runtime.Serialization;
 
     [DataContract]
-    public class PropertyTransport<TSource, TPropertyType> 
+    public class PropertyTransport<TSource, TPropertyType>
         where TSource : class
         where TPropertyType : INameValuePair, new()
     {
+
+        public PropertyTransport(TSource model)
+        {
+            LoadProperties(model);
+        }
+
         [DataMember(Name = "properties")]
         public List<TPropertyType> Properties { get; set; } = new List<TPropertyType>();
         

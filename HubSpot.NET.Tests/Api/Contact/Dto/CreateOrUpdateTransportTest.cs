@@ -11,7 +11,7 @@ namespace HubSpot.NET.Tests.Api.Contact.Dto
     [Collection("DTO Collection")]
     public class CreateOrUpdateContactTransportTest
     {
-        private CreateOrUpdateContactTransportModel sut;
+        private CreateOrUpdateContactTransport sut;
 
         public CreateOrUpdateContactTransportTest() { }
 
@@ -51,7 +51,7 @@ namespace HubSpot.NET.Tests.Api.Contact.Dto
                 ZipCode = zip
             };
 
-            var sut = new CreateOrUpdateContactTransportModel(payload);
+            var sut = new CreateOrUpdateContactTransport(payload);
 
             Assert.True(sut.Properties["email"] == null || email == sut.Properties["email"].Value);
             Assert.True(sut.Properties["firstname"] == null || fName == sut.Properties["firstname"].Value);
@@ -70,7 +70,7 @@ namespace HubSpot.NET.Tests.Api.Contact.Dto
         {
             var payload = new CustomContact("goose", 40);
 
-            var sut = new CreateOrUpdateContactTransportModel(payload);
+            var sut = new CreateOrUpdateContactTransport(payload);
 
             Assert.Equal(payload.Flavor, sut.Properties.Where(x => x.Property == "flavor").First().Value);
         }

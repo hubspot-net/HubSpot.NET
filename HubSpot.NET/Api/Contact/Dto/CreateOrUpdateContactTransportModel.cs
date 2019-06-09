@@ -4,11 +4,11 @@
     using System.Runtime.Serialization;
 
     [DataContract]
-    public class CreateOrUpdateContactTransportModel : PropertyTransport<ContactHubSpotModel>
+    public class CreateOrUpdateContactTransport : PropertyTransport<ContactHubSpotModel, PropertyValuePair>
     {
-        public CreateOrUpdateContactTransportModel() { }
+        public CreateOrUpdateContactTransport() { }
 
-        public CreateOrUpdateContactTransportModel(ContactHubSpotModel model)
+        public CreateOrUpdateContactTransport(ContactHubSpotModel model)
         {
             LoadProperties(model);
         }

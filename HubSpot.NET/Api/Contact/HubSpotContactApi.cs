@@ -29,10 +29,10 @@ namespace HubSpot.NET.Api.Contact
         /// <exception cref="NotImplementedException"></exception>
         public ContactHubSpotModel Create(ContactHubSpotModel entity)
         {
-            CreateOrUpdateContactTransportModel transport = new CreateOrUpdateContactTransportModel(entity);
+            var transport = new CreateOrUpdateContactTransport(entity);            
             string path = GetRoute<ContactHubSpotModel>("contact");
 
-            return _client.Execute<ContactHubSpotModel, CreateOrUpdateContactTransportModel>(path, transport, Method.POST);
+            return _client.Execute<ContactHubSpotModel, CreateOrUpdateContactTransport>(path, transport, Method.POST);
         }
 
         /// <summary>
@@ -43,10 +43,10 @@ namespace HubSpot.NET.Api.Contact
         /// <returns>The created entity (with ID set)</returns>
         public ContactHubSpotModel CreateOrUpdate(ContactHubSpotModel entity)
         {
-            CreateOrUpdateContactTransportModel transport = new CreateOrUpdateContactTransportModel(entity);
+            var transport = new CreateOrUpdateContactTransport(entity);
             string path = GetRoute<ContactHubSpotModel>("contact", "createOrUpdate", "email", entity.Email);
 
-            return _client.Execute<ContactHubSpotModel, CreateOrUpdateContactTransportModel>(path, transport, Method.POST);
+            return _client.Execute<ContactHubSpotModel, CreateOrUpdateContactTransport>(path, transport, Method.POST);
         }
 
         /// <summary>
@@ -57,10 +57,10 @@ namespace HubSpot.NET.Api.Contact
         /// <returns>The updated entity (with ID set)</returns>
         public ContactHubSpotModel CreateOrUpdate(string originalEmail, ContactHubSpotModel entity)
         {
-            CreateOrUpdateContactTransportModel transport = new CreateOrUpdateContactTransportModel(entity);
+            var transport = new CreateOrUpdateContactTransport(entity);
             string path = GetRoute<ContactHubSpotModel>("contact", "createOrUpdate", "email", originalEmail);
 
-            return _client.Execute<ContactHubSpotModel, CreateOrUpdateContactTransportModel>(path, transport, Method.POST);
+            return _client.Execute<ContactHubSpotModel, CreateOrUpdateContactTransport>(path, transport, Method.POST);
         }
 
         /// <summary>

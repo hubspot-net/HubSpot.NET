@@ -8,6 +8,7 @@ using HubSpot.NET.Core;
 using HubSpot.NET.Core.Abstracts;
 using HubSpot.NET.Core.Interfaces;
 using RestSharp;
+using NameValuePair = HubSpot.NET.Api.Shared.NameValuePair;
 
 namespace HubSpot.NET.Api.Deal
 {
@@ -30,10 +31,8 @@ namespace HubSpot.NET.Api.Deal
         /// <returns>The created entity (with ID set)</returns>
         public DealHubSpotModel Create(DealHubSpotModel entity)
         {
-            NameValuePairCollection<DealHubSpotModel> model = new NameValuePairCollection<DealHubSpotModel>();
-            model.ToPropertyTransportModel(entity);
-
-            return _client.Execute<DealHubSpotModel,NameValuePairCollection<DealHubSpotModel>>(GetRoute<DealHubSpotModel>(), model, Method.POST);
+            var model = new PropertyTransport<DealHubSpotModel, NameValuePair>(entity);
+            return _client.Execute<DealHubSpotModel, List<NameValuePair>>(GetRoute<DealHubSpotModel>(), model.Properties, Method.POST);
         }
 
         /// <summary>
