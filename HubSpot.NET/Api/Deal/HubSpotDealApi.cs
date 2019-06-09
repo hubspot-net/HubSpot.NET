@@ -154,7 +154,7 @@ namespace HubSpot.NET.Api.Deal
             opts = opts ?? new DealRecentRequestOptions();            
 
             var path = $"{GetRoute<DealRecentListHubSpotModel<DealHubSpotModel>>()}/deal/recent/modified"
-                .SetQueryParam("limit", opts.Limit);
+                .SetQueryParam("count", opts.Limit);
 
             if (opts.Offset.HasValue)            
                 path = path.SetQueryParam("offset", opts.Offset);
