@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using HubSpot.NET.Api.Company.Dto;
+using HubSpot.NET.Api.Contact.Dto;
 using HubSpot.NET.Core.Interfaces;
 
 namespace HubSpot.NET.Api.Deal.Dto
@@ -12,10 +14,30 @@ namespace HubSpot.NET.Api.Deal.Dto
     public class DealHubSpotAssociations
     {
         [DataMember(Name = "associatedCompanyIds")]
-        public long[] AssociatedCompany { get; set; }
+        public long[] AssociatedCompanies { get; set; }
 
         [DataMember(Name = "associatedVids")]
         public long[] AssociatedContacts { get; set; }
+
+        public void AddContactById(long contactId)
+        {
+            int index = AssociatedContacts.Length - 1;
+
+            if (index < 0)
+                index = 0;
+
+            AssociatedContacts[index] = contactId;
+        }
+
+        public void AddCompanyById(long companyId)
+        {
+            int index = AssociatedCompanies.Length - 1;
+
+            if (index < 0)
+                index = 0;
+
+            AssociatedCompanies[index] = companyId;
+        }
     }
 
     /// <summary>
@@ -62,6 +84,18 @@ namespace HubSpot.NET.Api.Deal.Dto
         
         public bool IsNameValue => true;
 
+        public void AssociateContact(ContactHubSpotModel contact)
+        {
+            if(contact.Id.HasValue)
+                Associations.AddContactById(contact.Id.Value);
+        }
+
+        public void AssociateCompany(CompanyHubSpotModel company)
+        {
+            if (company.Id.HasValue)
+                Associations.AddCompanyById(company.Id.Value);
+        }
+
         public virtual void ToHubSpotDataEntity(ref DealHubSpotModel converted) 
         {
             converted.Associations = Associations;
@@ -72,7 +106,7 @@ namespace HubSpot.NET.Api.Deal.Dto
             if (hubspotData.Associations != null)
             {
                 Associations.AssociatedContacts = hubspotData.Associations.AssociatedContacts;
-                Associations.AssociatedCompany = hubspotData.Associations.AssociatedCompany;
+                Associations.AssociatedCompanies = hubspotData.Associations.AssociatedCompanies;
             }
         }
     }
