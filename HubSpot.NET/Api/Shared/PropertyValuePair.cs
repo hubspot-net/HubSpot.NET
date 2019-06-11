@@ -1,4 +1,4 @@
-﻿namespace HubSpot.NET.Api.Shared
+﻿namespace HubSpot.NET
 {
     using System.Runtime.Serialization;
 

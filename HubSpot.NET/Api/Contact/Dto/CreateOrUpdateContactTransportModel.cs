@@ -8,7 +8,7 @@
     {
         public CreateOrUpdateContactTransport() { }
 
-        public CreateOrUpdateContactTransport(ContactHubSpotModel model)
+        public CreateOrUpdateContactTransport(ContactHubSpotModel model) : base(model)
         {
             LoadProperties(model);
         }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace HubSpot.NET.Api.Shared
+namespace HubSpot.NET
 {
     public interface INameValuePair
     {

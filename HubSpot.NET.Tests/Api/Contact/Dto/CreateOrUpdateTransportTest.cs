@@ -1,9 +1,6 @@
 ﻿using HubSpot.NET.Api.Contact.Dto;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
 using Xunit;
 
 namespace HubSpot.NET.Tests.Api.Contact.Dto
@@ -11,7 +8,7 @@ namespace HubSpot.NET.Tests.Api.Contact.Dto
     [Collection("DTO Collection")]
     public class CreateOrUpdateContactTransportTest
     {
-        private CreateOrUpdateContactTransport sut;
+        private PropertyTransport<ContactHubSpotModel, PropertyValuePair> sut;
 
         public CreateOrUpdateContactTransportTest() { }
 
@@ -51,18 +48,18 @@ namespace HubSpot.NET.Tests.Api.Contact.Dto
                 ZipCode = zip
             };
 
-            var sut = new CreateOrUpdateContactTransport(payload);
+            var sut = new PropertyTransport<ContactHubSpotModel, PropertyValuePair>(payload);
 
-            Assert.True(sut.Properties["email"] == null || email == sut.Properties["email"].Value);
-            Assert.True(sut.Properties["firstname"] == null || fName == sut.Properties["firstname"].Value);
-            Assert.True(sut.Properties["lastname"] == null || lName == sut.Properties["lastname"].Value);
-            Assert.True(sut.Properties["website"] == null || site == sut.Properties["website"].Value);
-            Assert.True(sut.Properties["company"] == null || comp == sut.Properties["company"].Value);
-            Assert.True(sut.Properties["phone"] == null || phone == sut.Properties["phone"].Value);
-            Assert.True(sut.Properties["address"] == null || addr == sut.Properties["address"].Value);
-            Assert.True(sut.Properties["city"] == null || city == sut.Properties["city"].Value);
-            Assert.True(sut.Properties["state"] == null || state == sut.Properties["state"].Value);
-            Assert.True(sut.Properties["zip"] == null || zip == sut.Properties["zip"].Value);
+            Assert.True(sut.Properties.Find(x => x.Name == "email") == null || email == sut.Properties.Find(x => x.Name == "email").Value);
+            Assert.True(sut.Properties.Find(x => x.Name == "firstname") == null || fName == sut.Properties.Find(x => x.Name == "firstname").Value);
+            Assert.True(sut.Properties.Find(x => x.Name == "lastname") == null || lName == sut.Properties.Find(x => x.Name == "lastname").Value);
+            Assert.True(sut.Properties.Find(x => x.Name == "website") == null || site == sut.Properties.Find(x => x.Name == "website").Value);
+            Assert.True(sut.Properties.Find(x => x.Name == "company") == null || comp == sut.Properties.Find(x => x.Name == "company").Value);
+            Assert.True(sut.Properties.Find(x => x.Name == "phone") == null || phone == sut.Properties.Find(x => x.Name == "phone").Value);
+            Assert.True(sut.Properties.Find(x => x.Name == "address") == null || addr == sut.Properties.Find(x => x.Name == "address").Value);
+            Assert.True(sut.Properties.Find(x => x.Name == "city") == null || city == sut.Properties.Find(x => x.Name == "city").Value);
+            Assert.True(sut.Properties.Find(x => x.Name == "state") == null || state == sut.Properties.Find(x => x.Name == "state").Value);
+            Assert.True(sut.Properties.Find(x => x.Name == "zip") == null || zip == sut.Properties.Find(x => x.Name == "zip").Value);
         }
 
         [Fact]
@@ -70,9 +67,9 @@ namespace HubSpot.NET.Tests.Api.Contact.Dto
         {
             var payload = new CustomContact("goose", 40);
 
-            var sut = new CreateOrUpdateContactTransport(payload);
+            var sut = new PropertyTransport<ContactHubSpotModel, PropertyValuePair>(payload);
 
-            Assert.Equal(payload.Flavor, sut.Properties.Where(x => x.Property == "flavor").First().Value);
+            Assert.Equal(payload.Flavor, sut.Properties.Where(x => x.Name == "flavor").First().Value);
         }
     }
 

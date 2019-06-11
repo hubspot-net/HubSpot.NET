@@ -41,18 +41,55 @@ namespace HubSpot.NET.Core
         public T Execute<T>(string path, Method method = Method.GET) where T : new() 
             => SendReceiveRequest<T>(path, method);
 
+        /// <summary>
+        /// API Client call which sends a payload with a schema different than the response it expects to receive.
+        /// </summary>
+        /// <typeparam name="T">The type of the response received</typeparam>
+        /// <typeparam name="K">The type of the payload sent in the request</typeparam>
+        /// <param name="absoluteUriPath">The absolute URI for the request</param>
+        /// <param name="entity">The payload sent to the server. It should be the same type as K</param>
+        /// <param name="method">The HTTP Method Verb</param>
+        /// <returns></returns>
         public T Execute<T, K>(string absoluteUriPath, K entity, Method method = Method.GET) where T : new() 
             => SendReceiveRequest<T, K>(absoluteUriPath, method, entity);
 
+        /// <summary>
+        /// Simply sends a request without a payload and does not return a value.
+        /// </summary>
+        /// <param name="absoluteUriPath">The absolute URI for the request</param>
+        /// <param name="method">The HTTP Method Verb</param>
         public void ExecuteOnly(string absoluteUriPath, Method method = Method.GET) 
             => SendOnlyRequest(absoluteUriPath, method);
 
+        /// <summary>
+        /// Sends a request WITH a typed payload but does not receive a response.
+        /// </summary>
+        /// <typeparam name="T">The type of the request's payload</typeparam>
+        /// <param name="absoluteUriPath">The absolute URI for the request</param>
+        /// <param name="entity">The payload sent to the server</param>
+        /// <param name="method">The HTTP Method Verb</param>
         public void ExecuteOnly<T>(string absoluteUriPath, T entity, Method method = Method.GET) 
             => SendOnlyRequest(absoluteUriPath, method, entity);
 
+        /// <summary>
+        /// Sends a request of batch jobs to execute.
+        /// </summary>
+        /// <param name="absoluteUriPath">The absolute URI for the request</param>
+        /// <param name="entities">The list of objects sent to the server in the payload</param>
+        /// <param name="method">The HTTP Method Verb</param>
         public void ExecuteBatch(string absoluteUriPath, List<object> entities, Method method = Method.GET) 
             => SendOnlyRequest(absoluteUriPath, method, entities);
 
+        /// <summary>
+        /// Request to upload a binary file to the server, which returns a response of the specific record the file was attached to.
+        /// </summary>
+        /// <typeparam name="T">The type of record being executed on</typeparam>
+        /// <param name="absoluteUriPath">he absolute URI of the request</param>
+        /// <param name="data">The binary data of the file being uploaded</param>
+        /// <param name="filename">The name of the file being uploaded</param>
+        /// <param name="parameters">Any additional paramters for the HTTP request</param>
+        /// <param name="method">The HTTP Method Verb</param>
+        /// <returns></returns>
         public T ExecuteMultipart<T>(string absoluteUriPath, byte[] data, string filename, Dictionary<string,string> parameters, Method method = Method.POST)
         {
             var fullUrl = $"{_baseUrl}{absoluteUriPath}";

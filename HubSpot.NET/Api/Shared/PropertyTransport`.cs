@@ -1,17 +1,16 @@
-﻿namespace HubSpot.NET.Api.Shared
+﻿namespace HubSpot.NET
 {
-    using HubSpot.NET.Api.Contact.Dto;
-    using HubSpot.NET.Core.Interfaces;
     using System;
     using System.Collections.Generic;
     using System.Reflection;
     using System.Runtime.Serialization;
 
     [DataContract]
-    public class PropertyTransport<TSource, TPropertyType>
+    public class PropertyTransport<TSource, TOutputPropertyType>
         where TSource : class
-        where TPropertyType : INameValuePair, new()
+        where TOutputPropertyType : INameValuePair, new()
     {
+        public PropertyTransport() { }
 
         public PropertyTransport(TSource model)
         {
@@ -19,7 +18,7 @@
         }
 
         [DataMember(Name = "properties")]
-        public List<TPropertyType> Properties { get; set; } = new List<TPropertyType>();
+        public List<TOutputPropertyType> Properties { get; set; } = new List<TOutputPropertyType>();
         
         public void LoadProperties(TSource model)
         {
@@ -33,18 +32,18 @@
                 if (value == null || memberAttrib == null)                
                     continue;                
 
-                if (prop.PropertyType.IsArray && typeof(TPropertyType).IsAssignableFrom(prop.PropertyType.GetElementType()))
+                if (prop.PropertyType.IsArray && typeof(TOutputPropertyType).IsAssignableFrom(prop.PropertyType.GetElementType()))
                 {
-                    var pairs = value as TPropertyType[];
+                    var pairs = value as TOutputPropertyType[];
                     foreach (var item in pairs)
                     {
                         Properties.Add(item);
                     }
                     continue;
                 }
-                else if(typeof(IEnumerable<>).IsAssignableFrom(prop.PropertyType) && typeof(TPropertyType).IsAssignableFrom(prop.PropertyType.GetElementType()))
+                else if(typeof(IEnumerable<>).IsAssignableFrom(prop.PropertyType) && typeof(TOutputPropertyType).IsAssignableFrom(prop.PropertyType.GetElementType()))
                 {
-                    var pairs = value as IEnumerable<TPropertyType>;
+                    var pairs = value as IEnumerable<TOutputPropertyType>;
                     foreach (var item in pairs)
                     {
                         Properties.Add(item);
@@ -53,8 +52,9 @@
                 }
 
 
-                Type type = model.GetType();
-                TPropertyType nvPair = (TPropertyType)Activator.CreateInstance(type) ;
+                Type listType = Properties.GetType();
+                Type propertyPairType = listType.GetGenericArguments()[0];
+                var nvPair = (TOutputPropertyType)Activator.CreateInstance(propertyPairType) ;
                 nvPair.Name = memberAttrib.Name;
                 nvPair.Value = value.ToString();
 
@@ -72,7 +72,7 @@
             {
                 var memberAttrib = prop.GetCustomAttribute(typeof(DataMemberAttribute)) as DataMemberAttribute;
 
-                TPropertyType pair = Properties.Find(x => x.Name == memberAttrib.Name);
+                TOutputPropertyType pair = Properties.Find(x => x.Name == memberAttrib.Name);
                 prop.SetValue(model, pair.Value);
             }
         }
