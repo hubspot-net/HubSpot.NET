@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Flurl;
 using HubSpot.NET.Api.Deal.Dto;
-using HubSpot.NET.Api.Shared;
 using HubSpot.NET.Core;
 using HubSpot.NET.Core.Abstracts;
 using HubSpot.NET.Core.Interfaces;
 using RestSharp;
-using NameValuePair = HubSpot.NET.Api.Shared.NameValuePair;
 
 namespace HubSpot.NET.Api.Deal
 {
@@ -141,7 +138,7 @@ namespace HubSpot.NET.Api.Deal
             if (!string.IsNullOrEmpty(opts.Since))            
                 path = path.SetQueryParam("since", opts.Since);            
 
-            return _client.Execute<DealRecentListHubSpotModel<DealHubSpotModel>, DealRecentRequestOptions>(path, opts);            
+            return _client.Execute<DealRecentListHubSpotModel<DealHubSpotModel>, DealRecentRequestOptions>(path, opts);
         }
 
         /// <summary>
