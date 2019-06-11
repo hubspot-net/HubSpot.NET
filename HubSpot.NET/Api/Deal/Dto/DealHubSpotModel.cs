@@ -5,7 +5,7 @@ using HubSpot.NET.Api.Company.Dto;
 using HubSpot.NET.Api.Contact.Dto;
 using HubSpot.NET.Core.Interfaces;
 
-namespace HubSpot.NET.Api.Deal.Dto
+namespace HubSpot.NET
 {
     /// <summary>
     /// Models the associations of a deal to companies & contacts
