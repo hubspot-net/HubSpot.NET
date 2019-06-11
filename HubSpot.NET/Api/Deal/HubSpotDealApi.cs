@@ -32,7 +32,7 @@ namespace HubSpot.NET.Api.Deal
         public DealHubSpotModel Create(DealHubSpotModel entity)
         {
             var model = new PropertyTransport<DealHubSpotModel, NameValuePair>(entity);
-            return _client.Execute<DealHubSpotModel, List<NameValuePair>>(GetRoute<DealHubSpotModel>(), model.Properties, Method.POST);
+            return _client.Execute<DealHubSpotModel, PropertyTransport<DealHubSpotModel, NameValuePair>>(GetRoute<DealHubSpotModel>(), model, Method.POST);
         }
 
         /// <summary>
@@ -55,7 +55,8 @@ namespace HubSpot.NET.Api.Deal
             if (entity.Id < 1)            
                 throw new ArgumentException("Deal entity must have an id set!");
 
-            return _client.Execute<DealHubSpotModel, DealHubSpotModel>(GetRoute<DealHubSpotModel>(entity.Id.ToString()), entity, method: Method.PUT);            
+            var model = new PropertyTransport<DealHubSpotModel, NameValuePair>(entity);
+            return _client.Execute<DealHubSpotModel, PropertyTransport<DealHubSpotModel, NameValuePair>>(GetRoute<DealHubSpotModel>(entity.Id.ToString()), model, method: Method.PUT);            
         }
 
         /// <summary>

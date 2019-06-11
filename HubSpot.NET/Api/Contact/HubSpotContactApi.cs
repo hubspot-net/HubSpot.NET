@@ -29,10 +29,10 @@ namespace HubSpot.NET.Api.Contact
         /// <exception cref="NotImplementedException"></exception>
         public ContactHubSpotModel Create(ContactHubSpotModel entity)
         {
-            var transport = new CreateOrUpdateContactTransport(entity);            
+            var transport = new PropertyTransport<ContactHubSpotModel, PropertyValuePair>(entity);            
             string path = GetRoute<ContactHubSpotModel>("contact");
 
-            return _client.Execute<ContactHubSpotModel, CreateOrUpdateContactTransport>(path, transport, Method.POST);
+            return _client.Execute<ContactHubSpotModel, PropertyTransport<ContactHubSpotModel, PropertyValuePair>>(path, transport, Method.POST);
         }
 
         /// <summary>
@@ -43,10 +43,10 @@ namespace HubSpot.NET.Api.Contact
         /// <returns>The created entity (with ID set)</returns>
         public ContactHubSpotModel CreateOrUpdate(ContactHubSpotModel entity)
         {
-            var transport = new CreateOrUpdateContactTransport(entity);
+            var transport = new PropertyTransport<ContactHubSpotModel, PropertyValuePair>(entity);
             string path = GetRoute<ContactHubSpotModel>("contact", "createOrUpdate", "email", entity.Email);
 
-            return _client.Execute<ContactHubSpotModel, CreateOrUpdateContactTransport>(path, transport, Method.POST);
+            return _client.Execute<ContactHubSpotModel, PropertyTransport<ContactHubSpotModel, PropertyValuePair>>(path, transport, Method.POST);
         }
 
         /// <summary>
@@ -57,10 +57,10 @@ namespace HubSpot.NET.Api.Contact
         /// <returns>The updated entity (with ID set)</returns>
         public ContactHubSpotModel CreateOrUpdate(string originalEmail, ContactHubSpotModel entity)
         {
-            var transport = new CreateOrUpdateContactTransport(entity);
+            var transport = new PropertyTransport<ContactHubSpotModel, PropertyValuePair>(entity);
             string path = GetRoute<ContactHubSpotModel>("contact", "createOrUpdate", "email", originalEmail);
 
-            return _client.Execute<ContactHubSpotModel, CreateOrUpdateContactTransport>(path, transport, Method.POST);
+            return _client.Execute<ContactHubSpotModel, PropertyTransport<ContactHubSpotModel, PropertyValuePair>>(path, transport, Method.POST);
         }
 
         /// <summary>
