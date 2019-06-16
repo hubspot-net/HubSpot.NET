@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using HubSpot.NET;
 using HubSpot.NET.Api.Company.Dto;
 using HubSpot.NET.Api.Contact.Dto;
 using HubSpot.NET.Core.Interfaces;
@@ -14,44 +15,24 @@ namespace HubSpot.NET
     public class DealHubSpotAssociations
     {
         [DataMember(Name = "associatedCompanyIds")]
-        public long[] AssociatedCompanies { get; set; }
+        public List<long> AssociatedCompanies { get; set; } = new List<long>();
 
         [DataMember(Name = "associatedVids")]
-        public long[] AssociatedContacts { get; set; }
+        public List<long> AssociatedContacts { get; set; } = new List<long>();
 
         [DataMember(Name = "associatedDealIds")]
-        public long[] AssociatedDeals { get; set; }
+        public List<long> AssociatedDeals { get; set; } = new List<long>();
 
         public void AddContactById(long contactId)
-        {
-            int index = AssociatedContacts.Length - 1;
-
-            if (index < 0)
-                index = 0;
-
-            AssociatedContacts[index] = contactId;
-        }
+            => AssociatedContacts.Add(contactId);
 
         public void AddCompanyById(long companyId)
-        {
-            int index = AssociatedCompanies.Length - 1;
-
-            if (index < 0)
-                index = 0;
-
-            AssociatedCompanies[index] = companyId;
-        }
+         => AssociatedCompanies.Add(companyId);
 
         public void AddDealById(long dealId)
-        {
-            int index = AssociatedDeals.Length - 1;
-
-            if (index < 0)
-                index = 0;
-
-            AssociatedDeals[index] = dealId;
-        }
+            => AssociatedDeals.Add(dealId);
     }
+
 
     /// <summary>
     /// Models a Deal entity within HubSpot. Default properties are included here
@@ -93,13 +74,13 @@ namespace HubSpot.NET
         public string DealType { get; set; }
 
         [IgnoreDataMember]
-        public DealHubSpotAssociations Associations { get; set; }
-        
+        public DealHubSpotAssociations Associations { get; set; } = new DealHubSpotAssociations();
+
         public bool IsNameValue => true;
 
         public void AssociateContact(ContactHubSpotModel contact)
         {
-            if(contact.Id.HasValue)
+            if (contact.Id.HasValue)
                 Associations.AddContactById(contact.Id.Value);
         }
 
@@ -111,11 +92,11 @@ namespace HubSpot.NET
 
         public void AssociateDeal(DealHubSpotModel deal)
         {
-            if (deal.Id.HasValue && deal.Id.Value != Id.Value)
+            if ((deal.Id.HasValue && Id.HasValue) && deal.Id.Value != Id.Value)
                 Associations.AddDealById(deal.Id.Value);
         }
 
-        public virtual void ToHubSpotDataEntity(ref DealHubSpotModel converted) 
+        public virtual void ToHubSpotDataEntity(ref DealHubSpotModel converted)
         {
             converted.Associations = Associations;
         }
@@ -129,4 +110,5 @@ namespace HubSpot.NET
             }
         }
     }
+
 }
