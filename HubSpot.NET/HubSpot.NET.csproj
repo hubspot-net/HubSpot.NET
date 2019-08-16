@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net46;net451</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>0.5.1</Version>
     <Authors>Squared Up Ltd.</Authors>
@@ -24,13 +24,24 @@
   <ItemGroup>
     <PackageReference Include="Flurl" Version="2.6.0" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
-    <PackageReference Include="RestSharp" Version="105.2.3" />
+    <PackageReference Include="RestSharp" Version="106.6.10" />
+	<PackageReference Include="NuGet.CommandLine" Version="1.0.11220.26" />
+	<PackageReference Include="System.ValueTuple" Version="4.4.0" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
-  <ItemGroup>
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Net.Http" />
-  </ItemGroup>
 </Project>
+
+
+
+
+
+
+
+
+
+
+
+
+
