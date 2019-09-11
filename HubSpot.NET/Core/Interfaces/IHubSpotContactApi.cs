@@ -19,5 +19,6 @@ namespace HubSpot.NET.Core.Interfaces
         ContactListHubSpotModel<T> RecentlyCreated<T>(ListRecentRequestOptions opts = null) where T : ContactHubSpotModel, new();
         ContactListHubSpotModel<T> RecentlyUpdated<T>(ListRecentRequestOptions opts = null) where T : ContactHubSpotModel, new();
         ContactSearchHubSpotModel<T> Search<T>(ContactSearchRequestOptions opts = null) where T : ContactHubSpotModel, new();
+        ContactListHubSpotModel<T> GetList<T>(long listId, ListRequestOptions opts = null) where T : ContactHubSpotModel, new();
     }
 }
