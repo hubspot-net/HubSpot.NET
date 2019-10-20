@@ -59,15 +59,19 @@
         {
             OAuth = new HubSpotOAuthApi(client, clientId, clientSecret);
             Company = new HubSpotCompanyApi(client);
+            CompanyProperties = new HubSpotCompaniesPropertiesApi(client);
             Contact = new HubSpotContactApi(client);
             ContactProperty = new HubSpotContactPropertyApi(client);
             Deal = new HubSpotDealApi(client);
+            EmailEvents = new HubSpotEmailEventsApi(client);
+            EmailSubscriptions = new HubSpotEmailSubscriptionsApi(client);
             Engagement = new HubSpotEngagementApi(client);
             File = new HubSpotCosFileApi(client);
             Owner = new HubSpotOwnerApi(client);
             CompanyProperties = new HubSpotCompaniesPropertiesApi(client);
             EmailSubscriptions = new HubSpotEmailSubscriptionsApi(client);
             Timelines = new HubSpotTimelineApi(client);
+
         }
     }
 }
