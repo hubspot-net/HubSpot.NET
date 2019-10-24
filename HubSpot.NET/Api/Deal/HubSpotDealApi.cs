@@ -77,21 +77,21 @@ namespace HubSpot.NET.Api.Deal
             }
 
             var path = $"{new DealListHubSpotModel<T>().RouteBasePath}/deal/paged"
-                .SetQueryParam("limit", opts.Limit);
+                .SetQueryParam(QueryParams.LIMIT, opts.Limit);
 
             if (opts.Offset.HasValue)
             {
-                path = path.SetQueryParam("offset", opts.Offset);
+                path = path.SetQueryParam(QueryParams.OFFSET, opts.Offset);
             }
 
             if (includeAssociations)
             {
-                path = path.SetQueryParam("includeAssociations", "true");
+                path = path.SetQueryParam(QueryParams.INCLUDE_ASSOCIATIONS, "true");
             }
 
             if (opts.PropertiesToInclude.Any())
             {
-                path = path.SetQueryParam("properties", opts.PropertiesToInclude);
+                path = path.SetQueryParam(QueryParams.PROPERTIES, opts.PropertiesToInclude);
             }
 
             var data = _client.ExecuteList<DealListHubSpotModel<T>>(path, opts);
@@ -117,21 +117,21 @@ namespace HubSpot.NET.Api.Deal
             }
 
             var path = $"{new DealListHubSpotModel<T>().RouteBasePath}/deal/associated/{objectName}/{hubId}/paged"
-                .SetQueryParam("limit", opts.Limit);
+                .SetQueryParam(QueryParams.LIMIT, opts.Limit);
 
             if (opts.Offset.HasValue)
             {
-                path = path.SetQueryParam("offset", opts.Offset);
+                path = path.SetQueryParam(QueryParams.OFFSET, opts.Offset);
             }
 
             if (includeAssociations)
             {
-                path = path.SetQueryParam("includeAssociations", "true");
+                path = path.SetQueryParam(QueryParams.INCLUDE_ASSOCIATIONS, "true");
             }
 
             if (opts.PropertiesToInclude.Any())
             {
-                path = path.SetQueryParam("properties", opts.PropertiesToInclude);
+                path = path.SetQueryParam(QueryParams.PROPERTIES, opts.PropertiesToInclude);
             }
 
             var data = _client.ExecuteList<DealListHubSpotModel<T>>(path, opts);
@@ -165,21 +165,21 @@ namespace HubSpot.NET.Api.Deal
             }
 
             var path = $"{new DealRecentListHubSpotModel<T>().RouteBasePath}/deal/recent/created"
-                .SetQueryParam("limit", opts.Limit);
+                .SetQueryParam(QueryParams.LIMIT, opts.Limit);
 
             if (opts.Offset.HasValue)
             {
-                path = path.SetQueryParam("offset", opts.Offset);
+                path = path.SetQueryParam(QueryParams.OFFSET, opts.Offset);
             }
 
             if (opts.IncludePropertyVersion)
             {
-                path = path.SetQueryParam("includePropertyVersions", "true");
+                path = path.SetQueryParam(QueryParams.INCLUDE_PROPERTY_VERSIONS, "true");
             }
 
             if (!string.IsNullOrEmpty(opts.Since))
             {
-                path = path.SetQueryParam("since", opts.Since);
+                path = path.SetQueryParam(QueryParams.SINCE, opts.Since);
             }
 
             var data = _client.ExecuteList<DealRecentListHubSpotModel<T>>(path, opts);
@@ -201,21 +201,21 @@ namespace HubSpot.NET.Api.Deal
             }
 
             var path = $"{new DealRecentListHubSpotModel<T>().RouteBasePath}/deal/recent/modified"
-                .SetQueryParam("limit", opts.Limit);
+                .SetQueryParam(QueryParams.LIMIT, opts.Limit);
 
             if (opts.Offset.HasValue)
             {
-                path = path.SetQueryParam("offset", opts.Offset);
+                path = path.SetQueryParam(QueryParams.OFFSET, opts.Offset);
             }
 
             if (opts.IncludePropertyVersion)
             {
-                path = path.SetQueryParam("includePropertyVersions", "true");
+                path = path.SetQueryParam(QueryParams.INCLUDE_PROPERTY_VERSIONS, "true");
             }
 
             if (!string.IsNullOrEmpty(opts.Since))
             {
-                path = path.SetQueryParam("since", opts.Since);
+                path = path.SetQueryParam(QueryParams.SINCE, opts.Since);
             }
 
             var data = _client.ExecuteList<DealRecentListHubSpotModel<T>>(path, opts);

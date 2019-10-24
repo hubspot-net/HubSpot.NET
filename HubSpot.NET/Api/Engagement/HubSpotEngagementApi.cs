@@ -3,6 +3,7 @@ using Flurl;
 using HubSpot.NET.Api.Engagement.Dto;
 using HubSpot.NET.Core.Interfaces;
 using RestSharp;
+using HubSpot.NET.Core;
 
 namespace HubSpot.NET.Api.Engagement
 {
@@ -72,7 +73,7 @@ namespace HubSpot.NET.Api.Engagement
 
             if (opts.Offset.HasValue)
             {
-                path = path.SetQueryParam("offset", opts.Offset);
+                path = path.SetQueryParam(QueryParams.OFFSET, opts.Offset);
             }
 
             var data = _client.ExecuteList<EngagementListHubSpotModel<T>>(path, opts, convertToPropertiesSchema: false);
@@ -94,7 +95,7 @@ namespace HubSpot.NET.Api.Engagement
 
             if (opts.Offset.HasValue)
             {
-                path = path.SetQueryParam("offset", opts.Offset);
+                path = path.SetQueryParam(QueryParams.OFFSET, opts.Offset);
             }
 
             var data = _client.ExecuteList<EngagementListHubSpotModel<T>>(path, opts, convertToPropertiesSchema: false);
@@ -142,7 +143,7 @@ namespace HubSpot.NET.Api.Engagement
 
             if (opts.Offset.HasValue)
             {
-                path = path.SetQueryParam("offset", opts.Offset);
+                path = path.SetQueryParam(QueryParams.OFFSET, opts.Offset);
             }
 
             var data = _client.ExecuteList<EngagementListHubSpotModel<T>>(path, opts, convertToPropertiesSchema: false);

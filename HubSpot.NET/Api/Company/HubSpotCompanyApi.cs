@@ -73,15 +73,15 @@ namespace HubSpot.NET.Api.Company
             }
 
             var path = $"{new CompanyHubSpotModel().RouteBasePath}/companies/paged"
-                .SetQueryParam("count", opts.Limit);
+                .SetQueryParam(QueryParams.COUNT, opts.Limit);
 
             if (opts.PropertiesToInclude.Any())
             {
-                path.SetQueryParam("properties", opts.PropertiesToInclude);
+                path.SetQueryParam(QueryParams.PROPERTIES, opts.PropertiesToInclude);
             }
             if (opts.Offset.HasValue)
             {
-                path = path.SetQueryParam("offset", opts.Offset);
+                path = path.SetQueryParam(QueryParams.OFFSET, opts.Offset);
             }
 
             var data = _client.ExecuteList<CompanyListHubSpotModel<T>>(path, opts);

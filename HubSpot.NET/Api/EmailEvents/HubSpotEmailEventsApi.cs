@@ -30,7 +30,7 @@ namespace HubSpot.NET.Api.EmailEvents
         public T GetCampaignDataById<T>(long campaignId, long appId) where T : EmailCampaignDataHubSpotModel, new()
         {
             var path = $"{(new T()).RouteBasePath}/{campaignId}"
-                .SetQueryParam("appId", appId);
+                .SetQueryParam(QueryParams.APP_ID, appId);
             var data = _client.Execute<T>(path, Method.GET, convertToPropertiesSchema: false);
             return data;
         }
@@ -49,11 +49,11 @@ namespace HubSpot.NET.Api.EmailEvents
             }
 
             var path = $"{new EmailCampaignListHubSpotModel<T>().RouteBasePath}/by-id"
-                .SetQueryParam("limit", opts.Limit);
+                .SetQueryParam(QueryParams.LIMIT, opts.Limit);
 
             if (!string.IsNullOrEmpty(opts.Offset))
             {
-                path = path.SetQueryParam("offset", opts.Offset);
+                path = path.SetQueryParam(QueryParams.OFFSET, opts.Offset);
             }
 
             var data = _client.ExecuteList<EmailCampaignListHubSpotModel<T>>(path, opts, convertToPropertiesSchema: false);
@@ -75,11 +75,11 @@ namespace HubSpot.NET.Api.EmailEvents
             }
 
             var path = $"{new EmailCampaignListHubSpotModel<T>().RouteBasePath}"
-                .SetQueryParam("limit", opts.Limit);
+                .SetQueryParam(QueryParams.LIMIT, opts.Limit);
 
             if (!string.IsNullOrEmpty(opts.Offset))
             {
-                path = path.SetQueryParam("offset", opts.Offset);
+                path = path.SetQueryParam(QueryParams.OFFSET, opts.Offset);
             }
 
             var data = _client.ExecuteList<EmailCampaignListHubSpotModel<T>>(path, opts, convertToPropertiesSchema: false);
