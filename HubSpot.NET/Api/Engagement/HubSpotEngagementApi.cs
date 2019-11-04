@@ -70,7 +70,7 @@ namespace HubSpot.NET.Api.Engagement
         /// <returns>List of engagements, with additional metadata, e.g. total</returns>
         public EngagementListHubSpotModel<T> ListRecent<T>(EngagementListRequestOptions opts = null) where T : EngagementHubSpotModel
         {
-            opts = opts ??new EngagementListRequestOptions();
+            opts ??= new EngagementListRequestOptions();
 
             var path = $"{GetRoute<T>()}/engagements/recent/modified".SetQueryParam("count", opts.Limit);
 
