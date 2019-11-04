@@ -15,7 +15,7 @@ namespace HubSpot.NET.Examples
             /**
              * Search for a contact
              */
-            var found = api.Contact.Search<ContactHubSpotModel>(new ContactSearchRequestOptions()
+            var found = api.Contact.Search(new ContactSearchRequestOptions()
             {
                 Query = ".com"
             });
@@ -25,11 +25,11 @@ namespace HubSpot.NET.Examples
              */
             var contact = api.Contact.Create(new ContactHubSpotModel()
             {
-                Email = "john@squaredup.com",
+                Email = "another@person.com",
                 FirstName = "John",
                 LastName = "Smith",
                 Phone = "00000 000000",
-                Company = "Squared Up Ltd."
+                Company = "Oliver & Co"
             });
 
             /**
@@ -48,7 +48,7 @@ namespace HubSpot.NET.Examples
                 Hidden = true, //set to true for engagements
             };
 
-            var uploaded = api.File.Upload<FileHubSpotModel>(file);
+            var uploaded = api.File.Upload(file);
             var fileId = uploaded.Objects.First().Id;
 
             /**
@@ -85,13 +85,13 @@ namespace HubSpot.NET.Examples
              * Get all contacts with specific properties
              * By default only a few properties are returned
              */
-            var contacts = api.Contact.List<ContactHubSpotModel>(
+            var contacts = api.Contact.List(
                 new ListRequestOptions { PropertiesToInclude = new List<string> { "firstname", "lastname", "email" } });
 
             /**
              * Get the most recently updated contacts, limited to 10
              */
-            var recentlyUpdated = api.Contact.RecentlyUpdated<ContactHubSpotModel>(new ListRecentRequestOptions()
+            var recentlyUpdated = api.Contact.RecentlyUpdated(new ListRecentRequestOptions()
             {
                 Limit = 10
             });
@@ -99,7 +99,7 @@ namespace HubSpot.NET.Examples
             /**
              * Get the most recently created contacts, limited to 10
              */
-            var recentlyCreated = api.Contact.RecentlyCreated<ContactHubSpotModel>(new ListRecentRequestOptions()
+            var recentlyCreated = api.Contact.RecentlyCreated(new ListRecentRequestOptions()
             {
                 Limit = 10
             });

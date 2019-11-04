@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -48,15 +51,18 @@
     <Compile Include="Companies.cs" />
     <Compile Include="Deals.cs" />
     <Compile Include="Contacts.cs" />
+    <Compile Include="OAuth.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Timeline.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HubSpot.NET\HubSpot.NET.csproj">
-      <Project>{2D45B6F1-77AE-427E-846B-75BB380BE93B}</Project>
+      <Project>{2d45b6f1-77ae-427e-846b-75bb380be93b}</Project>
       <Name>HubSpot.NET</Name>
     </ProjectReference>
   </ItemGroup>

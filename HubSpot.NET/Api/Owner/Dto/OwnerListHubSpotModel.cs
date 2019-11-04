@@ -10,57 +10,37 @@ namespace HubSpot.NET.Api.Owner.Dto
     /// Models a set of owners in HubSpot
     /// </summary>
     [DataContract]
-    public class OwnerListHubSpotModel<T> : IHubSpotModel, ICollection<T> where T: OwnerHubSpotModel, new()
+    public class OwnerListHubSpotModel<T> : IHubSpotModel, ICollection<T> 
+        where T: OwnerHubSpotModel
     {
         private List<T> Owners { get; } = new List<T>();
 
-        public string RouteBasePath => "/owners/v2";
-
         public bool IsNameValue => false;
-        public virtual void ToHubSpotDataEntity(ref dynamic converted)
-        {
-        }
 
-        public virtual void FromHubSpotDataEntity(dynamic hubspotData)
-        {
-        }
+        public IEnumerator<T> GetEnumerator() 
+            => Owners.GetEnumerator();
 
-        public IEnumerator<T> GetEnumerator()
-        {
-            return Owners.GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        public void Add(T item) 
+            => Owners.Add(item);
 
-        public void Add(T item)
-        {
-            Owners.Add(item);
-        }
+        public void Clear() 
+            => Owners.Clear();
 
-        public void Clear()
-        {
-            Owners.Clear();
-        }
+        public bool Contains(T item) 
+            => Owners.Contains(item);
 
-        public bool Contains(T item)
-        {
-            return Owners.Contains(item);
-        }
+        public void CopyTo(T[] array, int arrayIndex) 
+            => Owners.CopyTo(array, arrayIndex);
 
-        public void CopyTo(T[] array, int arrayIndex)
-        {
-            Owners.CopyTo(array, arrayIndex);
-        }
+        public bool Remove(T item) 
+            => Owners.Remove(item);
 
-        public bool Remove(T item)
-        {
-            return Owners.Remove(item);
-        }
+        public int Count 
+            => Owners.Count;
 
-        public int Count => Owners.Count;
-        public bool IsReadOnly => false;
+        public bool IsReadOnly 
+            => false;
     }
 }

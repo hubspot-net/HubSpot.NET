@@ -1,11 +1,13 @@
 using HubSpot.NET.Api.Owner.Dto;
+using HubSpot.NET.Core.Abstracts;
 using HubSpot.NET.Core.Interfaces;
 
 namespace HubSpot.NET.Api.Owner
 {
-    public class HubSpotOwnerApi : IHubSpotOwnerApi
+    public class HubSpotOwnerApi : ApiRoutable, IHubSpotOwnerApi
     {
         private readonly IHubSpotClient _client;
+        public override string MidRoute => "/owners/v2";
 
         public HubSpotOwnerApi(IHubSpotClient client)
         {
@@ -16,11 +18,7 @@ namespace HubSpot.NET.Api.Owner
         /// Gets all owners within your HubSpot account
         /// </summary>
         /// <returns>The set of owners</returns>
-        public OwnerListHubSpotModel<T> GetAll<T>() where T: OwnerHubSpotModel, new()
-        {
-            var path = $"{new OwnerHubSpotModel().RouteBasePath}/owners";
-
-            return _client.ExecuteList<OwnerListHubSpotModel<T>>(path, convertToPropertiesSchema: false);
-        }
+        public OwnerListHubSpotModel<T> GetAll<T>() where T : OwnerHubSpotModel
+            => _client.Execute<OwnerListHubSpotModel<T>>(GetRoute<T>("owners"));
     }
 }

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+     <metadata>
+          <id>HubSpot.NET</id>
+          <version>0.8.13</version>
+          <description>C# .NET client library targetting the HubSpot APIs</description>
+          <authors>David Clarke, Turner Bass</authors>
+          <dependencies>
+               <dependency id="RestSharp" version="106.6.9" />
+               <dependency id="Newtonsoft.Json" version="11.0.2" />
+               <dependency id="Flurl" version="2.8.0" />
+          </dependencies>
+     </metadata>
+
+     <files>
+          <file src="bin\Debug\net461\HubSpot.NET.dll" target="lib\net461\HubSpot.NET.dll"/>
+          <file src="bin\Debug\net461\HubSpot.NET.pdb" target="lib\net461\HubSpot.NET.pdb"/>
+          <file src="bin\Debug\netstandard2.0\HubSpot.NET.dll" target="lib\netstandard2.0\HubSpot.NET.dll"/>
+          <file src="bin\Debug\netstandard2.0\HubSpot.NET.pdb" target="lib\netstandard2.0\HubSpot.NET.pdb"/>     
+     </files>
+</package>

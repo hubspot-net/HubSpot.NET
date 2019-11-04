@@ -17,8 +17,7 @@ namespace HubSpot.NET.Api.Company
 
         [DataMember(Name = "offset")]
         public CompanySearchOffset Offset { get; set; } = new CompanySearchOffset();
-
-        public string RouteBasePath => "/companies/v2";
+        
         public bool IsNameValue => true;
         public void AcceptHubSpotDataEntity(ref object converted)
         {
@@ -36,12 +35,10 @@ namespace HubSpot.NET.Api.Company
     [DataContract]
     public class CompanySearchOffset
     {
-
         [DataMember(Name = "isPrimary")]
         public bool IsPrimary { get; set; } = true;
 
         [DataMember(Name = "companyId")]
         public long CompanyId { get; set; }
     }
-
 }

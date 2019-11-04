@@ -1,19 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net46;net451</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.5.1</Version>
-    <Authors>Squared Up Ltd.</Authors>
-    <Company>Squared Up Ltd.</Company>
-    <Description>C# .NET Wrapper around the common HubSpot APIs.</Description>
-    <Copyright>2018 Squared Up Ltd.</Copyright>
+    <Version>0.8.13</Version>
+    <Authors>HubSpot.NET</Authors>
+    <Company>HubSpot.NET</Company>
+    <Description>C# .NET client library targeting the HubSpot APIs.</Description>
+    <Copyright>HubSpot.NET</Copyright>
     <PackageLicenseUrl>https://github.com/squaredup/HubSpot.NET/blob/master/LICENSE</PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/squaredup/HubSpot.NET</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/squaredup/HubSpot.NET</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/hubspot-net/HubSpot.NET</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/hubspot-net/HubSpot.NET.git</RepositoryUrl>
     <PackageTags>hubspot api wrapper c# contact company deal engagement properties crm</PackageTags>
-    <PackageReleaseNotes>0.5.1</PackageReleaseNotes>
-    <PackageId>SquaredUp.HubSpot.NET</PackageId>
+    <PackageReleaseNotes>0.8.13</PackageReleaseNotes>
+    <PackageId>HubSpot.NET</PackageId>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <LangVersion>7.1</LangVersion>
@@ -22,14 +22,22 @@
     <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Flurl" Version="2.6.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
-    <PackageReference Include="RestSharp" Version="105.2.3" />
+    <PackageReference Include="Flurl" Version="2.8.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="RestSharp" Version="106.6.9" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
-  <ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
+    <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
+    <PackageReference Include="System.Net.Http" Version="4.3.3" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)'=='net46'">
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Net.Http" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)'=='net451'">
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Net.Http" />
   </ItemGroup>
