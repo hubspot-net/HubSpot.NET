@@ -1,4 +1,4 @@
-[![NuGet](https://img.shields.io/nuget/v/SquaredUp.HubSpot.NET.svg)](https://www.nuget.org/packages/SquaredUp.HubSpot.NET/) [![Build status](https://ci.appveyor.com/api/projects/status/w4skc8uolatt97j0?svg=true)](https://ci.appveyor.com/project/clarkd/hubspot-net)
+[![NuGet](https://img.shields.io/nuget/v/SquaredUp.HubSpot.NET.svg)](https://www.nuget.org/packages/SquaredUp.HubSpot.NET/) [![Build Status](https://dev.azure.com/hubspot-net/HubSpot.NET/_apis/build/status/hubspot-net.HubSpot.NET?branchName=master)](https://dev.azure.com/hubspot-net/HubSpot.NET/_build/latest?definitionId=1&branchName=master)
 
 # <span>HubSpot.NET</span>
 C# .NET Wrapper around the common HubSpot APIs:
