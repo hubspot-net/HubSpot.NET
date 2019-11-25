@@ -31,7 +31,7 @@ namespace HubSpot.NET.Api.EmailEvents
         {
             var path = $"{(new T()).RouteBasePath}/{campaignId}"
                 .SetQueryParam("appId", appId);
-            var data = _client.Execute<T>(path, Method.GET, convertToPropertiesSchema: false);
+            var data = _client.Execute<T>(path, Method.GET);
             return data;
         }
 
@@ -56,7 +56,7 @@ namespace HubSpot.NET.Api.EmailEvents
                 path = path.SetQueryParam("offset", opts.Offset);
             }
 
-            var data = _client.ExecuteList<EmailCampaignListHubSpotModel<T>>(path, opts, convertToPropertiesSchema: false);
+            var data = _client.Execute<EmailCampaignListHubSpotModel<T>>(path);
 
             return data;
         }
@@ -82,7 +82,7 @@ namespace HubSpot.NET.Api.EmailEvents
                 path = path.SetQueryParam("offset", opts.Offset);
             }
 
-            var data = _client.ExecuteList<EmailCampaignListHubSpotModel<T>>(path, opts, convertToPropertiesSchema: false);
+            var data = _client.Execute<EmailCampaignListHubSpotModel<T>>(path);
 
             return data;
         }

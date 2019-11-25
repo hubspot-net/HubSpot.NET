@@ -8,7 +8,7 @@
     <Company>HubSpot.NET</Company>
     <Description>C# .NET client library targeting the HubSpot APIs.</Description>
     <Copyright>HubSpot.NET</Copyright>
-    <PackageLicenseUrl>https://github.com/squaredup/HubSpot.NET/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseUrl>https://github.com/hubspot-net/HubSpot.NET/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/hubspot-net/HubSpot.NET</PackageProjectUrl>
     <RepositoryUrl>https://github.com/hubspot-net/HubSpot.NET.git</RepositoryUrl>
     <PackageTags>hubspot api wrapper c# contact company deal engagement properties crm</PackageTags>
@@ -16,10 +16,10 @@
     <PackageId>HubSpot.NET</PackageId>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <LangVersion>7.1</LangVersion>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <LangVersion>7.1</LangVersion>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Flurl" Version="2.8.0" />

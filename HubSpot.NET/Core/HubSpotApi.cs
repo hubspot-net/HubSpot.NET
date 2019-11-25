@@ -3,6 +3,7 @@
     using HubSpot.NET.Api.Company;
     using HubSpot.NET.Api.Contact;
     using HubSpot.NET.Api.Deal;
+    using HubSpot.NET.Api.EmailEvents;
     using HubSpot.NET.Api.EmailSubscriptions;
     using HubSpot.NET.Api.Engagement;
     using HubSpot.NET.Api.Files;
@@ -27,7 +28,7 @@
         public IHubSpotCosFileApi File { get; private set; }
         public IHubSpotOwnerApi Owner { get; private set; }
         public IHubSpotCompanyPropertiesApi CompanyProperties { get; private set; }
-
+        public IHubSpotEmailEventsApi EmailEvents { get; private set; }
         public IHubSpotEmailSubscriptionsApi EmailSubscriptions { get; private set; }
         public IHubSpotTimelineApi Timelines { get; private set; }
 
