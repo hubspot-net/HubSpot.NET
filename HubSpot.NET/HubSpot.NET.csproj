@@ -8,7 +8,7 @@
     <Company>HubSpot.NET</Company>
     <Description>C# .NET client library targeting the HubSpot APIs.</Description>
     <Copyright>HubSpot.NET</Copyright>
-    <PackageLicenseUrl>https://github.com/squaredup/HubSpot.NET/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseUrl>https://github.com/hubspot-net/HubSpot.NET/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/hubspot-net/HubSpot.NET</PackageProjectUrl>
     <RepositoryUrl>https://github.com/hubspot-net/HubSpot.NET.git</RepositoryUrl>
     <PackageTags>hubspot api wrapper c# contact company deal engagement properties crm</PackageTags>
