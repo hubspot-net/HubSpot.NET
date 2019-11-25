@@ -53,7 +53,7 @@ namespace HubSpot.NET.Api.Engagement
         /// <returns>List of engagements, with additional metadata, e.g. total</returns>
         public EngagementListHubSpotModel<T> List<T>(EngagementListRequestOptions opts = null) where T: EngagementHubSpotModel
         {
-            opts ??= new EngagementListRequestOptions();
+            opts = opts ?? new EngagementListRequestOptions();
 
             var path = $"{GetRoute<T>("paged")}".SetQueryParam("limit", opts.Limit);
 
@@ -70,7 +70,7 @@ namespace HubSpot.NET.Api.Engagement
         /// <returns>List of engagements, with additional metadata, e.g. total</returns>
         public EngagementListHubSpotModel<T> ListRecent<T>(EngagementListRequestOptions opts = null) where T : EngagementHubSpotModel
         {
-            opts ??= new EngagementListRequestOptions();
+            opts = opts ?? new EngagementListRequestOptions();
 
             var path = $"{GetRoute<T>()}/engagements/recent/modified".SetQueryParam("count", opts.Limit);
 
@@ -105,7 +105,7 @@ namespace HubSpot.NET.Api.Engagement
         /// <returns>List of associated engagements</returns>
         public EngagementListHubSpotModel<T> ListAssociated<T>(long objectId, string objectType, EngagementListRequestOptions opts = null) where T: EngagementHubSpotModel
         {
-            opts ??= new EngagementListRequestOptions();
+            opts = opts ?? new EngagementListRequestOptions();
             
             var path = $"{GetRoute<T>()}/engagements/associated/{objectType}/{objectId}/paged".SetQueryParam("limit", opts.Limit);
 
