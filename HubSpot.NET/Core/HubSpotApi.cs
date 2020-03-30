@@ -10,6 +10,7 @@
     using HubSpot.NET.Api.OAuth;
     using HubSpot.NET.Api.OAuth.Dto;
     using HubSpot.NET.Api.Owner;
+    using HubSpot.NET.Api.Pipeline;
     using HubSpot.NET.Api.Properties;
     using HubSpot.NET.Api.Timeline;
     using HubSpot.NET.Core.Interfaces;
@@ -31,7 +32,7 @@
         public IHubSpotEmailEventsApi EmailEvents { get; private set; }
         public IHubSpotEmailSubscriptionsApi EmailSubscriptions { get; private set; }
         public IHubSpotTimelineApi Timelines { get; private set; }
-
+        public IHubSpotPipelineApi Pipelines { get; private set; }
 
         /// <summary>
         /// Creates a HubSpotApi using API key authentication instead of OAuth
@@ -72,6 +73,7 @@
             CompanyProperties = new HubSpotCompaniesPropertiesApi(client);
             EmailSubscriptions = new HubSpotEmailSubscriptionsApi(client);
             Timelines = new HubSpotTimelineApi(client);
+            Pipelines = new HubSpotPipelinesApi(client);
 
         }
     }
