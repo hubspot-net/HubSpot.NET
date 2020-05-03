@@ -1,15 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Flurl;
-using HubSpot.NET.Api.Contact.Dto;
-using HubSpot.NET.Core;
-using HubSpot.NET.Core.Abstracts;
-using HubSpot.NET.Core.Interfaces;
-using RestSharp;
-
-namespace HubSpot.NET.Api.Contact
+﻿namespace HubSpot.NET.Api.Contact
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net;
+    using Flurl;
+    using HubSpot.NET.Api.Contact.Dto;
+    using HubSpot.NET.Core;
+    using HubSpot.NET.Core.Abstracts;
+    using HubSpot.NET.Core.Interfaces;
+    using RestSharp;
+
     public class HubSpotContactApi : ApiRoutable, IHubSpotContactApi
     {
         private readonly IHubSpotClient _client;
@@ -71,13 +72,22 @@ namespace HubSpot.NET.Api.Contact
         /// <returns>The contact entity</returns>
         public ContactHubSpotModel GetById(long contactId, bool IncludeHistory = true)
         {
-            if(IncludeHistory)
+            try
             {
-                return _client.Execute<ContactHubSpotModel>(GetRoute<ContactHubSpotModel>("contact","vid", contactId.ToString(),"profile"));
+                if (IncludeHistory)
+                {
+                    return _client.Execute<ContactHubSpotModel>(GetRoute<ContactHubSpotModel>("contact","vid", contactId.ToString(),"profile"));
+                }
+                else
+                {
+                    return _client.Execute<ContactHubSpotModel>(GetRoute<ContactHubSpotModel>("contact", "vid", contactId.ToString(), "profile?propertyMode=value_only"));
+                }
             }
-            else
+            catch (HubSpotException exception)
             {
-                return _client.Execute<ContactHubSpotModel>(GetRoute<ContactHubSpotModel>("contact", "vid", contactId.ToString(), "profile?propertyMode=value_only"));
+                if (exception.ReturnedError.StatusCode == HttpStatusCode.NotFound)
+                    return null;
+                throw;
             }
         }
 
@@ -91,13 +101,22 @@ namespace HubSpot.NET.Api.Contact
         /// <returns>The contact entity</returns>
         public ContactHubSpotModel GetByEmail(string email, bool IncludeHistory = true)
         {
-            if (IncludeHistory)
+            try
             {
-                return _client.Execute<ContactHubSpotModel>(GetRoute<ContactHubSpotModel>("contact", "email", email, "profile"));
+                if (IncludeHistory)
+                {
+                    return _client.Execute<ContactHubSpotModel>(GetRoute<ContactHubSpotModel>("contact", "email", email, "profile"));
+                }
+                else
+                {
+                    return _client.Execute<ContactHubSpotModel>(GetRoute<ContactHubSpotModel>("contact", "email", email, "profile?propertyMode=value_only"));
+                }
             }
-            else
+            catch (HubSpotException exception)
             {
-                return _client.Execute<ContactHubSpotModel>(GetRoute<ContactHubSpotModel>("contact", "email", email, "profile?propertyMode=value_only"));
+                if (exception.ReturnedError.StatusCode == HttpStatusCode.NotFound)
+                    return null;
+                throw;
             }
         }
 
@@ -109,13 +128,22 @@ namespace HubSpot.NET.Api.Contact
         /// <returns>The contact entity</returns>
         public ContactHubSpotModel GetByUserToken(string userToken, bool IncludeHistory = true)
         {
-            if(IncludeHistory)
+            try
             {
-                return _client.Execute<ContactHubSpotModel>(GetRoute<ContactHubSpotModel>("contact", "utk", userToken, "profile"));
+                if (IncludeHistory)
+                {
+                    return _client.Execute<ContactHubSpotModel>(GetRoute<ContactHubSpotModel>("contact", "utk", userToken, "profile"));
+                }
+                else
+                {
+                    return _client.Execute<ContactHubSpotModel>(GetRoute<ContactHubSpotModel>("contact", "utk", userToken, "profile?propertyMode=value_only"));
+                }
             }
-            else
+            catch (HubSpotException exception)
             {
-                return _client.Execute<ContactHubSpotModel>(GetRoute<ContactHubSpotModel>("contact", "utk", userToken, "profile?propertyMode=value_only"));
+                if (exception.ReturnedError.StatusCode == HttpStatusCode.NotFound)
+                    return null;
+                throw;
             }
         }
 

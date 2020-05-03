@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Flurl;
-using HubSpot.NET.Api.Deal.Dto;
-using HubSpot.NET.Api.Shared;
-using HubSpot.NET.Core;
-using HubSpot.NET.Core.Abstracts;
-using HubSpot.NET.Core.Interfaces;
-using RestSharp;
-
-namespace HubSpot.NET.Api.Deal
+﻿namespace HubSpot.NET.Api.Deal
 {
+    using System;
+    using System.Linq;
+    using System.Net;
+    using Flurl;
+    using HubSpot.NET.Api.Deal.Dto;
+    using HubSpot.NET.Api.Shared;
+    using HubSpot.NET.Core;
+    using HubSpot.NET.Core.Abstracts;
+    using HubSpot.NET.Core.Interfaces;
+    using RestSharp;
+
     public class HubSpotDealApi : ApiRoutable, IHubSpotDealApi
     {
         private readonly IHubSpotClient _client;
@@ -41,9 +41,20 @@ namespace HubSpot.NET.Api.Deal
         /// </summary>
         /// <param name="dealId">ID of the deal</param>
         /// <typeparam name="T">Implementation of DealHubSpotModel</typeparam>
-        /// <returns>The deal entity</returns>
-        public DealHubSpotModel GetById(long dealId) 
-            => _client.Execute<DealHubSpotModel>(GetRoute<DealHubSpotModel>(dealId.ToString()));
+        /// <returns>The deal entity or null if the deal does not exist.</returns>
+        public DealHubSpotModel GetById(long dealId)
+        {
+            try
+            {
+                return _client.Execute<DealHubSpotModel>(GetRoute<DealHubSpotModel>(dealId.ToString()));
+            }
+            catch (HubSpotException exception)
+            {
+                if (exception.ReturnedError.StatusCode == HttpStatusCode.NotFound)
+                    return null;
+                throw;
+            }
+        }
 
         /// <summary>
         /// Updates a given deal
