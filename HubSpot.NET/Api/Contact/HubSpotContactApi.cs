@@ -69,7 +69,7 @@
         /// </summary>
         /// <param name="contactId">ID of the contact</param>
         /// <typeparam name="T">Implementation of ContactHubSpotModel</typeparam>
-        /// <returns>The contact entity</returns>
+        /// <returns>The contact entity or null if the contact does not exist.</returns>
         public ContactHubSpotModel GetById(long contactId, bool IncludeHistory = true)
         {
             try
@@ -98,7 +98,7 @@
         /// </summary>
         /// <param name="email">Email address to search for</param>
         /// <typeparam name="T">Implementation of ContactHubSpotModel</typeparam>
-        /// <returns>The contact entity</returns>
+        /// <returns>The contact entity or null if the contact does not exist.</returns>
         public ContactHubSpotModel GetByEmail(string email, bool IncludeHistory = true)
         {
             try
@@ -125,7 +125,7 @@
         /// </summary>
         /// <param name="userToken">User token to search for from hubspotutk cookie</param>
         /// <typeparam name="T">Implementation of ContactHubSpotModel</typeparam>
-        /// <returns>The contact entity</returns>
+        /// <returns>The contact entity or null if the contact does not exist.</returns>
         public ContactHubSpotModel GetByUserToken(string userToken, bool IncludeHistory = true)
         {
             try
