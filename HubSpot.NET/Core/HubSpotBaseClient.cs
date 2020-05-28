@@ -111,7 +111,7 @@ namespace HubSpot.NET.Core
         {
             RestRequest request = ConfigureRequestAuthentication(path, method);
            
-            if(entity != default)
+            if(!entity.Equals(default(K)))
                 request.AddJsonBody(entity);
             
 
@@ -136,7 +136,7 @@ namespace HubSpot.NET.Core
 
             RestRequest request = ConfigureRequestAuthentication(path, method);
 
-            if (entity != default)
+            if (!entity.Equals(default(T)))
                 request.AddJsonBody(entity);
 
             IRestResponse response = _client.Execute(request);

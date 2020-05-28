@@ -12,6 +12,7 @@ namespace HubSpot.NET.Core.Interfaces
         IHubSpotCosFileApi File { get; }
         IHubSpotOwnerApi Owner { get; }
         IHubSpotCompanyPropertiesApi CompanyProperties { get; }
+        IHubSpotCompanyPropertyGroupsApi CompanyPropertyGroups { get; }
         IHubSpotEmailSubscriptionsApi EmailSubscriptions { get; }
     }
 }
