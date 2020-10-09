@@ -58,13 +58,13 @@ namespace HubSpot.NET.Api.Company
         {
             opts = opts ?? new ListRequestOptions();
 
-            var path = GetRoute<CompanyHubSpotModel>("companies", "paged").SetQueryParam("count", opts.Limit);
+            var path = GetRoute<CompanyHubSpotModel>("companies", "paged").SetQueryParam(QueryParams.COUNT, opts.Limit);
 
             if (opts.PropertiesToInclude.Any())
-                path.SetQueryParam("properties", opts.PropertiesToInclude);
+                path.SetQueryParam(QueryParams.PROPERTIES, opts.PropertiesToInclude);
 
             if (opts.Offset.HasValue)
-                path = path.SetQueryParam("offset", opts.Offset);
+                path = path.SetQueryParam(QueryParams.OFFSET, opts.Offset);
 
             return _client.Execute<CompanyListHubSpotModel<CompanyHubSpotModel>, ListRequestOptions>(path, opts);
         }

@@ -15,7 +15,6 @@ namespace HubSpot.NET.Api.Deal
     {
         private readonly IHubSpotClient _client;
         public override string MidRoute => "/deals/v1";
-
         public HubSpotDealApi(IHubSpotClient client)
         {
             _client = client;
@@ -67,18 +66,18 @@ namespace HubSpot.NET.Api.Deal
         /// <returns>List of deals</returns>
         public DealListHubSpotModel<DealHubSpotModel> List(bool includeAssociations, ListRequestOptions opts = null)
         {
-            opts = opts ?? new ListRequestOptions(250);         
+            opts = opts ?? new ListRequestOptions(250);
 
             Url path = GetRoute<DealListHubSpotModel<DealHubSpotModel>>("deal", "paged").SetQueryParam("limit", opts.Limit);
 
             if (opts.Offset.HasValue)            
-                path = path.SetQueryParam("offset", opts.Offset);            
+                path = path.SetQueryParam(QueryParams.OFFSET, opts.Offset);            
 
             if (includeAssociations)            
-                path = path.SetQueryParam("includeAssociations", "true");            
+                path = path.SetQueryParam(QueryParams.INCLUDE_ASSOCIATIONS, "true");            
 
             if (opts.PropertiesToInclude.Any())            
-                path = path.SetQueryParam("properties", opts.PropertiesToInclude);           
+                path = path.SetQueryParam(QueryParams.PROPERTIES, opts.PropertiesToInclude);           
 
             return _client.Execute<DealListHubSpotModel<DealHubSpotModel>, ListRequestOptions>(path, opts);
         }
@@ -96,17 +95,17 @@ namespace HubSpot.NET.Api.Deal
         {
             opts = opts ?? new ListRequestOptions();            
 
-            Url path = $"{GetRoute<DealListHubSpotModel<DealHubSpotModel>>()}/deal/associated/{objectName}/{hubId}/paged"
-                .SetQueryParam("limit", opts.Limit);
+            Url path = GetRoute<DealListHubSpotModel<DealHubSpotModel>>("deal","associated",$"{objectName}",$"{hubId}","paged")
+            .SetQueryParam(QueryParams.LIMIT, opts.Limit);
 
             if (opts.Offset.HasValue)            
-                path = path.SetQueryParam("offset", opts.Offset);            
+                path = path.SetQueryParam(QueryParams.OFFSET, opts.Offset);            
 
             if (includeAssociations)            
-                path = path.SetQueryParam("includeAssociations", "true");            
+                path = path.SetQueryParam(QueryParams.INCLUDE_ASSOCIATIONS, "true");            
 
             if (opts.PropertiesToInclude.Any())            
-                path = path.SetQueryParam("properties", opts.PropertiesToInclude);            
+                path = path.SetQueryParam(QueryParams.PROPERTIES, opts.PropertiesToInclude);
 
             return _client.Execute<DealListHubSpotModel<DealHubSpotModel>, ListRequestOptions>(path, opts);
         }
@@ -129,16 +128,17 @@ namespace HubSpot.NET.Api.Deal
             opts = opts ?? new DealRecentRequestOptions();            
 
             Url path = $"{GetRoute<DealRecentListHubSpotModel<DealHubSpotModel>>()}/deal/recent/created"
-                            .SetQueryParam("limit", opts.Limit);
+                            .SetQueryParam(QueryParams.LIMIT, opts.Limit);
 
             if (opts.Offset.HasValue)            
-                path = path.SetQueryParam("offset", opts.Offset);            
+                path = path.SetQueryParam(QueryParams.OFFSET, opts.Offset);            
 
             if (opts.IncludePropertyVersion)            
-                path = path.SetQueryParam("includePropertyVersions", "true");            
+                path = path.SetQueryParam(QueryParams.INCLUDE_PROPERTY_VERSIONS, "true");            
+
 
             if (!string.IsNullOrEmpty(opts.Since))            
-                path = path.SetQueryParam("since", opts.Since);            
+                path = path.SetQueryParam(QueryParams.SINCE, opts.Since);            
 
             return _client.Execute<DealRecentListHubSpotModel<DealHubSpotModel>, DealRecentRequestOptions>(path, opts);            
         }
@@ -153,17 +153,17 @@ namespace HubSpot.NET.Api.Deal
         {
             opts = opts ?? new DealRecentRequestOptions();            
 
-            var path = $"{GetRoute<DealRecentListHubSpotModel<DealHubSpotModel>>()}/deal/recent/modified"
-                .SetQueryParam("limit", opts.Limit);
+            var path = GetRoute<DealRecentListHubSpotModel<DealHubSpotModel>>("deal","recent","modified").SetQueryParam(QueryParams.LIMIT, opts.Limit);
 
             if (opts.Offset.HasValue)            
-                path = path.SetQueryParam("offset", opts.Offset);
+                path = path.SetQueryParam(QueryParams.OFFSET, opts.Offset);
 
             if (opts.IncludePropertyVersion)
-                path = path.SetQueryParam("includePropertyVersions", "true");
+                path = path.SetQueryParam(QueryParams.INCLUDE_PROPERTY_VERSIONS, "true");
 
             if (!string.IsNullOrEmpty(opts.Since))             
-                path = path.SetQueryParam("since", opts.Since);
+                path = path.SetQueryParam(QueryParams.SINCE, opts.Since);
+
 
             return _client.Execute<DealRecentListHubSpotModel<DealHubSpotModel>, DealRecentRequestOptions>(path, opts);
         }
