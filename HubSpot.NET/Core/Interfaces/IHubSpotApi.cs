@@ -13,5 +13,6 @@ namespace HubSpot.NET.Core.Interfaces
         IHubSpotOwnerApi Owner { get; }
         IHubSpotCompanyPropertiesApi CompanyProperties { get; }
         IHubSpotEmailSubscriptionsApi EmailSubscriptions { get; }
+        IHubSpotPipelineApi Pipelines { get; }
     }
 }
