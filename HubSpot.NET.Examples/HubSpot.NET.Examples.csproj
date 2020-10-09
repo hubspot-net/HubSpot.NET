@@ -52,6 +52,7 @@
     <Compile Include="Deals.cs" />
     <Compile Include="Contacts.cs" />
     <Compile Include="OAuth.cs" />
+    <Compile Include="Pipelines.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Timeline.cs" />

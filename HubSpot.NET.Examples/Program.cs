@@ -100,9 +100,10 @@
         {
             //EmailSubscriptions.Example(hapiApi);
             //Deals.Example(hapiApi);
-            Contacts.Example(hapiApi);
+            //Contacts.Example(hapiApi);
             //Companies.Example(hapiApi);
             //CompanyProperties.Example(hapiApi);
+            Pipelines.Example(hapiApi);
         }
 
         private static void RunOAuthExamples(HubSpotApi oauthApi)
