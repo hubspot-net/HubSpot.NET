@@ -1,11 +1,13 @@
 ﻿namespace HubSpot.NET.Api.Timeline
 {
     using HubSpot.NET.Api.Timeline.Dto;
-    using HubSpot.NET.Core.Abstracts;
+	using HubSpot.NET.Core;
+	using HubSpot.NET.Core.Abstracts;
     using HubSpot.NET.Core.Interfaces;
     using System.Collections.Generic;
+	using System.Net;
 
-    public class HubSpotTimelineApi : ApiRoutable, IHubSpotTimelineApi
+	public class HubSpotTimelineApi : ApiRoutable, IHubSpotTimelineApi
     {
         private readonly IHubSpotClient _client;
 
@@ -34,8 +36,18 @@
         
 
         public TimelineEventHubSpotModel GetEventById(long entityID)
-        =>_client.Execute<TimelineEventHubSpotModel>(GetRoute<TimelineEventHubSpotModel>(entityID.ToString()));
-        
+        {
+            try
+            {
+                return _client.Execute<TimelineEventHubSpotModel>(GetRoute<TimelineEventHubSpotModel>(entityID.ToString()));
+            }
+            catch (HubSpotException exception)
+            {
+                if (exception.ReturnedError.StatusCode == HttpStatusCode.NotFound)
+                    return null;
+                throw;
+            }
+        }
 
         public IEnumerable<TimelineEventTypeHubSpotModel> GetAllEventTypes()
         => _client.Execute<List<TimelineEventTypeHubSpotModel>>(GetRoute<TimelineEventTypeHubSpotModel>());
