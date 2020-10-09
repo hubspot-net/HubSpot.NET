@@ -245,5 +245,37 @@ namespace HubSpot.NET.Api.Contact
             
             return _client.Execute<ContactListHubSpotModel<ContactHubSpotModel>, ListRecentRequestOptions>(path, opts);
         }
+
+        /// <summary>
+        /// Get all contacts in a list
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="listId"></param>
+        /// <param name="opts"></param>
+        /// <returns></returns>
+        public ContactListHubSpotModel<ContactHubSpotModel> GetList(long listId, ListRequestOptions opts = null)
+        {
+            if (opts == null)
+            {
+                opts = new ListRequestOptions();
+            }
+
+            var path = GetRoute<ContactHubSpotModel>("lists", $"{listId}", "contacts", "all").SetQueryParam("count", opts.Limit);
+
+            if (opts.PropertiesToInclude.Any())
+            {
+                path.SetQueryParam("property", opts.PropertiesToInclude);
+            }
+
+            if (opts.Offset.HasValue)
+            {
+                path = path.SetQueryParam("vidOffset", opts.Offset);
+            }
+
+
+            var data = _client.Execute<ContactListHubSpotModel<ContactHubSpotModel>>(path);
+
+            return data;
+        }
     }
 }

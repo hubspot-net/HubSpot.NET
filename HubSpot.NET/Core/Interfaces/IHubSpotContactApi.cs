@@ -21,5 +21,7 @@ namespace HubSpot.NET.Core.Interfaces
         T CreateOrUpdate(T entity);
         T CreateOrUpdate(string originalEmail, T entity);
         void Batch(List<T> entities);
+        ContactListHubSpotModel<T> GetList(long listId, ListRequestOptions opts = null);
+        void Delete(long contactId);
     }
 }
