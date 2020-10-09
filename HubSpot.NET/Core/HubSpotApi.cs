@@ -28,6 +28,7 @@
         public IHubSpotCosFileApi File { get; private set; }
         public IHubSpotOwnerApi Owner { get; private set; }
         public IHubSpotCompanyPropertiesApi CompanyProperties { get; private set; }
+        public IHubSpotCompanyPropertyGroupsApi CompanyPropertyGroups { get; private set; }
         public IHubSpotEmailEventsApi EmailEvents { get; private set; }
         public IHubSpotEmailSubscriptionsApi EmailSubscriptions { get; private set; }
         public IHubSpotTimelineApi Timelines { get; private set; }
@@ -70,6 +71,7 @@
             File = new HubSpotCosFileApi(client);
             Owner = new HubSpotOwnerApi(client);
             CompanyProperties = new HubSpotCompaniesPropertiesApi(client);
+            CompanyPropertyGroups = new HubSpotCompanyPropertyGroupsApi(client);
             EmailSubscriptions = new HubSpotEmailSubscriptionsApi(client);
             Timelines = new HubSpotTimelineApi(client);
 
