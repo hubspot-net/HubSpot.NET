@@ -1,15 +1,14 @@
 ﻿namespace HubSpot.NET.Api.Deal
 {
-    using System;
-    using System.Linq;
-    using System.Net;
-    using Flurl;
     using HubSpot.NET.Api.Deal.Dto;
     using HubSpot.NET.Api.Shared;
     using HubSpot.NET.Core;
     using HubSpot.NET.Core.Abstracts;
     using HubSpot.NET.Core.Interfaces;
     using RestSharp;
+    using System;
+    using System.Linq;
+    using System.Net;
 
     public class HubSpotDealApi : ApiRoutable, IHubSpotDealApi
     {
@@ -32,7 +31,7 @@
             NameTransportModel<DealHubSpotModel> model = new NameTransportModel<DealHubSpotModel>();
             model.ToPropertyTransportModel(entity);
 
-            return _client.Execute<DealHubSpotModel,NameTransportModel<DealHubSpotModel>>(GetRoute<DealHubSpotModel>(), model, Method.POST);
+            return _client.Execute<DealHubSpotModel, NameTransportModel<DealHubSpotModel>>(GetRoute<DealHubSpotModel>(), model, Method.POST);
         }
 
         /// <summary>
@@ -63,10 +62,10 @@
         /// <returns>The updated deal entity</returns>
         public DealHubSpotModel Update(DealHubSpotModel entity)
         {
-            if (entity.Id < 1)            
+            if (entity.Id < 1)
                 throw new ArgumentException("Deal entity must have an id set!");
 
-            return _client.Execute<DealHubSpotModel, DealHubSpotModel>(GetRoute<DealHubSpotModel>(entity.Id.ToString()), entity, method: Method.PUT);            
+            return _client.Execute<DealHubSpotModel, DealHubSpotModel>(GetRoute<DealHubSpotModel>(entity.Id.ToString()), entity, method: Method.PUT);
         }
 
         /// <summary>
@@ -79,16 +78,18 @@
         {
             opts = opts ?? new ListRequestOptions(250);
 
-            Url path = GetRoute<DealListHubSpotModel<DealHubSpotModel>>("deal", "paged").SetQueryParam("limit", opts.Limit);
+            string path = GetRoute<DealListHubSpotModel<DealHubSpotModel>>("deal", "paged");
 
-            if (opts.Offset.HasValue)            
-                path = path.SetQueryParam(QueryParams.OFFSET, opts.Offset);            
+            path += $"{QueryParams.LIMIT}={opts.Limit}";
 
-            if (includeAssociations)            
-                path = path.SetQueryParam(QueryParams.INCLUDE_ASSOCIATIONS, "true");            
+            if (opts.Offset.HasValue)
+                path += $"{QueryParams.OFFSET}={opts.Offset}";
 
-            if (opts.PropertiesToInclude.Any())            
-                path = path.SetQueryParam(QueryParams.PROPERTIES, opts.PropertiesToInclude);           
+            if (includeAssociations)
+                path += $"{QueryParams.INCLUDE_ASSOCIATIONS}=true";
+
+            if (opts.PropertiesToInclude.Any())
+                path += $"{QueryParams.PROPERTIES}={opts.PropertiesToInclude}";
 
             return _client.Execute<DealListHubSpotModel<DealHubSpotModel>, ListRequestOptions>(path, opts);
         }
@@ -104,19 +105,20 @@
         /// <returns>List of deals</returns>
         public DealListHubSpotModel<DealHubSpotModel> ListAssociated(bool includeAssociations, long hubId, ListRequestOptions opts = null, string objectName = "contact")
         {
-            opts = opts ?? new ListRequestOptions();            
+            opts = opts ?? new ListRequestOptions();
 
-            Url path = GetRoute<DealListHubSpotModel<DealHubSpotModel>>("deal","associated",$"{objectName}",$"{hubId}","paged")
-            .SetQueryParam(QueryParams.LIMIT, opts.Limit);
+            string path = GetRoute<DealListHubSpotModel<DealHubSpotModel>>("deal", "associated", $"{objectName}", $"{hubId}", "paged");
 
-            if (opts.Offset.HasValue)            
-                path = path.SetQueryParam(QueryParams.OFFSET, opts.Offset);            
+            path += $"{QueryParams.LIMIT}={opts.Limit}";
 
-            if (includeAssociations)            
-                path = path.SetQueryParam(QueryParams.INCLUDE_ASSOCIATIONS, "true");            
+            if (opts.Offset.HasValue)
+                path += $"{QueryParams.OFFSET}={opts.Offset}";
 
-            if (opts.PropertiesToInclude.Any())            
-                path = path.SetQueryParam(QueryParams.PROPERTIES, opts.PropertiesToInclude);
+            if (includeAssociations)
+                path += $"{QueryParams.INCLUDE_ASSOCIATIONS}=true";
+
+            if (opts.PropertiesToInclude.Any())
+                path += $"{QueryParams.PROPERTIES}={opts.PropertiesToInclude}";
 
             return _client.Execute<DealListHubSpotModel<DealHubSpotModel>, ListRequestOptions>(path, opts);
         }
@@ -125,7 +127,7 @@
         /// Deletes a given deal (by ID)
         /// </summary>
         /// <param name="dealId">ID of the deal</param>
-        public void Delete(long dealId) 
+        public void Delete(long dealId)
             => _client.ExecuteOnly(GetRoute<DealHubSpotModel>(dealId.ToString()), method: Method.DELETE);
 
         /// <summary>
@@ -136,22 +138,23 @@
         /// <returns>List of deals</returns>
         public DealRecentListHubSpotModel<DealHubSpotModel> RecentlyCreated(DealRecentRequestOptions opts = null)
         {
-            opts = opts ?? new DealRecentRequestOptions();            
+            opts = opts ?? new DealRecentRequestOptions();
 
-            Url path = $"{GetRoute<DealRecentListHubSpotModel<DealHubSpotModel>>()}/deal/recent/created"
-                            .SetQueryParam(QueryParams.LIMIT, opts.Limit);
+            string path = $"{GetRoute<DealRecentListHubSpotModel<DealHubSpotModel>>()}/deal/recent/created";
 
-            if (opts.Offset.HasValue)            
-                path = path.SetQueryParam(QueryParams.OFFSET, opts.Offset);            
+            path += $"{QueryParams.LIMIT}={opts.Limit}";
 
-            if (opts.IncludePropertyVersion)            
-                path = path.SetQueryParam(QueryParams.INCLUDE_PROPERTY_VERSIONS, "true");            
+            if (opts.Offset.HasValue)
+                path += $"{QueryParams.OFFSET}={opts.Offset}";
+
+            if (opts.IncludePropertyVersion)
+                path += $"{QueryParams.INCLUDE_PROPERTY_VERSIONS}=true";
 
 
-            if (!string.IsNullOrEmpty(opts.Since))            
-                path = path.SetQueryParam(QueryParams.SINCE, opts.Since);            
+            if (!string.IsNullOrEmpty(opts.Since))
+                path += $"{QueryParams.SINCE}={opts.Since}";
 
-            return _client.Execute<DealRecentListHubSpotModel<DealHubSpotModel>, DealRecentRequestOptions>(path, opts);            
+            return _client.Execute<DealRecentListHubSpotModel<DealHubSpotModel>, DealRecentRequestOptions>(path, opts);
         }
 
         /// <summary>
@@ -162,19 +165,19 @@
         /// <returns>List of deals</returns>
         public DealRecentListHubSpotModel<DealHubSpotModel> RecentlyUpdated(DealRecentRequestOptions opts = null)
         {
-            opts = opts ?? new DealRecentRequestOptions();            
+            opts = opts ?? new DealRecentRequestOptions();
 
-            var path = GetRoute<DealRecentListHubSpotModel<DealHubSpotModel>>("deal","recent","modified").SetQueryParam(QueryParams.LIMIT, opts.Limit);
+            string path = GetRoute<DealRecentListHubSpotModel<DealHubSpotModel>>("deal", "recent", "modified");
+            path += $"{QueryParams.LIMIT}={opts.Limit}";
 
-            if (opts.Offset.HasValue)            
-                path = path.SetQueryParam(QueryParams.OFFSET, opts.Offset);
+            if (opts.Offset.HasValue)
+                path += $"{QueryParams.OFFSET}={opts.Offset}";
 
             if (opts.IncludePropertyVersion)
-                path = path.SetQueryParam(QueryParams.INCLUDE_PROPERTY_VERSIONS, "true");
+                path += $"{QueryParams.INCLUDE_PROPERTY_VERSIONS}=true";
 
-            if (!string.IsNullOrEmpty(opts.Since))             
-                path = path.SetQueryParam(QueryParams.SINCE, opts.Since);
-
+            if (!string.IsNullOrEmpty(opts.Since))
+                path += $"{QueryParams.SINCE}={opts.Since}";
 
             return _client.Execute<DealRecentListHubSpotModel<DealHubSpotModel>, DealRecentRequestOptions>(path, opts);
         }
