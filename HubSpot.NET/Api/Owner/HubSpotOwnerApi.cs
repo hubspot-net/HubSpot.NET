@@ -1,9 +1,9 @@
-using HubSpot.NET.Api.Owner.Dto;
-using HubSpot.NET.Core.Abstracts;
-using HubSpot.NET.Core.Interfaces;
-
 namespace HubSpot.NET.Api.Owner
 {
+    using HubSpot.NET.Api.Owner.Dto;
+    using HubSpot.NET.Core.Abstracts;
+    using HubSpot.NET.Core.Interfaces;
+
     public class HubSpotOwnerApi : ApiRoutable, IHubSpotOwnerApi
     {
         private readonly IHubSpotClient _client;

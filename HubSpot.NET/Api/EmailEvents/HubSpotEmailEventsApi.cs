@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Flurl;
-using HubSpot.NET.Api.EmailEvents.Dto;
-using HubSpot.NET.Core;
-using HubSpot.NET.Core.Interfaces;
-using RestSharp;
-
-namespace HubSpot.NET.Api.EmailEvents
+﻿namespace HubSpot.NET.Api.EmailEvents
 {
+	using System.Net;
+	using Flurl;
+    using HubSpot.NET.Api.EmailEvents.Dto;
+	using HubSpot.NET.Core;
+	using HubSpot.NET.Core.Interfaces;
+    using RestSharp;
+
     public class HubSpotEmailEventsApi : IHubSpotEmailEventsApi
     {
         private readonly IHubSpotClient _client;
@@ -26,13 +22,22 @@ namespace HubSpot.NET.Api.EmailEvents
         /// <param name="campaignId">The campaign ID to query.</param>
         /// <param name="appId">The app ID to query.</param>
         /// <typeparam name="T">Implementation of EmailCampaignDataHubSpotModel</typeparam>
-        /// <returns>The xcampaign data entity</returns>
+        /// <returns>The campaign data entity or null if the compaign does not exist.</returns>
         public T GetCampaignDataById<T>(long campaignId, long appId) where T : EmailCampaignDataHubSpotModel, new()
         {
-            var path = $"{(new T()).RouteBasePath}/{campaignId}"
-                .SetQueryParam(QueryParams.APP_ID, appId);
-            var data = _client.Execute<T>(path, Method.GET);
-            return data;
+            var path = $"{(new T()).RouteBasePath}/{campaignId}".SetQueryParam(QueryParams.APP_ID, appId);
+
+            try
+            {
+                var data = _client.Execute<T>(path, Method.GET);
+                return data;
+            }
+            catch (HubSpotException exception)
+            {
+                if (exception.ReturnedError.StatusCode == HttpStatusCode.NotFound)
+                    return null;
+                throw;
+            }
         }
 
         /// <summary>

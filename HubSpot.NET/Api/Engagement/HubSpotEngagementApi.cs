@@ -1,13 +1,15 @@
-﻿using System;
-using Flurl;
-using HubSpot.NET.Api.Engagement.Dto;
-using HubSpot.NET.Core.Abstracts;
-using HubSpot.NET.Core.Interfaces;
-using RestSharp;
-using HubSpot.NET.Core;
+﻿namespace HubSpot.NET.Api.Engagement
 
-namespace HubSpot.NET.Api.Engagement
 {
+    using System;
+	using System.Net;
+	using Flurl;
+    using HubSpot.NET.Api.Engagement.Dto;
+	using HubSpot.NET.Core;
+	using HubSpot.NET.Core.Abstracts;
+    using HubSpot.NET.Core.Interfaces;
+    using RestSharp;
+
     public class HubSpotEngagementApi : ApiRoutable, IHubSpotEngagementApi
     {
         private readonly IHubSpotClient _client;
@@ -43,9 +45,20 @@ namespace HubSpot.NET.Api.Engagement
         /// Gets a given engagement (by ID)
         /// </summary>
         /// <param name="engagementId">The ID of the engagement</param>
-        /// <returns>The engagement</returns>
-        public EngagementHubSpotModel GetById(long engagementId) 
-            => _client.Execute<EngagementHubSpotModel>(GetRoute<EngagementHubSpotModel>(engagementId.ToString()));
+        /// <returns>The engagement or null if the engagement does not exist.</returns>
+        public EngagementHubSpotModel GetById(long engagementId)
+        {
+            try
+            {
+                return _client.Execute<EngagementHubSpotModel>(GetRoute<EngagementHubSpotModel>(engagementId.ToString()));
+            }
+            catch (HubSpotException exception)
+            {
+                if (exception.ReturnedError.StatusCode == HttpStatusCode.NotFound)
+                    return null;
+                throw;
+            }
+        }
 
         /// <summary>
         /// Retrieves a paginated list of engagements
