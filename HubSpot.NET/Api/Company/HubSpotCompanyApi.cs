@@ -1,6 +1,5 @@
 namespace HubSpot.NET.Api.Company
 {
-    using Flurl;
     using HubSpot.NET.Api.Company.Dto;
     using HubSpot.NET.Core;
     using HubSpot.NET.Core.Abstracts;
@@ -8,9 +7,9 @@ namespace HubSpot.NET.Api.Company
     using RestSharp;
     using System;
     using System.Linq;
-	using System.Net;
+    using System.Net;
 
-	public class HubSpotCompanyApi : ApiRoutable, IHubSpotCompanyApi
+    public class HubSpotCompanyApi : ApiRoutable, IHubSpotCompanyApi
     {
         private readonly IHubSpotClient _client;
         public override string MidRoute => "/companies/v2";        
@@ -79,13 +78,15 @@ namespace HubSpot.NET.Api.Company
         {
             opts = opts ?? new ListRequestOptions();
 
-            var path = GetRoute<CompanyHubSpotModel>("companies", "paged").SetQueryParam(QueryParams.COUNT, opts.Limit);
+            string path = GetRoute<CompanyHubSpotModel>("companies", "paged");
+
+            path += $"{QueryParams.COUNT}={opts.Limit}";
 
             if (opts.PropertiesToInclude.Any())
-                path.SetQueryParam(QueryParams.PROPERTIES, opts.PropertiesToInclude);
+                path += $"{QueryParams.PROPERTIES}={opts.PropertiesToInclude}";
 
             if (opts.Offset.HasValue)
-                path = path.SetQueryParam(QueryParams.OFFSET, opts.Offset);
+                path += $"{QueryParams.OFFSET}={opts.Offset}";
 
             return _client.Execute<CompanyListHubSpotModel<CompanyHubSpotModel>, ListRequestOptions>(path, opts);
         }
