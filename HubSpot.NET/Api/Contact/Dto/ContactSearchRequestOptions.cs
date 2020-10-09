@@ -14,5 +14,9 @@ namespace HubSpot.NET.Api.Contact.Dto
         /// </summary>
         public string Query { get; set; }
 
+        public override string GetQueryString(string initialValue = "")
+        {
+            return base.GetQueryString($"q={Query}&");
+        }
     }
 }

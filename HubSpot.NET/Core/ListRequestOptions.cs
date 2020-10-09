@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Web;
 
 namespace HubSpot.NET.Core
 {
@@ -63,5 +66,22 @@ namespace HubSpot.NET.Core
         public long? Offset { get; set; } = null;
 
         public List<string> PropertiesToInclude { get; set; } = new List<string>();
+
+        public virtual string GetQueryString(string initialValue = "")
+        {
+            StringBuilder sb = new StringBuilder("?");
+
+            sb.Append(initialValue.TrimStart('?').TrimEnd('&'));
+
+            sb.Append($"&{QueryParams.COUNT}={Limit}");
+
+            foreach(string prop in PropertiesToInclude)
+                sb.Append($"&{QueryParams.PROPERTY}={prop}");
+
+            if (Offset.HasValue)
+                sb.Append($"{QueryParams.OFFSET}={Offset.Value}");
+
+            return sb.ToString();
+        }
     }
 }

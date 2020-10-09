@@ -24,5 +24,17 @@ namespace HubSpot.NET.Api.Deal.Dto
         /// Specififes if the current value for a property should be fetched or all historical values
         /// </summary>
         public bool IncludePropertyVersion { get; set; } = false;
+
+        public override string GetQueryString(string initialValue = "")
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append($"&{QueryParams.INCLUDE_PROPERTY_VERSIONS}={IncludePropertyVersion}");
+
+            if (!string.IsNullOrEmpty(Since))
+                sb.Append($"&{QueryParams.SINCE}={Since}");
+
+            return base.GetQueryString(sb.ToString());
+        }
     }
 }

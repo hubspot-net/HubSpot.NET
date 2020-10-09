@@ -1,4 +1,5 @@
 ﻿using HubSpot.NET.Core;
+using System.Text;
 
 namespace HubSpot.NET.Api.Contact.Dto
 {
@@ -26,5 +27,19 @@ namespace HubSpot.NET.Api.Contact.Dto
         /// Whether to retrieve current list memberships for the contacts
         /// </summary>
         public bool ShowListMemberships { get; set; } = false;
+
+        public override string GetQueryString(string initialValue = "")
+        {
+            StringBuilder sb = new StringBuilder(initialValue);
+
+            if (!string.IsNullOrEmpty(TimeOffset))
+                sb.Append($"&{QueryParams.TIME_OFFSET}={TimeOffset}");
+
+            sb.Append($"&{QueryParams.PROPERTY_MODE}={PropertyMode}");
+            sb.Append($"&{QueryParams.FORM_SUBMISSION_MODE}={FormSubmissionMode}");
+            sb.Append($"&{QueryParams.SHOW_LIST_MEMBERSHIPS}={ShowListMemberships}");
+
+            return base.GetQueryString(sb.ToString());
+        }
     }
 }
