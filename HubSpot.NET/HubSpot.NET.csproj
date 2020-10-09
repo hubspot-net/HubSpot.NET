@@ -14,12 +14,7 @@
     <PackageTags>hubspot api wrapper c# contact company deal engagement properties crm</PackageTags>
     <PackageReleaseNotes>0.8.13</PackageReleaseNotes>
     <PackageId>HubSpot.NET</PackageId>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <LangVersion>7.3</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <LangVersion>7.3</LangVersion>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />

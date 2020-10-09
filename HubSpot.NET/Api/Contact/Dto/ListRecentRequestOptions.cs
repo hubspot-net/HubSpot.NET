@@ -32,6 +32,9 @@ namespace HubSpot.NET.Api.Contact.Dto
         {
             StringBuilder sb = new StringBuilder(initialValue);
 
+            if (Offset.HasValue)
+                sb.Append($"&{QueryParams.VID_OFFSET}={Offset.Value}");
+
             if (!string.IsNullOrEmpty(TimeOffset))
                 sb.Append($"&{QueryParams.TIME_OFFSET}={TimeOffset}");
 

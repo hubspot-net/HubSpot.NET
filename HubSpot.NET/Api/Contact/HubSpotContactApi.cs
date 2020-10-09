@@ -155,17 +155,9 @@
         /// <returns>A list of contacts</returns>
         public ContactListHubSpotModel<ContactHubSpotModel> List(ListRequestOptions opts = null)
         {
-            opts = opts ?? new ListRequestOptions();
+            opts ??= new ListRequestOptions();
 
-            string path = GetRoute<ContactHubSpotModel>("lists", "all", "contacts", "all");
-                 
-            path += $"{QueryParams.COUNT}={opts.Limit}";
-
-            if (opts.PropertiesToInclude.Any())            
-                path += $"{QueryParams.PROPERTY}={opts.PropertiesToInclude}";            
-
-            if (opts.Offset.HasValue)            
-                path = path += $"{QueryParams.VID_OFFSET}={opts.Offset}";
+            string path = GetRoute<ContactHubSpotModel>("lists", "all", "contacts", "all") + opts.GetQueryString();
 
             return _client.Execute<ContactListHubSpotModel<ContactHubSpotModel>, ListRequestOptions>(path, opts);           
         }
@@ -207,42 +199,18 @@
         /// <returns></returns>
         public ContactListHubSpotModel<ContactHubSpotModel> RecentlyUpdated(ListRecentRequestOptions opts = null)
         {
-            opts = opts ?? new ListRecentRequestOptions();
+            opts ??= new ListRecentRequestOptions();
 
-            string path = GetRoute<ContactHubSpotModel>("lists", "recently_updated", "contacts", "recent");
-
-            path += $"?{QueryParams.COUNT}={opts.Limit}";
-
-            if (opts.PropertiesToInclude.Any())            
-                path += $"{QueryParams.PROPERTY}={opts.PropertiesToInclude}";            
-
-            if (opts.Offset.HasValue)            
-                path += $"{QueryParams.VID_OFFSET}={opts.Offset}";            
-
-            if (!string.IsNullOrEmpty(opts.TimeOffset))            
-                path += $"{QueryParams.TIME_OFFSET}={opts.TimeOffset}";            
-            
-            path += $"{QueryParams.PROPERTY_MODE}={opts.PropertyMode}" +
-                $"&{QueryParams.FORM_SUBMISSION_MODE}={opts.FormSubmissionMode}" +
-                $"&{QueryParams.SHOW_LIST_MEMBERSHIPS}={opts.ShowListMemberships}";
+            string path = GetRoute<ContactHubSpotModel>("lists", "recently_updated", "contacts", "recent") + opts.GetQueryString();
             
             return _client.Execute<ContactListHubSpotModel<ContactHubSpotModel>, ListRecentRequestOptions>(path, opts);
         }
 
         public ContactSearchHubSpotModel<ContactHubSpotModel> Search(ContactSearchRequestOptions opts = null)
         {
-            opts = opts ?? new ContactSearchRequestOptions();
+            opts ??= new ContactSearchRequestOptions();
 
-            string path = GetRoute<ContactHubSpotModel>("search", "query");
-                
-            path += $"q={opts.Query}&{QueryParams.COUNT}={opts.Limit}";
-
-            if (opts.PropertiesToInclude.Any())            
-                path += $"{QueryParams.PROPERTY}={opts.PropertiesToInclude}";            
-
-
-            if (opts.Offset.HasValue)            
-                path = path += $"{QueryParams.OFFSET}={opts.Offset}";            
+            string path = GetRoute<ContactHubSpotModel>("search", "query") + opts.GetQueryString();      
 
             return _client.Execute<ContactSearchHubSpotModel<ContactHubSpotModel>, ContactSearchRequestOptions>(path, opts);            
         }
@@ -255,24 +223,9 @@
         /// <returns></returns>
         public ContactListHubSpotModel<ContactHubSpotModel> RecentlyCreated(ListRecentRequestOptions opts = null)
         {            
-            opts = opts ?? new ListRecentRequestOptions();
+            opts ??= new ListRecentRequestOptions();
 
-            string path = GetRoute<ContactHubSpotModel>("lists", "all", "contacts", "recent");
-                 
-            path += $"{QueryParams.COUNT}={opts.Limit}";
-
-            if (opts.PropertiesToInclude.Any())            
-                path += $"{QueryParams.PROPERTY}={opts.PropertiesToInclude}";
-
-            if (opts.Offset.HasValue)            
-                path = path += $"{QueryParams.VID_OFFSET}={opts.Offset}";
-
-            if (!string.IsNullOrEmpty(opts.TimeOffset))            
-                path = path += $"{QueryParams.TIME_OFFSET}={opts.TimeOffset}";
-            
-            path += $"{QueryParams.PROPERTY_MODE}={opts.PropertyMode}"
-                    + $"{QueryParams.FORM_SUBMISSION_MODE}={opts.FormSubmissionMode}"
-                    + $"{QueryParams.SHOW_LIST_MEMBERSHIPS}={opts.ShowListMemberships}";   
+            string path = GetRoute<ContactHubSpotModel>("lists", "all", "contacts", "recent") + opts.GetQueryString();
             
             return _client.Execute<ContactListHubSpotModel<ContactHubSpotModel>, ListRecentRequestOptions>(path, opts);
         }
@@ -286,28 +239,12 @@
         /// <returns></returns>
         public ContactListHubSpotModel<ContactHubSpotModel> GetList(long listId, ListRequestOptions opts = null)
         {
-            if (opts == null)
-            {
-                opts = new ListRequestOptions();
-            }
+            opts ??= new ListRequestOptions();
 
-            string path = GetRoute<ContactHubSpotModel>("lists", $"{listId}", "contacts", "all");
-            path += $"{QueryParams.COUNT}={opts.Limit}";
+            string vidOffset = opts.Offset.HasValue ? $"&{QueryParams.VID_OFFSET}={opts.Offset}" : "";
+            string path = GetRoute<ContactHubSpotModel>("lists", $"{listId}", "contacts", "all") + opts.GetQueryString(vidOffset);
 
-
-            if (opts.PropertiesToInclude.Any())
-            {
-                path += $"{QueryParams.PROPERTY}={opts.PropertiesToInclude}";
-            }
-
-            if (opts.Offset.HasValue)
-            {
-                path = path += $"{QueryParams.VID_OFFSET}={opts.Offset}";
-            }
-
-            var data = _client.Execute<ContactListHubSpotModel<ContactHubSpotModel>>(path);
-
-            return data;
+            return _client.Execute<ContactListHubSpotModel<ContactHubSpotModel>>(path);
         }
     }
 }
