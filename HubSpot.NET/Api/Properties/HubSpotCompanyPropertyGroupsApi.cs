@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using HubSpot.NET.Api.Properties.Dto;
 using HubSpot.NET.Core.Abstracts;
 using HubSpot.NET.Core.Interfaces;
@@ -19,8 +21,15 @@ namespace HubSpot.NET.Api.Properties
 
         public IEnumerable<CompanyPropertyGroupHubSpotModel> GetAll()
             => _client.Execute<List<CompanyPropertyGroupHubSpotModel>>(GetRoute<CompanyPropertyGroupHubSpotModel>());
+        public async Task<IEnumerable<CompanyPropertyGroupHubSpotModel>> GetAllAsync(CancellationToken cancellationToken = default)
+        {
+            return await _client.ExecuteAsync<List<CompanyPropertyGroupHubSpotModel>>(GetRoute<CompanyPropertyGroupHubSpotModel>(), cancellationToken: cancellationToken).ConfigureAwait(false);
+        }
 
         public CompanyPropertyGroupHubSpotModel Create(CompanyPropertyGroupHubSpotModel property)
             => _client.Execute<CompanyPropertyGroupHubSpotModel, CompanyPropertyGroupHubSpotModel>(GetRoute<CompanyPropertyGroupHubSpotModel>(), property, Method.POST);
+
+        public Task<CompanyPropertyGroupHubSpotModel> CreateAsync(CompanyPropertyGroupHubSpotModel property, CancellationToken cancellationToken = default)
+            => _client.ExecuteAsync<CompanyPropertyGroupHubSpotModel, CompanyPropertyGroupHubSpotModel>(GetRoute<CompanyPropertyGroupHubSpotModel>(), property, Method.POST, cancellationToken: cancellationToken);
     }
 }

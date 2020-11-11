@@ -7,9 +7,10 @@
     using Newtonsoft.Json;
     using RestSharp;
     using RestSharp.Serializers;
-    using System;
     using System.Collections.Generic;
     using System.Text;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     public class HubSpotOAuthApi : ApiRoutable, IHubSpotOAuthApi
     {
@@ -37,7 +38,6 @@
             { OAuthScopes.TransactionalEmail , "transactional-email" }
         };
 
-
         public HubSpotOAuthApi(IHubSpotClient client, string clientId, string clientSecret)
         {
             _client = client;
@@ -60,6 +60,21 @@
             return token;
         }
 
+        public async Task<HubSpotToken> AuthorizeAsync(string redirectCode, string redirectUri, CancellationToken cancellationToken = default)
+        {
+            RequestTokenHubSpotModel model = new RequestTokenHubSpotModel()
+            {
+                ClientId = ClientId,
+                ClientSecret = _clientSecret,
+                RedirectCode = redirectCode,
+                RedirectUri = redirectUri
+            };
+
+            HubSpotToken token = await InitiateRequestAsync(model, _client.BasePath, cancellationToken).ConfigureAwait(false);
+            _client.UpdateToken(token);
+            return token;
+        }
+
         public HubSpotToken Refresh(string redirectUri, HubSpotToken token)
         {
             RequestRefreshTokenHubSpotModel model = new RequestRefreshTokenHubSpotModel()
@@ -71,6 +86,21 @@
             };
 
             HubSpotToken refreshToken = InitiateRequest(model, _client.BasePath);
+            _client.UpdateToken(refreshToken);
+            return refreshToken;
+        }
+
+        public async Task<HubSpotToken> RefreshAsync(string redirectUri, HubSpotToken token, CancellationToken cancellationToken = default)
+        {
+            RequestRefreshTokenHubSpotModel model = new RequestRefreshTokenHubSpotModel()
+            {
+                ClientId = ClientId,
+                ClientSecret = _clientSecret,
+                RedirectUri = redirectUri,
+                RefreshToken = token.RefreshToken
+            };
+
+            HubSpotToken refreshToken = await InitiateRequestAsync(model, _client.BasePath, cancellationToken).ConfigureAwait(false);
             _client.UpdateToken(refreshToken);
             return refreshToken;
         }
@@ -121,6 +151,63 @@
                 request.AddQueryParameter("scope", builder.ToString());
 
             IRestResponse<HubSpotToken> serverReponse = client.Post<HubSpotToken>(request);
+
+            if (serverReponse.ResponseStatus != ResponseStatus.Completed)
+            {
+                throw new HubSpotException("Server did not respond to authorization request. Content: " + serverReponse.Content, new HubSpotError(serverReponse.StatusCode, serverReponse.Content), serverReponse.Content);
+            }
+
+            if (serverReponse.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            {
+                throw new HubSpotException("Error generating authentication token.", JsonConvert.DeserializeObject<HubSpotError>(serverReponse.Content), serverReponse.Content);
+            }
+
+            return serverReponse.Data;
+        }
+
+        private async Task<HubSpotToken> InitiateRequestAsync<K>(K model, string basePath, CancellationToken cancellationToken = default, params OAuthScopes[] scopes)
+        {
+            RestClient client = new RestClient(basePath)
+            {
+                ThrowOnAnyError = true
+            };
+
+            StringBuilder builder = new StringBuilder();
+            foreach (OAuthScopes scope in scopes)
+            {
+                if (builder.Length == 0)
+                {
+                    builder.Append($"{OAuthScopeNameConversions[scope]}");
+                }
+                else
+                {
+                    builder.Append($"%20{OAuthScopeNameConversions[scope]}");
+                }
+            }
+
+            RestRequest request = new RestRequest(MidRoute)
+            {
+                JsonSerializer = new FakeSerializer()
+            };
+
+            Dictionary<string, string> jsonPreStringPairs = JsonConvert.DeserializeObject<Dictionary<string, string>>(JsonConvert.SerializeObject(model));
+
+            StringBuilder bodyBuilder = new StringBuilder();
+            foreach (KeyValuePair<string, string> pair in jsonPreStringPairs)
+            {
+                if (bodyBuilder.Length > 0)
+                { bodyBuilder.Append("&"); }
+
+                bodyBuilder.Append($"{pair.Key}={pair.Value}");
+            }
+
+            request.AddJsonBody(bodyBuilder.ToString());
+            request.AddHeader("ContentType", "application/x-www-form-urlencoded");
+
+            if (builder.Length > 0)
+                request.AddQueryParameter("scope", builder.ToString());
+
+            IRestResponse<HubSpotToken> serverReponse = await client.ExecuteAsync<HubSpotToken>(request, Method.POST, cancellationToken).ConfigureAwait(false);
 
             if (serverReponse.ResponseStatus != ResponseStatus.Completed)
             {

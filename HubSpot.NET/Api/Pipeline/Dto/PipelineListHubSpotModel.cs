@@ -1,8 +1,6 @@
 ﻿using HubSpot.NET.Core.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.Text;
 
 namespace HubSpot.NET.Api.Pipeline.Dto
 {

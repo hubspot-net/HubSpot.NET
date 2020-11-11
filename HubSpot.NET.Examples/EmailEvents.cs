@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using HubSpot.NET.Api.EmailEvents;
 using HubSpot.NET.Api.EmailEvents.Dto;
 using HubSpot.NET.Core;
@@ -10,19 +10,19 @@ namespace HubSpot.NET.Examples
     public class EmailEvents
     {
 
-        public static void Example(HubSpotApi api)
+        public static async Task Example(HubSpotApi api)
         {
             /**
              * Get all campaigns
              */
-            var campaignInfos = api.EmailEvents.RecentlyUpdatedCampaigns<EmailCampaignHubSpotModel>(
+            var campaignInfos = await api.EmailEvents.RecentlyUpdatedCampaignsAsync<EmailCampaignHubSpotModel>(
                 new EmailCampaignListRequestOptions { Limit = 100 });
 
             Console.WriteLine($"Count: {campaignInfos.Campaigns.Count}");
 
             while (campaignInfos.MoreResultsAvailable)
             {
-                campaignInfos = api.EmailEvents.RecentlyUpdatedCampaigns<EmailCampaignHubSpotModel>(
+                campaignInfos = await api.EmailEvents.RecentlyUpdatedCampaignsAsync<EmailCampaignHubSpotModel>(
                     new EmailCampaignListRequestOptions { Limit = 100, Offset = campaignInfos.ContinuationOffset });
 
                 Console.WriteLine($"Count: {campaignInfos.Campaigns.Count}");
@@ -32,7 +32,7 @@ namespace HubSpot.NET.Examples
              * Get campaign data
              */
             var campaign = campaignInfos.Campaigns.First();
-            var campaignData = api.EmailEvents.GetCampaignDataById<EmailCampaignDataHubSpotModel>(campaign.Id, campaign.AppId);
+            var campaignData = await api.EmailEvents.GetCampaignDataByIdAsync<EmailCampaignDataHubSpotModel>(campaign.Id, campaign.AppId);
         }
 
     }

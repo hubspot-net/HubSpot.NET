@@ -5,17 +5,18 @@ using HubSpot.NET.Core;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace HubSpot.NET.Examples
 {
     public class Contacts
     {
-        public static void Example(HubSpotApi api)
+        public static async Task Example(HubSpotApi api)
         {
             /**
              * Search for a contact
              */
-            var found = api.Contact.Search(new ContactSearchRequestOptions()
+            var found = await api.Contact.SearchAsync(new ContactSearchRequestOptions()
             {
                 Query = ".com"
             });
@@ -23,7 +24,7 @@ namespace HubSpot.NET.Examples
             /**
              * Create a contact
              */
-            var contact = api.Contact.Create(new ContactHubSpotModel()
+            var contact = await api.Contact.CreateAsync(new ContactHubSpotModel()
             {
                 Email = "another@person.com",
                 FirstName = "John",
@@ -36,7 +37,7 @@ namespace HubSpot.NET.Examples
              * Update a contact's property
              */
             contact.Phone = "111111 11111";
-            api.Contact.Update(contact);
+            await api.Contact.UpdateAsync(contact);
 
             /**
              * Upload a file (to attach to a contact)
@@ -48,13 +49,13 @@ namespace HubSpot.NET.Examples
                 Hidden = true, //set to true for engagements
             };
 
-            var uploaded = api.File.Upload(file);
+            var uploaded = await api.File.UploadAsync(file);
             var fileId = uploaded.Objects.First().Id;
 
             /**
              * Add a Note engagement to a contact with a file attachment
              */
-            api.Engagement.Create(new EngagementHubSpotModel()
+            await api.Engagement.CreateAsync(new EngagementHubSpotModel()
             {
                 Engagement = new EngagementHubSpotEngagementModel()
                 {
@@ -79,19 +80,19 @@ namespace HubSpot.NET.Examples
             /**
              * Delete a contact
              */
-            api.Contact.Delete(contact.Id.Value);
+            await api.Contact.DeleteAsync(contact.Id.Value);
 
             /**
              * Get all contacts with specific properties
              * By default only a few properties are returned
              */
-            var contacts = api.Contact.List(
+            var contacts = await api.Contact.ListAsync(
                 new ListRequestOptions { PropertiesToInclude = new List<string> { "firstname", "lastname", "email" } });
 
             /**
              * Get the most recently updated contacts, limited to 10
              */
-            var recentlyUpdated = api.Contact.RecentlyUpdated(new ListRecentRequestOptions()
+            var recentlyUpdated = await api.Contact.RecentlyUpdatedAsync(new ListRecentRequestOptions()
             {
                 Limit = 10
             });
@@ -99,12 +100,10 @@ namespace HubSpot.NET.Examples
             /**
              * Get the most recently created contacts, limited to 10
              */
-            var recentlyCreated = api.Contact.RecentlyCreated(new ListRecentRequestOptions()
+            var recentlyCreated = await api.Contact.RecentlyCreatedAsync(new ListRecentRequestOptions()
             {
                 Limit = 10
-            });
-
-          
+            });          
         }
     }
 }

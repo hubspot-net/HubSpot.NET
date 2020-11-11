@@ -3,7 +3,9 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Net;    
+    using System.Net;
+    using System.Threading;
+    using System.Threading.Tasks;
     using HubSpot.NET.Api.Contact.Dto;
     using HubSpot.NET.Core;
     using HubSpot.NET.Core.Abstracts;
@@ -36,6 +38,21 @@
         }
 
         /// <summary>
+        /// Creates a contact entity
+        /// </summary>
+        /// <typeparam name="T">Implementation of ContactHubSpotModel</typeparam>
+        /// <param name="entity">The entity</param>
+        /// <returns>The created entity (with ID set)</returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public Task<ContactHubSpotModel> CreateAsync(ContactHubSpotModel entity, CancellationToken cancellationToken = default)
+        {
+            CreateOrUpdateContactTransportModel transport = new CreateOrUpdateContactTransportModel(entity);
+            string path = GetRoute<ContactHubSpotModel>("contact");
+
+            return _client.ExecuteAsync<ContactHubSpotModel, CreateOrUpdateContactTransportModel>(path, transport, Method.POST, cancellationToken);
+        }
+
+        /// <summary>
         /// Creates or Updates a contact entity based on the Entity Email
         /// </summary>
         /// <typeparam name="T">Implementation of ContactHubSpotModel</typeparam>
@@ -50,6 +67,20 @@
         }
 
         /// <summary>
+        /// Creates or Updates a contact entity based on the Entity Email
+        /// </summary>
+        /// <typeparam name="T">Implementation of ContactHubSpotModel</typeparam>
+        /// <param name="entity">The entity</param>
+        /// <returns>The created entity (with ID set)</returns>
+        public Task<ContactHubSpotModel> CreateOrUpdateAsync(ContactHubSpotModel entity, CancellationToken cancellationToken = default)
+        {
+            CreateOrUpdateContactTransportModel transport = new CreateOrUpdateContactTransportModel(entity);
+            string path = GetRoute<ContactHubSpotModel>("contact", "createOrUpdate", "email", entity.Email);
+
+            return _client.ExecuteAsync<ContactHubSpotModel, CreateOrUpdateContactTransportModel>(path, transport, Method.POST, cancellationToken);
+        }
+
+        /// <summary>
         /// Creates or updates a contact entity based on the entity's current email.
         /// </summary>
         /// <param name="originalEmail">The email the server knows, assuming the entity email may be different.</param>
@@ -61,6 +92,20 @@
             string path = GetRoute<ContactHubSpotModel>("contact", "createOrUpdate", "email", originalEmail);
 
             return _client.Execute<ContactHubSpotModel, CreateOrUpdateContactTransportModel>(path, transport, Method.POST);
+        }
+
+        /// <summary>
+        /// Creates or updates a contact entity based on the entity's current email.
+        /// </summary>
+        /// <param name="originalEmail">The email the server knows, assuming the entity email may be different.</param>
+        /// <param name="entity">The contact entity to update on the server.</param>
+        /// <returns>The updated entity (with ID set)</returns>
+        public Task<ContactHubSpotModel> CreateOrUpdateAsync(string originalEmail, ContactHubSpotModel entity, CancellationToken cancellationToken = default)
+        {
+            CreateOrUpdateContactTransportModel transport = new CreateOrUpdateContactTransportModel(entity);
+            string path = GetRoute<ContactHubSpotModel>("contact", "createOrUpdate", "email", originalEmail);
+
+            return _client.ExecuteAsync<ContactHubSpotModel, CreateOrUpdateContactTransportModel>(path, transport, Method.POST, cancellationToken);
         }
 
         /// <summary>
@@ -90,7 +135,35 @@
             }
         }
 
+        /// <summary>
+        /// Gets a single contact by ID from hubspot
+        /// </summary>
+        /// <param name="contactId">ID of the contact</param>
+        /// <typeparam name="T">Implementation of ContactHubSpotModel</typeparam>
+        /// <returns>The contact entity or null if the contact does not exist.</returns>
+        public async Task<ContactHubSpotModel> GetByIdAsync(long contactId, bool IncludeHistory = true, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                if (IncludeHistory)
+                {
+                    return await _client.ExecuteAsync<ContactHubSpotModel>(GetRoute<ContactHubSpotModel>("contact", "vid", contactId.ToString(), "profile"), cancellationToken: cancellationToken).ConfigureAwait(false);
+                }
+                else
+                {
+                    return await _client.ExecuteAsync<ContactHubSpotModel>(GetRoute<ContactHubSpotModel>("contact", "vid", contactId.ToString(), "profile?propertyMode=value_only"), cancellationToken: cancellationToken).ConfigureAwait(false);
+                }
+            }
+            catch (HubSpotException exception)
+            {
+                if (exception.ReturnedError.StatusCode == HttpStatusCode.NotFound)
+                    return null;
+                throw;
+            }
+        }
+
         public ContactHubSpotModel GetById(long Id) => GetById(Id, true);
+        public Task<ContactHubSpotModel> GetByIdAsync(long Id, CancellationToken cancellationToken = default) => GetByIdAsync(Id, true, cancellationToken);
 
         /// <summary>
         /// Gets a contact by their email address
@@ -109,6 +182,33 @@
                 else
                 {
                     return _client.Execute<ContactHubSpotModel>(GetRoute<ContactHubSpotModel>("contact", "email", email, "profile?propertyMode=value_only"));
+                }
+            }
+            catch (HubSpotException exception)
+            {
+                if (exception.ReturnedError.StatusCode == HttpStatusCode.NotFound)
+                    return null;
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Gets a contact by their email address
+        /// </summary>
+        /// <param name="email">Email address to search for</param>
+        /// <typeparam name="T">Implementation of ContactHubSpotModel</typeparam>
+        /// <returns>The contact entity or null if the contact does not exist.</returns>
+        public async Task<ContactHubSpotModel> GetByEmailAsync(string email, bool IncludeHistory = true, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                if (IncludeHistory)
+                {
+                    return await _client.ExecuteAsync<ContactHubSpotModel>(GetRoute<ContactHubSpotModel>("contact", "email", email, "profile"), cancellationToken: cancellationToken).ConfigureAwait(false);
+                }
+                else
+                {
+                    return await _client.ExecuteAsync<ContactHubSpotModel>(GetRoute<ContactHubSpotModel>("contact", "email", email, "profile?propertyMode=value_only"), cancellationToken: cancellationToken).ConfigureAwait(false);
                 }
             }
             catch (HubSpotException exception)
@@ -147,6 +247,33 @@
         }
 
         /// <summary>
+        /// Gets a contact by their user token
+        /// </summary>
+        /// <param name="userToken">User token to search for from hubspotutk cookie</param>
+        /// <typeparam name="T">Implementation of ContactHubSpotModel</typeparam>
+        /// <returns>The contact entity or null if the contact does not exist.</returns>
+        public async Task<ContactHubSpotModel> GetByUserTokenAsync(string userToken, bool IncludeHistory = true, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                if (IncludeHistory)
+                {
+                    return await _client.ExecuteAsync<ContactHubSpotModel>(GetRoute<ContactHubSpotModel>("contact", "utk", userToken, "profile"), cancellationToken: cancellationToken).ConfigureAwait(false);
+                }
+                else
+                {
+                    return await _client.ExecuteAsync<ContactHubSpotModel>(GetRoute<ContactHubSpotModel>("contact", "utk", userToken, "profile?propertyMode=value_only"), cancellationToken: cancellationToken).ConfigureAwait(false);
+                }
+            }
+            catch (HubSpotException exception)
+            {
+                if (exception.ReturnedError.StatusCode == HttpStatusCode.NotFound)
+                    return null;
+                throw;
+            }
+        }
+
+        /// <summary>
         /// List all available contacts 
         /// </summary>
         /// <param name="properties">List of properties to fetch for each contact</param>
@@ -171,6 +298,30 @@
         }
 
         /// <summary>
+        /// List all available contacts 
+        /// </summary>
+        /// <param name="properties">List of properties to fetch for each contact</param>
+        /// <param name="opts">Request options - used for pagination etc.</param>
+        /// <typeparam name="T">Implementation of ContactHubSpotModel</typeparam>
+        /// <returns>A list of contacts</returns>
+        public Task<ContactListHubSpotModel<ContactHubSpotModel>> ListAsync(ListRequestOptions opts = null, CancellationToken cancellationToken = default)
+        {
+            opts = opts ?? new ListRequestOptions();
+
+            string path = GetRoute<ContactHubSpotModel>("lists", "all", "contacts", "all");
+                 
+            path += $"{QueryParams.COUNT}={opts.Limit}";
+
+            if (opts.PropertiesToInclude.Any())            
+                path += $"{QueryParams.PROPERTY}={opts.PropertiesToInclude}";            
+
+            if (opts.Offset.HasValue)            
+                path = path += $"{QueryParams.VID_OFFSET}={opts.Offset}";
+
+            return _client.ExecuteAsync<ContactListHubSpotModel<ContactHubSpotModel>, ListRequestOptions>(path, opts, cancellationToken: cancellationToken);           
+        }
+
+        /// <summary>
         /// Updates a given contact
         /// </summary>
         /// <typeparam name="T">Implementation of ContactHubSpotModel</typeparam>
@@ -184,11 +335,31 @@
         }
 
         /// <summary>
+        /// Updates a given contact
+        /// </summary>
+        /// <typeparam name="T">Implementation of ContactHubSpotModel</typeparam>
+        /// <param name="contact">The contact entity</param>
+        public Task<ContactHubSpotModel> UpdateAsync(ContactHubSpotModel contact, CancellationToken cancellationToken = default)
+        {
+            if (contact.Id < 1)            
+                throw new ArgumentException("Contact entity must have an id set!");                       
+
+            return _client.ExecuteAsync<ContactHubSpotModel, ContactHubSpotModel>(GetRoute<ContactHubSpotModel>("contact","vid", contact.Id.ToString(), "profile"), contact, Method.POST, cancellationToken);
+        }
+
+        /// <summary>
         /// Deletes a given contact
         /// </summary>
         /// <param name="contactId">The ID of the contact</param>
         public void Delete(long contactId) 
             => _client.ExecuteOnly(GetRoute<ContactHubSpotModel>("contact", "vid", contactId.ToString()), method: Method.DELETE);
+
+        /// <summary>
+        /// Deletes a given contact
+        /// </summary>
+        /// <param name="contactId">The ID of the contact</param>
+        public Task DeleteAsync(long contactId, CancellationToken cancellationToken = default) 
+            => _client.ExecuteOnlyAsync(GetRoute<ContactHubSpotModel>("contact", "vid", contactId.ToString()), method: Method.DELETE, cancellationToken);
 
         /// <summary>
         /// Update or create a set of contacts, this is the preferred method when creating/updating in bulk.
@@ -198,6 +369,15 @@
         /// <param name="contacts">The set of contacts to update/create</param>
         public void Batch(List<ContactHubSpotModel> contacts)
             => _client.ExecuteBatch(GetRoute<ContactHubSpotModel>("contact", "batch"), contacts.Select(c => (object) c).ToList(), Method.POST);        
+
+        /// <summary>
+        /// Update or create a set of contacts, this is the preferred method when creating/updating in bulk.
+        /// Best performance is with a maximum of 250 contacts.
+        /// </summary>
+        /// <typeparam name="T">Implementation of ContactHubSpotModel</typeparam>
+        /// <param name="contacts">The set of contacts to update/create</param>
+        public Task BatchAsync(List<ContactHubSpotModel> contacts, CancellationToken cancellationToken = default)
+            => _client.ExecuteBatchAsync(GetRoute<ContactHubSpotModel>("contact", "batch"), contacts.Select(c => (object) c).ToList(), Method.POST, cancellationToken);        
 
         /// <summary>
         /// Get recently updated (or created) contacts
@@ -229,6 +409,36 @@
             return _client.Execute<ContactListHubSpotModel<ContactHubSpotModel>, ListRecentRequestOptions>(path, opts);
         }
 
+        /// <summary>
+        /// Get recently updated (or created) contacts
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="opts">Request options</param>
+        /// <returns></returns>
+        public Task<ContactListHubSpotModel<ContactHubSpotModel>> RecentlyUpdatedAsync(ListRecentRequestOptions opts = null, CancellationToken cancellationToken = default)
+        {
+            opts = opts ?? new ListRecentRequestOptions();
+
+            string path = GetRoute<ContactHubSpotModel>("lists", "recently_updated", "contacts", "recent");
+
+            path += $"?{QueryParams.COUNT}={opts.Limit}";
+
+            if (opts.PropertiesToInclude.Any())            
+                path += $"{QueryParams.PROPERTY}={opts.PropertiesToInclude}";            
+
+            if (opts.Offset.HasValue)            
+                path += $"{QueryParams.VID_OFFSET}={opts.Offset}";            
+
+            if (!string.IsNullOrEmpty(opts.TimeOffset))            
+                path += $"{QueryParams.TIME_OFFSET}={opts.TimeOffset}";            
+            
+            path += $"{QueryParams.PROPERTY_MODE}={opts.PropertyMode}" +
+                $"&{QueryParams.FORM_SUBMISSION_MODE}={opts.FormSubmissionMode}" +
+                $"&{QueryParams.SHOW_LIST_MEMBERSHIPS}={opts.ShowListMemberships}";
+            
+            return _client.ExecuteAsync<ContactListHubSpotModel<ContactHubSpotModel>, ListRecentRequestOptions>(path, opts, cancellationToken: cancellationToken);
+        }
+
         public ContactSearchHubSpotModel<ContactHubSpotModel> Search(ContactSearchRequestOptions opts = null)
         {
             opts = opts ?? new ContactSearchRequestOptions();
@@ -245,6 +455,24 @@
                 path = path += $"{QueryParams.OFFSET}={opts.Offset}";            
 
             return _client.Execute<ContactSearchHubSpotModel<ContactHubSpotModel>, ContactSearchRequestOptions>(path, opts);            
+        }
+
+        public Task<ContactSearchHubSpotModel<ContactHubSpotModel>> SearchAsync(ContactSearchRequestOptions opts = null, CancellationToken cancellationToken = default)
+        {
+            opts = opts ?? new ContactSearchRequestOptions();
+
+            string path = GetRoute<ContactHubSpotModel>("search", "query");
+                
+            path += $"q={opts.Query}&{QueryParams.COUNT}={opts.Limit}";
+
+            if (opts.PropertiesToInclude.Any())            
+                path += $"{QueryParams.PROPERTY}={opts.PropertiesToInclude}";            
+
+
+            if (opts.Offset.HasValue)            
+                path = path += $"{QueryParams.OFFSET}={opts.Offset}";            
+
+            return _client.ExecuteAsync<ContactSearchHubSpotModel<ContactHubSpotModel>, ContactSearchRequestOptions>(path, opts, cancellationToken: cancellationToken);            
         }
 
         /// <summary>
@@ -278,6 +506,36 @@
         }
 
         /// <summary>
+        /// Get a list of recently created contacts
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="opts">Request options</param>
+        /// <returns></returns>
+        public Task<ContactListHubSpotModel<ContactHubSpotModel>> RecentlyCreatedAsync(ListRecentRequestOptions opts = null, CancellationToken cancellationToken = default)
+        {            
+            opts = opts ?? new ListRecentRequestOptions();
+
+            string path = GetRoute<ContactHubSpotModel>("lists", "all", "contacts", "recent");
+                 
+            path += $"{QueryParams.COUNT}={opts.Limit}";
+
+            if (opts.PropertiesToInclude.Any())            
+                path += $"{QueryParams.PROPERTY}={opts.PropertiesToInclude}";
+
+            if (opts.Offset.HasValue)            
+                path = path += $"{QueryParams.VID_OFFSET}={opts.Offset}";
+
+            if (!string.IsNullOrEmpty(opts.TimeOffset))            
+                path = path += $"{QueryParams.TIME_OFFSET}={opts.TimeOffset}";
+            
+            path += $"{QueryParams.PROPERTY_MODE}={opts.PropertyMode}"
+                    + $"{QueryParams.FORM_SUBMISSION_MODE}={opts.FormSubmissionMode}"
+                    + $"{QueryParams.SHOW_LIST_MEMBERSHIPS}={opts.ShowListMemberships}";   
+            
+            return _client.ExecuteAsync<ContactListHubSpotModel<ContactHubSpotModel>, ListRecentRequestOptions>(path, opts, cancellationToken: cancellationToken);
+        }
+
+        /// <summary>
         /// Get all contacts in a list
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -308,6 +566,37 @@
             var data = _client.Execute<ContactListHubSpotModel<ContactHubSpotModel>>(path);
 
             return data;
+        }
+
+        /// <summary>
+        /// Get all contacts in a list
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="listId"></param>
+        /// <param name="opts"></param>
+        /// <returns></returns>
+        public Task<ContactListHubSpotModel<ContactHubSpotModel>> GetListAsync(long listId, ListRequestOptions opts = null, CancellationToken cancellationToken = default)
+        {
+            if (opts == null)
+            {
+                opts = new ListRequestOptions();
+            }
+
+            string path = GetRoute<ContactHubSpotModel>("lists", $"{listId}", "contacts", "all");
+            path += $"{QueryParams.COUNT}={opts.Limit}";
+
+
+            if (opts.PropertiesToInclude.Any())
+            {
+                path += $"{QueryParams.PROPERTY}={opts.PropertiesToInclude}";
+            }
+
+            if (opts.Offset.HasValue)
+            {
+                path = path += $"{QueryParams.VID_OFFSET}={opts.Offset}";
+            }
+
+            return _client.ExecuteAsync<ContactListHubSpotModel<ContactHubSpotModel>>(path, cancellationToken: cancellationToken);
         }
     }
 }
