@@ -2,32 +2,32 @@
 using HubSpot.NET.Api.Company.Dto;
 using HubSpot.NET.Core;
 using System;
+using System.Threading.Tasks;
 
 namespace HubSpot.NET.Examples
 {
     public class Companies
     {
-        public static void Example(HubSpotApi api)
+        public static async Task Example(HubSpotApi api)
         {
             try
             {
-                Tests(api);
+                await Tests(api);
                 Console.WriteLine("Companies example completed successfully.");
             }
             catch(Exception ex)
             {
                 Console.WriteLine("Companies tests failed!");
                 Console.WriteLine(ex.ToString());
-            }
-           
+            }  
         }
 
-        private static void Tests(HubSpotApi api)
+        private static async Task Tests(HubSpotApi api)
         {
             /**
             * Create a company
             */
-            var company = api.Company.Create(new CompanyHubSpotModel()
+            var company = await api.Company.CreateAsync(new CompanyHubSpotModel()
             {
                 Domain = "squaredup.com",
                 Name = "Squared Up"
@@ -37,13 +37,12 @@ namespace HubSpot.NET.Examples
              * Update a company's property
              */
             company.Description = "Data Visualization for Enterprise IT";
-            api.Company.Update(company);
-
+            await api.Company.UpdateAsync(company);
 
             /**
              * Get all companies with domain name "squaredup.com"
              */
-            var companies = api.Company.GetByDomain("squaredup.com", new CompanySearchByDomain()
+            var companies = await api.Company.GetByDomainAsync("squaredup.com", new CompanySearchByDomain()
             {
                 Limit = 10
             });
@@ -51,8 +50,7 @@ namespace HubSpot.NET.Examples
             /**
              * Delete a contact
              */
-            api.Company.Delete(company.Id.Value);
-
+            await api.Company.DeleteAsync(company.Id.Value);
         }
     }
 }

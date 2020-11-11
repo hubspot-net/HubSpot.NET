@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using HubSpot.NET.Core;
 
 namespace HubSpot.NET.Examples
 {
     public class EmailSubscriptions
     {
-        public static void Example(HubSpotApi api)
+        public static async Task Example(HubSpotApi api)
         {
             try
             {
-                Tests(api);
+                await Tests(api);
                 Console.WriteLine("Email Subscriptions tests passed.");
             }
             catch(Exception ex)
@@ -20,24 +21,24 @@ namespace HubSpot.NET.Examples
             }
         }
 
-        private static void Tests(HubSpotApi api)
+        private static async Task Tests(HubSpotApi api)
         {
            /**
              * Get the available subscription types
              */
-            var all = api.EmailSubscriptions.GetSubscriptionTypes();
+            var all = await api.EmailSubscriptions.GetSubscriptionTypesAsync();
 
             /**
              * Get the subscription statuses for the given email address
              * A missing type implies that they have not opted out
              */
-            //var john = api.EmailSubscriptions.GetSubscriptionStatusForContact("john@squaredup.com");
+            //var john = await api.EmailSubscriptions.GetSubscriptionStatusForContactAsync("john@squaredup.com");
 
             /**
              * Unsubscribe a user from ALL emails
              * WARNING: You cannot undo this
              */
-           // api.EmailSubscriptions.UnsubscribeAll("john@squaredup.com");
+           // await api.EmailSubscriptions.UnsubscribeAllAsync("john@squaredup.com");
 
 
             /**
@@ -45,9 +46,9 @@ namespace HubSpot.NET.Examples
              * WARNING: You cannot undo this
              */
             var type = all.Types.First();
-           // api.EmailSubscriptions.UnsubscribeFrom("dan@squaredup.com", type.Id);
+           // await api.EmailSubscriptions.UnsubscribeFromAsync("dan@squaredup.com", type.Id);
 
-            api.EmailSubscriptions.SubscribeTo("dev@vtrpro.com", type.Id);
+            await api.EmailSubscriptions.SubscribeToAsync("dev@vtrpro.com", type.Id);
         }
     }
 }

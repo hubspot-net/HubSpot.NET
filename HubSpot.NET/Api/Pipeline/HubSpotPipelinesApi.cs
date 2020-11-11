@@ -1,5 +1,7 @@
 ﻿using HubSpot.NET.Api.Pipeline.Dto;
 using HubSpot.NET.Core.Interfaces;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace HubSpot.NET.Api.Pipeline
 {
@@ -27,6 +29,20 @@ namespace HubSpot.NET.Api.Pipeline
             var data = _client.Execute<PipelineListHubSpotModel<T>>(path, method: RestSharp.Method.GET);
 
             return data;
+        }
+
+        /// <summary>
+        /// Returns a list of all pipelines of the specified objectType
+        /// </summary>
+        /// <typeparam name="T">Implementation of PipelineHubSpotModel</typeparam>
+        /// <param name="objectType">Must be one of: deals, tickets</param>
+        /// <param name="includeInactive">Must be one of "EXCLUDE_DELETED" (default), or "INCLUDE_DELETED" </param>
+        /// <returns>The requested list</returns>
+        public Task<PipelineListHubSpotModel<T>> ListAsync<T>(string objectType, string includeInactive = "EXCLUDE_DELETED", CancellationToken cancellationToken = default) where T : PipelineHubSpotModel, new()
+        {
+            string path = $"{new PipelineListHubSpotModel<T>().RouteBasePath}/pipelines/{objectType}?includeInactive={includeInactive}";
+
+            return _client.ExecuteAsync<PipelineListHubSpotModel<T>>(path, method: RestSharp.Method.GET, cancellationToken);
         }
     }
 }

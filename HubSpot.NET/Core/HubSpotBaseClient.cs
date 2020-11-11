@@ -6,6 +6,8 @@ namespace HubSpot.NET.Core
     using Newtonsoft.Json;
     using RestSharp;
     using System.Collections.Generic;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     public class HubSpotBaseClient : IHubSpotClient
     {
@@ -32,7 +34,10 @@ namespace HubSpot.NET.Core
         public HubSpotBaseClient(string apiKey, HubSpotAuthenticationMode mode = HubSpotAuthenticationMode.HAPIKEY, string appId = "", HubSpotToken token = null)
         { 
             _apiKey = apiKey;
-            _client = new RestClient(_baseUrl);
+            _client = new RestClient(_baseUrl)
+            {
+                ThrowOnAnyError = true
+            };
             _mode = mode;
             _token = token;
             AppId = appId;
@@ -41,17 +46,32 @@ namespace HubSpot.NET.Core
         public T Execute<T>(string path, Method method = Method.GET) where T : new() 
             => SendReceiveRequest<T>(path, method);
 
+        public Task<T> ExecuteAsync<T>(string path, Method method = Method.GET, CancellationToken cancellationToken = default) where T : new()
+            => SendReceiveRequestAsync<T>(path, method, cancellationToken);
+
         public T Execute<T, K>(string absoluteUriPath, K entity, Method method = Method.GET) where T : new() 
             => SendReceiveRequest<T, K>(absoluteUriPath, method, entity);
+
+        public Task<T> ExecuteAsync<T, K>(string absoluteUriPath, K entity, Method method = Method.GET, CancellationToken cancellationToken = default) where T : new()
+            => SendReceiveRequestAsync<T, K>(absoluteUriPath, method, entity, cancellationToken);
 
         public void ExecuteOnly(string absoluteUriPath, Method method = Method.GET) 
             => SendOnlyRequest(absoluteUriPath, method);
 
+        public Task ExecuteOnlyAsync(string absoluteUriPath, Method method = Method.GET, CancellationToken cancellationToken = default)
+            => SendOnlyRequestAsync(absoluteUriPath, method, cancellationToken);
+
         public void ExecuteOnly<T>(string absoluteUriPath, T entity, Method method = Method.GET) 
             => SendOnlyRequest(absoluteUriPath, method, entity);
 
+        public Task ExecuteOnlyAsync<T>(string absoluteUriPath, T entity, Method method = Method.GET, CancellationToken cancellationToken = default)
+            => SendOnlyRequestAsync(absoluteUriPath, method, entity, cancellationToken);
+
         public void ExecuteBatch(string absoluteUriPath, List<object> entities, Method method = Method.GET) 
             => SendOnlyRequest(absoluteUriPath, method, entities);
+
+        public Task ExecuteBatchAsync(string absoluteUriPath, List<object> entities, Method method = Method.GET, CancellationToken cancellationToken = default)
+            => SendOnlyRequestAsync(absoluteUriPath, method, entities, cancellationToken);
 
         public T ExecuteMultipart<T>(string absoluteUriPath, byte[] data, string filename, Dictionary<string,string> parameters, Method method = Method.POST)
         {
@@ -70,6 +90,25 @@ namespace HubSpot.NET.Core
                 throw new HubSpotException("Error from HubSpot", response.Content); // lettuce get some good exception info back
 
             return JsonConvert.DeserializeObject<T>(response.Content);         
+        }
+
+        public async Task<T> ExecuteMultipartAsync<T>(string absoluteUriPath, byte[] data, string filename, Dictionary<string, string> parameters, Method method = Method.POST, CancellationToken cancellationToken = default)
+        {
+            var fullUrl = $"{_baseUrl}{absoluteUriPath}";
+            var request = ConfigureRequestAuthentication(fullUrl, method);
+
+            request.AddFile(filename, data, filename);
+
+            foreach (var kvp in parameters)
+            {
+                request.AddParameter(kvp.Key, kvp.Value);
+            }
+
+            var response = await _client.ExecuteAsync(request, cancellationToken).ConfigureAwait(false);
+            if (!response.IsSuccessful)
+                throw new HubSpotException("Error from HubSpot", response.Content); // lettuce get some good exception info back
+
+            return JsonConvert.DeserializeObject<T>(response.Content);
         }
 
         /// <summary>
@@ -91,6 +130,24 @@ namespace HubSpot.NET.Core
         {
             RestRequest request = ConfigureRequestAuthentication(path, method);
             IRestResponse response = _client.Execute(request);
+
+            if (response.IsSuccessful == false)
+                throw new HubSpotException("Error from HubSpot", new HubSpotError(response.StatusCode, response.StatusDescription), response.Content);
+
+            return JsonConvert.DeserializeObject<T>(response.Content);
+        }
+
+        /// <summary>
+        /// Sends requests to the given endpoint and returns an entity object of T.
+        /// </summary>
+        /// <typeparam name="T">The expected return entity type.</typeparam>
+        /// <param name="path">The path to the endpoint.</param>
+        /// <param name="method">The REST method used.</param>
+        /// <returns>An entity of type T returned from the request.</returns>
+        private async Task<T> SendReceiveRequestAsync<T>(string path, Method method, CancellationToken cancellationToken = default) where T : new()
+        {
+            RestRequest request = ConfigureRequestAuthentication(path, method);
+            IRestResponse response = await _client.ExecuteAsync(request, cancellationToken).ConfigureAwait(false);
 
             if (response.IsSuccessful == false)
                 throw new HubSpotException("Error from HubSpot", new HubSpotError(response.StatusCode, response.StatusDescription), response.Content);
@@ -124,6 +181,31 @@ namespace HubSpot.NET.Core
         }
 
         /// <summary>
+        /// Sends requests with a given entity JSON body to the target endpoint and returns a result object.
+        /// </summary>
+        /// <typeparam name="T">The type for the return object.</typeparam>
+        /// <typeparam name="K">The type of the sending object.</typeparam>
+        /// <param name="path">The path to the endpoint.</param>
+        /// <param name="method">The REST method used.</param>
+        /// <param name="entity">The entity being sent in the request.</param>
+        /// <returns>An entity of type T returned from the request.</returns>
+        private async Task<T> SendReceiveRequestAsync<T, K>(string path, Method method, K entity, CancellationToken cancellationToken = default) where T : new()
+        {
+            RestRequest request = ConfigureRequestAuthentication(path, method);
+
+            if (!entity.Equals(default(K)))
+                request.AddJsonBody(entity);
+
+            IRestResponse response = await _client.ExecuteAsync(request, cancellationToken).ConfigureAwait(false);
+
+            if (response.IsSuccessful == false)
+                throw new HubSpotException("Error from HubSpot", new HubSpotError(response.StatusCode, response.StatusDescription), response.Content);
+
+
+            return JsonConvert.DeserializeObject<T>(response.Content);
+        }
+
+        /// <summary>
         /// Sends a one way request to the server with no return data.
         /// </summary>
         /// <typeparam name="T">The outbound entity type.</typeparam>
@@ -147,6 +229,27 @@ namespace HubSpot.NET.Core
         /// <summary>
         /// Sends a one way request to the server with no return data.
         /// </summary>
+        /// <typeparam name="T">The outbound entity type.</typeparam>
+        /// <param name="path">The endpoint target.</param>
+        /// <param name="method">The REST method to use.</param>
+        /// <param name="entity">The entity being sent to the endpoint.</param>
+        private async Task SendOnlyRequestAsync<T>(string path, Method method, T entity, CancellationToken cancellationToken = default)
+        {
+
+            RestRequest request = ConfigureRequestAuthentication(path, method);
+
+            if (!entity.Equals(default(T)))
+                request.AddJsonBody(entity);
+
+            IRestResponse response = await _client.ExecuteAsync(request, cancellationToken).ConfigureAwait(false);
+
+            if (!response.IsSuccessful)
+                throw new HubSpotException("Error from HubSpot", new HubSpotError(response.StatusCode, response.StatusDescription), response.Content);
+        }
+
+        /// <summary>
+        /// Sends a one way request to the server with no return data.
+        /// </summary>
         /// <param name="path">The endpoint target.</param>
         /// <param name="method">The REST method to use.</param>
         private void SendOnlyRequest(string path, Method method)
@@ -159,6 +262,23 @@ namespace HubSpot.NET.Core
             if (!response.IsSuccessful)
                 throw new HubSpotException("Error from HubSpot", new HubSpotError(response.StatusCode, response.StatusDescription), response.Content);
         }
+
+        /// <summary>
+        /// Sends a one way request to the server with no return data.
+        /// </summary>
+        /// <param name="path">The endpoint target.</param>
+        /// <param name="method">The REST method to use.</param>
+        private async Task SendOnlyRequestAsync(string path, Method method, CancellationToken cancellationToken = default)
+        {
+
+            RestRequest request = ConfigureRequestAuthentication(path, method);
+
+            IRestResponse response = await _client.ExecuteAsync(request, cancellationToken).ConfigureAwait(false);
+
+            if (!response.IsSuccessful)
+                throw new HubSpotException("Error from HubSpot", new HubSpotError(response.StatusCode, response.StatusDescription), response.Content);
+        }
+
         /// <summary>
         /// Configures a RestRequest based on the authentication scheme detected and configures the endpoint path relative to the base path.
         /// </summary>

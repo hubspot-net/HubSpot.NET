@@ -6,9 +6,8 @@
           <description>C# .NET client library targetting the HubSpot APIs</description>
           <authors>David Clarke, Turner Bass</authors>
           <dependencies>
-               <dependency id="RestSharp" version="106.6.9" />
-               <dependency id="Newtonsoft.Json" version="11.0.2" />
-               <dependency id="Flurl" version="2.8.0" />
+               <dependency id="RestSharp" version="106.11.7" />
+               <dependency id="Newtonsoft.Json" version="12.0.3" />
           </dependencies>
      </metadata>
 

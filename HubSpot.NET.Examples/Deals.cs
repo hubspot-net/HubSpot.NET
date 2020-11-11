@@ -2,16 +2,17 @@
 using HubSpot.NET.Core;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace HubSpot.NET.Examples
 {
     public class Deals
     {
-        public static void Example(HubSpotApi api)
+        public static async Task Example(HubSpotApi api)
         {
             try
             {
-                Tests(api);
+                await Tests(api);
                 Console.WriteLine("Deals tests completed successfully!");
             }
             catch(Exception ex)
@@ -20,12 +21,12 @@ namespace HubSpot.NET.Examples
                 Console.WriteLine(ex.ToString());
             }
         }
-        private static void Tests(HubSpotApi api)
+        private static async Task Tests(HubSpotApi api)
         {
             /**
              * Create a deal
              */
-            var deal = api.Deal.Create(new DealHubSpotModel()
+            var deal = await api.Deal.CreateAsync(new DealHubSpotModel()
             {
                 Amount = 10000,
                 Name = "New Deal #1"
@@ -34,12 +35,12 @@ namespace HubSpot.NET.Examples
             /**
              * Delete a deal
              */
-            api.Deal.Delete(deal.Id.Value);
+            await api.Deal.DeleteAsync(deal.Id.Value);
 
             /**
              * Get all deals
              */
-            var deals = api.Deal.List(false,
+            var deals = await api.Deal.ListAsync(false,
                 new ListRequestOptions(250) { PropertiesToInclude = new List<string> { "dealname", "amount" } });
 
             /**
@@ -65,7 +66,7 @@ namespace HubSpot.NET.Examples
             var currentdatetime = DateTime.SpecifyKind(DateTime.Now.AddDays(-7), DateTimeKind.Utc);
             var since = ((DateTimeOffset)currentdatetime).ToUnixTimeMilliseconds().ToString();
 
-            var recentlyCreatedDeals = api.Deal.RecentlyCreated(new DealRecentRequestOptions
+            var recentlyCreatedDeals = await api.Deal.RecentlyCreatedAsync(new DealRecentRequestOptions
             {
                 Limit = 10,
                 IncludePropertyVersion = false,
@@ -77,7 +78,7 @@ namespace HubSpot.NET.Examples
              *  Will default to 30 day if Since is not set.
              *  Using DealRecentListHubSpotModel to accomodate deals returning in the "results" property.
              */
-            var recentlyUpdatedDeals = api.Deal.RecentlyCreated(new DealRecentRequestOptions
+            var recentlyUpdatedDeals = await api.Deal.RecentlyCreatedAsync(new DealRecentRequestOptions
             {
                 Limit = 10,
                 IncludePropertyVersion = false,

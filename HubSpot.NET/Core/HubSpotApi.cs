@@ -76,7 +76,6 @@
             EmailSubscriptions = new HubSpotEmailSubscriptionsApi(client);
             Timelines = new HubSpotTimelineApi(client);
             Pipelines = new HubSpotPipelinesApi(client);
-
         }
     }
 }

@@ -3,10 +3,10 @@
     using HubSpot.NET.Core;
     using System;
     using System.IO;
+    using System.Threading.Tasks;
 
-    public class Examples
+    class Program
     {
-        // enable args to be presented from CLI for automated test execution 
         static void Main(string[] args)
         {
             /**
@@ -17,12 +17,12 @@
             string clientId = string.Empty; // args[1]
             string clientSecret = string.Empty; // args[2]
             string appId = string.Empty; // args[3]
-            
-            if(args.Length >= 1)
+
+            if (args.Length >= 1)
             {
                 hapiKey = args[0];
 
-                if(args.Length > 3)
+                if (args.Length > 3)
                 {
                     clientId = args[1];
                     clientSecret = args[2];
@@ -71,48 +71,48 @@
                             break;
                     }
 
-                }                
+                }
             }
 
-            while(string.IsNullOrWhiteSpace(hapiKey) || !Guid.TryParse(hapiKey, out Guid result))
+            while (string.IsNullOrWhiteSpace(hapiKey) || !Guid.TryParse(hapiKey, out Guid result))
             {
                 Console.WriteLine("Invalid API Key, try again");
                 hapiKey = Console.ReadLine();
             }
 
             var hapiApi = new HubSpotApi(hapiKey);
-            RunApiKeyExamples(hapiApi);            
+            RunApiKeyExamples(hapiApi).GetAwaiter().GetResult();
 
-            if(string.IsNullOrWhiteSpace(clientId) || string.IsNullOrWhiteSpace(clientSecret) || string.IsNullOrWhiteSpace(appId))
+            if (string.IsNullOrWhiteSpace(clientId) || string.IsNullOrWhiteSpace(clientSecret) || string.IsNullOrWhiteSpace(appId))
             {
                 Console.WriteLine("Invalid clientId, Secret, or AppID. Skipping OAuth related tests...");
             }
             else
             {
                 var oauthApi = new HubSpotApi(clientId, clientSecret, appId);
-                RunOAuthExamples(oauthApi);
+                RunOAuthExamples(oauthApi).GetAwaiter().GetResult();
             }
 
             var key = Console.ReadKey();
         }
 
-        private static void RunApiKeyExamples(HubSpotApi hapiApi)
+        private static async Task RunApiKeyExamples(HubSpotApi hapiApi)
         {
-            //EmailSubscriptions.Example(hapiApi);
-            //Deals.Example(hapiApi);
-            //Contacts.Example(hapiApi);
-            //Companies.Example(hapiApi);
-            //CompanyProperties.Example(hapiApi);
-            Pipelines.Example(hapiApi);
+            //await EmailSubscriptions.Example(hapiApi);
+            //await Deals.Example(hapiApi);
+            //await Contacts.Example(hapiApi);
+            await Companies.Example(hapiApi);
+            //await CompanyProperties.Example(hapiApi);
+            //await Pipelines.Example(hapiApi);
         }
 
-        private static void RunOAuthExamples(HubSpotApi oauthApi)
+        private static async Task RunOAuthExamples(HubSpotApi oauthApi)
         {
-            OAuth.Example(oauthApi);
-            Timeline.Example(oauthApi);
+            await OAuth.Example(oauthApi);
+            await Timeline.Example(oauthApi);
         }
 
-        private static string GetContactString() 
+        private static string GetContactString()
             => File.ReadAllText("ContactExample.txt");
     }
 }
