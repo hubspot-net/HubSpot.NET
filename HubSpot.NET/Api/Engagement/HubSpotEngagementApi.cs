@@ -1,13 +1,14 @@
 ﻿namespace HubSpot.NET.Api.Engagement
 
 {
+    using System;
+	using System.Net;
+	using Flurl;
     using HubSpot.NET.Api.Engagement.Dto;
-    using HubSpot.NET.Core;
-    using HubSpot.NET.Core.Abstracts;
+	using HubSpot.NET.Core;
+	using HubSpot.NET.Core.Abstracts;
     using HubSpot.NET.Core.Interfaces;
     using RestSharp;
-    using System;
-    using System.Net;
 
     public class HubSpotEngagementApi : ApiRoutable, IHubSpotEngagementApi
     {
@@ -68,10 +69,10 @@
         {
             opts = opts ?? new EngagementListRequestOptions();
 
-            var path = $"{GetRoute<T>("paged")}?{QueryParams.LIMIT}={opts.Limit}";
+            var path = $"{GetRoute<T>("paged")}".SetQueryParam(QueryParams.LIMIT, opts.Limit);
 
             if (opts.Offset.HasValue)            
-                path += $"{QueryParams.OFFSET}={opts.Offset}";
+                path = path.SetQueryParam(QueryParams.OFFSET, opts.Offset);
 
             return _client.Execute<EngagementListHubSpotModel<T>, EngagementListRequestOptions>(path, opts);            
         }
@@ -85,10 +86,10 @@
         {
             opts = opts ?? new EngagementListRequestOptions();
 
-            var path = $"{GetRoute<T>()}/engagements/recent/modified?{QueryParams.COUNT}={opts.Limit}";
+            var path = $"{GetRoute<T>()}/engagements/recent/modified".SetQueryParam(QueryParams.COUNT, opts.Limit);
 
             if (opts.Offset.HasValue)            
-                path += $"{QueryParams.OFFSET}={opts.Offset}";
+                path = path.SetQueryParam(QueryParams.OFFSET, opts.Offset);
 
             return _client.Execute<EngagementListHubSpotModel<T>, EngagementListRequestOptions>(path, opts);           
         }
@@ -120,10 +121,10 @@
         {
             opts = opts ?? new EngagementListRequestOptions();
             
-            var path = $"{GetRoute<T>()}/engagements/associated/{objectType}/{objectId}/paged?{QueryParams.LIMIT}={opts.Limit}";
+            var path = $"{GetRoute<T>()}/engagements/associated/{objectType}/{objectId}/paged".SetQueryParam(QueryParams.LIMIT, opts.Limit);
 
             if (opts.Offset.HasValue)            
-                path += $"{QueryParams.OFFSET}={opts.Offset}";
+                path = path.SetQueryParam(QueryParams.OFFSET, opts.Offset);            
 
             return _client.Execute<EngagementListHubSpotModel<T>, EngagementListRequestOptions>(path, opts);            
         }

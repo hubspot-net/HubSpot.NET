@@ -1,4 +1,5 @@
-﻿using HubSpot.NET.Api.Pipeline.Dto;
+﻿using Flurl;
+using HubSpot.NET.Api.Pipeline.Dto;
 using HubSpot.NET.Core.Interfaces;
 
 namespace HubSpot.NET.Api.Pipeline
@@ -22,7 +23,8 @@ namespace HubSpot.NET.Api.Pipeline
         /// <returns>The requested list</returns>
         public PipelineListHubSpotModel<T> List<T>(string objectType, string includeInactive = "EXCLUDE_DELETED") where T : PipelineHubSpotModel, new()
         {
-            string path = $"{new PipelineListHubSpotModel<T>().RouteBasePath}/pipelines/{objectType}?includeInactive={includeInactive}";
+            Url path = $"{new PipelineListHubSpotModel<T>().RouteBasePath}/pipelines/{objectType}";
+            path.SetQueryParam("includeInactive", includeInactive);
 
             var data = _client.Execute<PipelineListHubSpotModel<T>>(path, method: RestSharp.Method.GET);
 
