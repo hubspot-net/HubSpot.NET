@@ -1,10 +1,11 @@
 ﻿namespace HubSpot.NET.Api.EmailEvents
 {
+	using System.Net;
+	using Flurl;
     using HubSpot.NET.Api.EmailEvents.Dto;
-    using HubSpot.NET.Core;
-    using HubSpot.NET.Core.Interfaces;
+	using HubSpot.NET.Core;
+	using HubSpot.NET.Core.Interfaces;
     using RestSharp;
-    using System.Net;
 
     public class HubSpotEmailEventsApi : IHubSpotEmailEventsApi
     {
@@ -24,7 +25,7 @@
         /// <returns>The campaign data entity or null if the compaign does not exist.</returns>
         public T GetCampaignDataById<T>(long campaignId, long appId) where T : EmailCampaignDataHubSpotModel, new()
         {
-            var path = $"{(new T()).RouteBasePath}/{campaignId}?{QueryParams.APP_ID}={appId}";
+            var path = $"{(new T()).RouteBasePath}/{campaignId}".SetQueryParam(QueryParams.APP_ID, appId);
 
             try
             {
@@ -52,10 +53,13 @@
                 opts = new EmailCampaignListRequestOptions { Limit = 250 };
             }
 
-            var path = $"{new EmailCampaignListHubSpotModel<T>().RouteBasePath}/by-id?{QueryParams.LIMIT}={opts.Limit}";
+            var path = $"{new EmailCampaignListHubSpotModel<T>().RouteBasePath}/by-id"
+                .SetQueryParam(QueryParams.LIMIT, opts.Limit);
 
-            if (!string.IsNullOrEmpty(opts.Offset))            
-                path += $"{QueryParams.OFFSET}={opts.Offset}";
+            if (!string.IsNullOrEmpty(opts.Offset))
+            {
+                path = path.SetQueryParam(QueryParams.OFFSET, opts.Offset);
+            }
 
             var data = _client.Execute<EmailCampaignListHubSpotModel<T>>(path);
 
@@ -75,10 +79,13 @@
                 opts = new EmailCampaignListRequestOptions { Limit = 250 };
             }
 
-            var path = $"{new EmailCampaignListHubSpotModel<T>().RouteBasePath}?{QueryParams.LIMIT}={opts.Limit}";
+            var path = $"{new EmailCampaignListHubSpotModel<T>().RouteBasePath}"
+                .SetQueryParam(QueryParams.LIMIT, opts.Limit);
 
-            if (!string.IsNullOrEmpty(opts.Offset))            
-                path += $"{QueryParams.OFFSET}={opts.Offset}";
+            if (!string.IsNullOrEmpty(opts.Offset))
+            {
+                path = path.SetQueryParam(QueryParams.OFFSET, opts.Offset);
+            }
 
             var data = _client.Execute<EmailCampaignListHubSpotModel<T>>(path);
 
