@@ -20,6 +20,9 @@ namespace HubSpot.NET.Api.Company.Dto
 
         [DataMember(Name = "domain")]
         public string Domain { get; set; }
+        
+        [DataMember(Name = "email")]
+        public string Email { get; set; }
 
         [DataMember(Name = "website")]
         public string Website { get; set; }
