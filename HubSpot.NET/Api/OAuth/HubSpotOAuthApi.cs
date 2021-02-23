@@ -103,19 +103,15 @@
                 JsonSerializer = new FakeSerializer()
             };
 
+            request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
+
             Dictionary<string, string> jsonPreStringPairs = JsonConvert.DeserializeObject<Dictionary<string, string>>(JsonConvert.SerializeObject(model));
 
             StringBuilder bodyBuilder = new StringBuilder();
             foreach(KeyValuePair<string,string> pair in jsonPreStringPairs)
             {
-                if (bodyBuilder.Length > 0)
-                { bodyBuilder.Append("&"); }
-
-                bodyBuilder.Append($"{pair.Key}={pair.Value}");
+                request.AddParameter(pair.Key, pair.Value);
             }
-
-            request.AddJsonBody(bodyBuilder.ToString());
-            request.AddHeader("ContentType", "application/x-www-form-urlencoded");
 
             if (builder.Length > 0)
                 request.AddQueryParameter("scope", builder.ToString());
