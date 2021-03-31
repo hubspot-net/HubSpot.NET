@@ -1,5 +1,6 @@
 namespace HubSpot.NET.Api.Company
 {
+    using Flurl;
     using HubSpot.NET.Api.Company.Dto;
     using HubSpot.NET.Core;
     using HubSpot.NET.Core.Abstracts;
@@ -76,19 +77,43 @@ namespace HubSpot.NET.Api.Company
 
         public CompanyListHubSpotModel<CompanyHubSpotModel> List(ListRequestOptions opts = null)
         {
+
             opts = opts ?? new ListRequestOptions();
 
-            string path = GetRoute<CompanyHubSpotModel>("companies", "paged");
+            //string path = GetRoute<CompanyHubSpotModel>("companies", "paged");
+            var path = GetRoute<CompanyHubSpotModel>("companies", "paged").SetQueryParam("limit", opts.Limit);
 
-            path += $"{QueryParams.COUNT}={opts.Limit}";
+            //path += $"{QueryParams.COUNT}={opts.Limit}";
+
+            //if (opts.PropertiesToInclude.Any())
+            //    path += $"{QueryParams.PROPERTIES}={opts.PropertiesToInclude}";
 
             if (opts.PropertiesToInclude.Any())
-                path += $"{QueryParams.PROPERTIES}={opts.PropertiesToInclude}";
+                path.SetQueryParam("properties", opts.PropertiesToInclude);
+
+            //if (opts.Offset.HasValue)
+            //    path += $"{QueryParams.OFFSET}={opts.Offset}";
 
             if (opts.Offset.HasValue)
-                path += $"{QueryParams.OFFSET}={opts.Offset}";
+                path = path.SetQueryParam("offset", opts.Offset);
 
             return _client.Execute<CompanyListHubSpotModel<CompanyHubSpotModel>, ListRequestOptions>(path, opts);
+
+            //return _client.Execute<CompanyListHubSpotModel<T>, ListRequestOptions>(path, opts, Method.GET, Enums.RequestType.List);
+
+            //opts = opts ?? new ListRequestOptions();
+
+            //string path = GetRoute<CompanyHubSpotModel>("companies", "paged");
+
+            //path += $"{QueryParams.COUNT}={opts.Limit}";
+
+            //if (opts.PropertiesToInclude.Any())
+            //    path += $"{QueryParams.PROPERTIES}={opts.PropertiesToInclude}";
+
+            //if (opts.Offset.HasValue)
+            //    path += $"{QueryParams.OFFSET}={opts.Offset}";
+
+            //return _client.Execute<CompanyListHubSpotModel<CompanyHubSpotModel>, ListRequestOptions>(path, opts);
         }
 
         /// <summary>
