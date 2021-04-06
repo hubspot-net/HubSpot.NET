@@ -27,31 +27,44 @@ namespace HubSpot.NET.Examples
             /**
             * Create a company
             */
-            var company = api.Company.Create(new CompanyHubSpotModel()
-            {
-                Domain = "squaredup.com",
-                Name = "Squared Up"
-            });
+            //var company = api.Company.Create(new CompanyHubSpotModel()
+            //{
+            //    Domain = "squaredup.com",
+            //    Name = "Squared Up"
+            //});
 
             /**
              * Update a company's property
              */
-            company.Description = "Data Visualization for Enterprise IT";
-            api.Company.Update(company);
+            //company.Description = "Data Visualization for Enterprise IT";
+            //api.Company.Update(company);
 
 
             /**
              * Get all companies with domain name "squaredup.com"
              */
-            var companies = api.Company.GetByDomain("squaredup.com", new CompanySearchByDomain()
+            //var companies = api.Company.GetByDomain("squaredup.com", new CompanySearchByDomain()
+            //{
+            //    Limit = 10
+            //});
+
+            var companiesList = api.Company.List(new ListRequestOptions()
             {
-                Limit = 10
+                Limit = 10,
+                //PropertiesToInclude = new List<string>() {
+                //    "name",
+                //    "description",
+                //    "companyId"
+                //}
+                //Offset = companyLists.Offset
             });
+
+            Console.WriteLine($"Pass...");
 
             /**
              * Delete a contact
              */
-            api.Company.Delete(company.Id.Value);
+            //api.Company.Delete(company.Id.Value);
 
         }
     }
