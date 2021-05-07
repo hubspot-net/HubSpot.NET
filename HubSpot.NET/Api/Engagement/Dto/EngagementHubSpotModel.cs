@@ -49,7 +49,7 @@ namespace HubSpot.NET.Api.Engagement.Dto
     public class EngagementHubSpotEngagementModel
     {
         [DataMember(Name = "id")]
-        public long? Id { get; set; }
+        public long Id { get; set; }
 
         [DataMember(Name = "type")]
         public string Type { get;set; }
