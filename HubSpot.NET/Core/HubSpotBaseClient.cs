@@ -4,6 +4,7 @@ namespace HubSpot.NET.Core
     using HubSpot.NET.Core.Interfaces;
     using HubSpot.NET.Core.Serializers;
     using Newtonsoft.Json;
+    using Newtonsoft.Json.Serialization;
     using RestSharp;
     using System.Collections.Generic;
 
@@ -110,9 +111,15 @@ namespace HubSpot.NET.Core
         private T SendReceiveRequest<T,K>(string path, Method method, K entity) where T: new()
         {
             RestRequest request = ConfigureRequestAuthentication(path, method);
-           
-            if(!entity.Equals(default(K)))
-                request.AddJsonBody(entity);            
+
+            var json = JsonConvert.SerializeObject(entity, new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                NullValueHandling = NullValueHandling.Ignore
+            });
+
+            if (!entity.Equals(default(K)))
+                request.AddJsonBody(json);
 
             IRestResponse response = _client.Execute(request);
 
@@ -179,7 +186,6 @@ namespace HubSpot.NET.Core
                     break;
             }
 
-            request.JsonSerializer = new NewtonsoftRestSharpSerializer();            
             return request;
         }
 
