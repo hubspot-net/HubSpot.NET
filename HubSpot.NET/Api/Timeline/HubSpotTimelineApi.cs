@@ -1,9 +1,9 @@
 ﻿namespace HubSpot.NET.Api.Timeline
 {
-    using HubSpot.NET.Api.Timeline.Dto;
-	using HubSpot.NET.Core;
-	using HubSpot.NET.Core.Abstracts;
-    using HubSpot.NET.Core.Interfaces;
+    using Dto;
+	using Core;
+	using Core.Abstracts;
+    using Core.Interfaces;
     using System.Collections.Generic;
 	using System.Net;
 

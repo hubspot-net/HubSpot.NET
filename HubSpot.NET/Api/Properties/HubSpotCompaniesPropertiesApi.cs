@@ -1,8 +1,8 @@
 namespace HubSpot.NET.Api.Properties
 {
-    using HubSpot.NET.Api.Properties.Dto;
-    using HubSpot.NET.Core.Abstracts;
-    using HubSpot.NET.Core.Interfaces;
+    using Dto;
+    using Core.Abstracts;
+    using Core.Interfaces;
     using RestSharp;
 
     public class HubSpotCompaniesPropertiesApi : ApiRoutable, IHubSpotCompanyPropertiesApi

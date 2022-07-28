@@ -1,6 +1,6 @@
 ﻿namespace HubSpot.NET.Core.Interfaces
 {
-    using HubSpot.NET.Api.OAuth.Dto;
+    using Api.OAuth.Dto;
 
     public interface IHubSpotOAuthApi
     {

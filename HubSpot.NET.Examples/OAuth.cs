@@ -1,6 +1,6 @@
 ﻿namespace HubSpot.NET.Examples
 {
-    using HubSpot.NET.Core;
+    using Core;
 
     public class OAuth
     {

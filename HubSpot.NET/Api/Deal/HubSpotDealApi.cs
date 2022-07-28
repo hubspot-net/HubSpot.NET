@@ -1,10 +1,10 @@
 ﻿namespace HubSpot.NET.Api.Deal
 {
-    using HubSpot.NET.Api.Deal.Dto;
-    using HubSpot.NET.Api.Shared;
-    using HubSpot.NET.Core;
-    using HubSpot.NET.Core.Abstracts;
-    using HubSpot.NET.Core.Interfaces;
+    using Dto;
+    using Shared;
+    using Core;
+    using Core.Abstracts;
+    using Core.Interfaces;
     using RestSharp;
     using System;
     using System.Linq;

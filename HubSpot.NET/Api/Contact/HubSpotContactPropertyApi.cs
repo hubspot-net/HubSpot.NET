@@ -1,8 +1,8 @@
 ﻿namespace HubSpot.NET.Api.Contact
 {
-    using HubSpot.NET.Api.Contact.Dto;
-    using HubSpot.NET.Core.Abstracts;
-    using HubSpot.NET.Core.Interfaces;
+    using Dto;
+    using Core.Abstracts;
+    using Core.Interfaces;
     using System;
     using System.Collections.Generic;
     using System.Text;

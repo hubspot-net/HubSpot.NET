@@ -1,9 +1,9 @@
 namespace HubSpot.NET.Api.Company
 {
-    using HubSpot.NET.Api.Company.Dto;
-    using HubSpot.NET.Core;
-    using HubSpot.NET.Core.Abstracts;
-    using HubSpot.NET.Core.Interfaces;
+    using Dto;
+    using Core;
+    using Core.Abstracts;
+    using Core.Interfaces;
     using RestSharp;
     using System;
     using System.Linq;

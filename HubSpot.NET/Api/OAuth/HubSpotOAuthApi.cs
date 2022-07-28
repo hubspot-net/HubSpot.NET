@@ -1,9 +1,9 @@
 ﻿namespace HubSpot.NET.Api.OAuth
 {
-    using HubSpot.NET.Api.OAuth.Dto;
-    using HubSpot.NET.Core;
-    using HubSpot.NET.Core.Abstracts;
-    using HubSpot.NET.Core.Interfaces;
+    using Dto;
+    using Core;
+    using Core.Abstracts;
+    using Core.Interfaces;
     using Newtonsoft.Json;
     using RestSharp;
     using RestSharp.Serializers;

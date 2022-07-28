@@ -1,8 +1,8 @@
 ﻿namespace HubSpot.NET.Api.EmailEvents
 {
-    using HubSpot.NET.Api.EmailEvents.Dto;
-    using HubSpot.NET.Core;
-    using HubSpot.NET.Core.Interfaces;
+    using Dto;
+    using Core;
+    using Core.Interfaces;
     using RestSharp;
     using System.Net;
 

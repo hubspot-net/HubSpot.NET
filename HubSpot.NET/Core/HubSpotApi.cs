@@ -1,19 +1,21 @@
-﻿namespace HubSpot.NET.Core
+﻿using HubSpot.NET.Api.CustomObject;
+
+namespace HubSpot.NET.Core
 {
-    using HubSpot.NET.Api.Company;
-    using HubSpot.NET.Api.Contact;
-    using HubSpot.NET.Api.Deal;
-    using HubSpot.NET.Api.EmailEvents;
-    using HubSpot.NET.Api.EmailSubscriptions;
-    using HubSpot.NET.Api.Engagement;
-    using HubSpot.NET.Api.Files;
-    using HubSpot.NET.Api.OAuth;
-    using HubSpot.NET.Api.OAuth.Dto;
-    using HubSpot.NET.Api.Owner;
-    using HubSpot.NET.Api.Pipeline;
-    using HubSpot.NET.Api.Properties;
-    using HubSpot.NET.Api.Timeline;
-    using HubSpot.NET.Core.Interfaces;
+    using Api.Company;
+    using Api.Contact;
+    using Api.Deal;
+    using Api.EmailEvents;
+    using Api.EmailSubscriptions;
+    using Api.Engagement;
+    using Api.Files;
+    using Api.OAuth;
+    using Api.OAuth.Dto;
+    using Api.Owner;
+    using Api.Pipeline;
+    using Api.Properties;
+    using Api.Timeline;
+    using Interfaces;
 
     /// <summary>
     /// Starting point for using HubSpot.NET
@@ -34,14 +36,19 @@
         public IHubSpotEmailSubscriptionsApi EmailSubscriptions { get; private set; }
         public IHubSpotTimelineApi Timelines { get; private set; }
         public IHubSpotPipelineApi Pipelines { get; private set; }
+        public IHubSpotCustomObjectApi CustomObjects { get; private set; }
 
         /// <summary>
-        /// Creates a HubSpotApi using API key authentication instead of OAuth
+        /// Creates a HubSpotApi using Private App Key authentication instead of OAuth 
         /// </summary>
-        /// <param name="apiKey">The HubSpot API key for your application.</param>
-        public HubSpotApi(string apiKey)
+        /// <remarks>
+        /// API key authentication has been removed as it is no longer supported in HubSpot.
+        /// https://developers.hubspot.com/docs/api/private-apps
+        /// </remarks>
+        /// <param name="privateAppKey">The HubSpot API key for your application.</param>
+        public HubSpotApi(string privateAppKey)
         {
-            IHubSpotClient client = new HubSpotBaseClient(apiKey, HubSpotAuthenticationMode.HAPIKEY);
+            IHubSpotClient client = new HubSpotBaseClient(privateAppKey);
             InitializeRepos(client);
         }
 
@@ -76,7 +83,10 @@
             EmailSubscriptions = new HubSpotEmailSubscriptionsApi(client);
             Timelines = new HubSpotTimelineApi(client);
             Pipelines = new HubSpotPipelinesApi(client);
+            CustomObjects = new HubSpotCustomObjectApi(client);
 
         }
+
+        
     }
 }

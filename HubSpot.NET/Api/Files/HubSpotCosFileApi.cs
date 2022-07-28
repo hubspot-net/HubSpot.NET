@@ -1,9 +1,9 @@
 ﻿namespace HubSpot.NET.Api.Files
 {
     using System.Collections.Generic;
-    using HubSpot.NET.Api.Files.Dto;
-    using HubSpot.NET.Core.Abstracts;
-    using HubSpot.NET.Core.Interfaces;
+    using Dto;
+    using Core.Abstracts;
+    using Core.Interfaces;
     using RestSharp;
 
     public class HubSpotCosFileApi : ApiRoutable, IHubSpotCosFileApi

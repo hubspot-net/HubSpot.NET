@@ -1,6 +1,6 @@
 ﻿namespace HubSpot.NET.Core.Interfaces
 {
-    using HubSpot.NET.Api.Contact.Dto;
+    using Api.Contact.Dto;
     using System.Collections.Generic;
 
     public interface IHubSpotContactPropertyApi

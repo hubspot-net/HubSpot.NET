@@ -1,6 +1,6 @@
 ﻿namespace HubSpot.NET.Api.Contact.Dto
 {
-    using HubSpot.NET.Core.Interfaces;
+    using Core.Interfaces;
     using Newtonsoft.Json;
     using System.Collections.Generic;
     using System.Reflection;

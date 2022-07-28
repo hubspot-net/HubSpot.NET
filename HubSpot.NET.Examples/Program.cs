@@ -1,6 +1,6 @@
 ﻿namespace HubSpot.NET.Examples
 {
-    using HubSpot.NET.Core;
+    using Core;
     using System;
     using System.IO;
 
@@ -32,7 +32,7 @@
             else
             {
                 var authChosen = false;
-                Console.WriteLine("How would you like to authenticate your requests? HAPIKey or OAuth?");
+                Console.WriteLine("How would you like to authenticate your requests? App or OAuth?");
                 string authType;
                 while (authChosen == false)
                 {
@@ -40,16 +40,18 @@
 
                     switch (authType)
                     {
-                        case "hapikey":
+                        case "app":
                             Console.WriteLine("Please enter the HAPIKey:");
-                            var valid = Guid.TryParse(Console.ReadLine(), out var guidResult);
-                            hapiKey = valid ? guidResult.ToString() : string.Empty;
+                            var input = Console.ReadLine();
+                            
 
-                            if (string.IsNullOrWhiteSpace(hapiKey))
+                            if (string.IsNullOrWhiteSpace(input))
                             {
                                 Console.WriteLine("That is not a valid HAPIKey. Please try again");
                                 break;
                             }
+
+                            hapiKey = input;
 
                             authChosen = true;
 
@@ -74,7 +76,7 @@
                 }                
             }
 
-            while(string.IsNullOrWhiteSpace(hapiKey) || !Guid.TryParse(hapiKey, out var result))
+            while(string.IsNullOrWhiteSpace(hapiKey))
             {
                 Console.WriteLine("Invalid API Key, try again");
                 hapiKey = Console.ReadLine();
@@ -103,7 +105,8 @@
             //Contacts.Example(hapiApi);
             //Companies.Example(hapiApi);
             //CompanyProperties.Example(hapiApi);
-            Pipelines.Example(hapiApi);
+            // Pipelines.Example(hapiApi);
+            var result = hapiApi.CustomObjects.List();
         }
 
         private static void RunOAuthExamples(HubSpotApi oauthApi)

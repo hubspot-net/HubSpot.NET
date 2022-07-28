@@ -1,9 +1,9 @@
 ﻿namespace HubSpot.NET.Api.EmailSubscriptions
 {
-    using HubSpot.NET.Api.EmailSubscriptions.Dto;
-    using HubSpot.NET.Core.Abstracts;
-    using HubSpot.NET.Core.Dictionaries;
-    using HubSpot.NET.Core.Interfaces;
+    using Dto;
+    using Core.Abstracts;
+    using Core.Dictionaries;
+    using Core.Interfaces;
     using RestSharp;
     using System.Collections.Generic;
     using System.Linq;

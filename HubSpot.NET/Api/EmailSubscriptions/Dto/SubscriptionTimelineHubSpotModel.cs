@@ -1,6 +1,6 @@
 ﻿namespace HubSpot.NET.Api.EmailSubscriptions.Dto
 {
-    using HubSpot.NET.Core.Interfaces;
+    using Core.Interfaces;
     using System;
     using System.Collections.Generic;
     using System.Linq;

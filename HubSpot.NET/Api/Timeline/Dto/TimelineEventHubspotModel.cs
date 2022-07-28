@@ -1,6 +1,6 @@
 ﻿namespace HubSpot.NET.Api.Timeline.Dto
 {
-    using HubSpot.NET.Core.Interfaces;
+    using Core.Interfaces;
     using System.Collections.Generic;
     using System.Runtime.Serialization;
 

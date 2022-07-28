@@ -1,6 +1,6 @@
 ﻿namespace HubSpot.NET.Api.Contact.Dto
 {
-    using HubSpot.NET.Api.Shared;
+    using Shared;
     using System.Runtime.Serialization;
 
     [DataContract]

@@ -4,10 +4,10 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Net;    
-    using HubSpot.NET.Api.Contact.Dto;
-    using HubSpot.NET.Core;
-    using HubSpot.NET.Core.Abstracts;
-    using HubSpot.NET.Core.Interfaces;
+    using Dto;
+    using Core;
+    using Core.Abstracts;
+    using Core.Interfaces;
     using RestSharp;
 
     public class HubSpotContactApi : ApiRoutable, IHubSpotContactApi

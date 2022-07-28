@@ -2,9 +2,9 @@ using System;
 
 namespace HubSpot.NET.Core
 {
-    using HubSpot.NET.Api.OAuth.Dto;
-    using HubSpot.NET.Core.Interfaces;
-    using HubSpot.NET.Core.Serializers;
+    using Api.OAuth.Dto;
+    using Interfaces;
+    using Serializers;
     using Newtonsoft.Json;
     using RestSharp;
     using System.Collections.Generic;
@@ -13,27 +13,28 @@ namespace HubSpot.NET.Core
     {
         private readonly RestClient _client;
 
-        private string _baseUrl => "https://api.hubapi.com";
+        private static string _baseUrl => "https://api.hubapi.com";
         private readonly HubSpotAuthenticationMode _mode;
         
         public string BasePath { get => _baseUrl; }
 
-        // Used for HAPIKEY method
-        private readonly string _apiKeyName = "hapikey";
-        private readonly string _apiKey;
+        
+        private readonly string _privateAppKey;
 
         // Used for OAUTH
         public string AppId { get; private set; }
         private HubSpotToken _token;
 
         /// <summary>
-        /// Creates a HubSpot client with the specified authentication scheme (Default: HAPIKEY). 
+        /// Creates a HubSpot client with the specified authentication scheme (Default: PRIVATE_APP_KEY). 
         /// </summary>
-        /// <param name="apiKey"></param>
+        /// <param name="privateAppKey"></param>
         /// <param name="mode"></param>
-        public HubSpotBaseClient(string apiKey, HubSpotAuthenticationMode mode = HubSpotAuthenticationMode.HAPIKEY, string appId = "", HubSpotToken token = null)
+        /// <param name="appId"></param>
+        /// <param name="token"></param>
+        public HubSpotBaseClient(string privateAppKey, HubSpotAuthenticationMode mode = HubSpotAuthenticationMode.PRIVATE_APP_KEY, string appId = "", HubSpotToken token = null)
         { 
-            _apiKey = apiKey;
+            _privateAppKey = privateAppKey;
             _client = new RestClient(_baseUrl);
             _mode = mode;
             _token = token;
@@ -174,10 +175,11 @@ namespace HubSpot.NET.Core
             switch(_mode)
             {
                 case HubSpotAuthenticationMode.OAUTH:
-                    request.AddHeader("Authorization", GetAuthHeader(_token));
+                    request.AddHeader("Authorization", GetAuthHeaderForToken(_token));
                     break;
-                default:
-                    request.AddQueryParameter(_apiKeyName, _apiKey);
+                case HubSpotAuthenticationMode.PRIVATE_APP_KEY:
+                    request.AddHeader("Authorization", GetAuthHeaderForPrivateApp(_privateAppKey));
+                    request.AddHeader("Content-Type", "application/json");
                     break;
             }
 
@@ -185,17 +187,18 @@ namespace HubSpot.NET.Core
             return request;
         }
 
-        private string GetAuthHeader(HubSpotToken token) 
+        private string GetAuthHeaderForToken(HubSpotToken token) 
             => $"Bearer {token.AccessToken}";
+        
+        private static string GetAuthHeaderForPrivateApp(string token) 
+            => $"Bearer {token}";
         #endregion
     }
      
     public enum HubSpotAuthenticationMode
     {
-        [Obsolete("This will be deprecated in November 2022, please migrate to Private Apps or OAuth application.")]
-        HAPIKEY, 
         OAUTH,
-        PRIVATE_APP
+        PRIVATE_APP_KEY
         
     }
 }
