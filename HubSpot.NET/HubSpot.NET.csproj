@@ -1,25 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
+    <TargetFrameworks>net6.0;netstandard2.0</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>0.8.13</Version>
-    <Authors>HubSpot.NET</Authors>
-    <Company>HubSpot.NET</Company>
-    <Description>C# .NET client library targeting the HubSpot APIs.</Description>
+    <Authors>HubSpot.NETCORE</Authors>
+    <Company>HubSpot.NETCORE</Company>
+    <Description>.NET CORE client library targeting the HubSpot APIs.</Description>
     <Copyright>HubSpot.NET</Copyright>
-    <PackageLicenseUrl>https://github.com/hubspot-net/HubSpot.NET/blob/master/LICENSE</PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/hubspot-net/HubSpot.NET</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/hubspot-net/HubSpot.NET.git</RepositoryUrl>
+    <PackageLicenseUrl>https://github.com/boomandbucket/HubSpot.NET/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/boomandbucket/HubSpot.NET</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/boomandbucket/HubSpot.NET.git</RepositoryUrl>
     <PackageTags>hubspot api wrapper c# contact company deal engagement properties crm</PackageTags>
     <PackageReleaseNotes>0.8.13</PackageReleaseNotes>
-    <PackageId>HubSpot.NET</PackageId>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <LangVersion>7.3</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <LangVersion>7.3</LangVersion>
+    <PackageId>HubSpot.NETCORE</PackageId>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
@@ -31,13 +25,5 @@
   <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
     <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
     <PackageReference Include="System.Net.Http" Version="4.3.3" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)'=='net46'">
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Net.Http" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)'=='net451'">
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Net.Http" />
   </ItemGroup>
 </Project>
