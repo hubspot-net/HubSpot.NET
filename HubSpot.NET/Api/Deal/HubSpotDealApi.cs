@@ -28,7 +28,7 @@
         /// <returns>The created entity (with ID set)</returns>
         public DealHubSpotModel Create(DealHubSpotModel entity)
         {
-            NameTransportModel<DealHubSpotModel> model = new NameTransportModel<DealHubSpotModel>();
+            var model = new NameTransportModel<DealHubSpotModel>();
             model.ToPropertyTransportModel(entity);
 
             return _client.Execute<DealHubSpotModel, NameTransportModel<DealHubSpotModel>>(GetRoute<DealHubSpotModel>(), model, Method.POST);
@@ -78,7 +78,7 @@
         {
             opts = opts ?? new ListRequestOptions(250);
 
-            string path = GetRoute<DealListHubSpotModel<DealHubSpotModel>>("deal", "paged");
+            var path = GetRoute<DealListHubSpotModel<DealHubSpotModel>>("deal", "paged");
 
             path += $"{QueryParams.LIMIT}={opts.Limit}";
 
@@ -107,7 +107,7 @@
         {
             opts = opts ?? new ListRequestOptions();
 
-            string path = GetRoute<DealListHubSpotModel<DealHubSpotModel>>("deal", "associated", $"{objectName}", $"{hubId}", "paged");
+            var path = GetRoute<DealListHubSpotModel<DealHubSpotModel>>("deal", "associated", $"{objectName}", $"{hubId}", "paged");
 
             path += $"{QueryParams.LIMIT}={opts.Limit}";
 
@@ -140,7 +140,7 @@
         {
             opts = opts ?? new DealRecentRequestOptions();
 
-            string path = $"{GetRoute<DealRecentListHubSpotModel<DealHubSpotModel>>()}/deal/recent/created";
+            var path = $"{GetRoute<DealRecentListHubSpotModel<DealHubSpotModel>>()}/deal/recent/created";
 
             path += $"{QueryParams.LIMIT}={opts.Limit}";
 
@@ -167,7 +167,7 @@
         {
             opts = opts ?? new DealRecentRequestOptions();
 
-            string path = GetRoute<DealRecentListHubSpotModel<DealHubSpotModel>>("deal", "recent", "modified");
+            var path = GetRoute<DealRecentListHubSpotModel<DealHubSpotModel>>("deal", "recent", "modified");
             path += $"{QueryParams.LIMIT}={opts.Limit}";
 
             if (opts.Offset.HasValue)

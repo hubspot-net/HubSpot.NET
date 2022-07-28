@@ -36,7 +36,7 @@
 
         public void UnsubscribeFrom(string email, long id)
         {
-            SubscriptionStatusHubSpotModel model = new SubscriptionStatusHubSpotModel();
+            var model = new SubscriptionStatusHubSpotModel();
             model.SubscriptionStatuses.Add(new SubscriptionStatusDetailHubSpotModel(id, false, OptState.OPT_OUT));            
 
            SendSubscriptionRequest(GetRoute(email), model);
@@ -44,8 +44,8 @@
 
         public void SubscribeAll(string email)
         {
-            List<SubscriptionStatusDetailHubSpotModel> subs = new List<SubscriptionStatusDetailHubSpotModel>();
-            SubscriptionSubscribeHubSpotModel subRequest = new SubscriptionSubscribeHubSpotModel();
+            var subs = new List<SubscriptionStatusDetailHubSpotModel>();
+            var subRequest = new SubscriptionSubscribeHubSpotModel();
 
             GetSubscriptionTypes().Types.ForEach(sub =>
             {
@@ -59,8 +59,8 @@
 
         public void SubscribeAll(string email, GDPRLegalBasis legalBasis, string explanation, OptState optState = OptState.OPT_IN)
         {
-            List<SubscriptionStatusDetailHubSpotModel> subs = new List<SubscriptionStatusDetailHubSpotModel>();
-            SubscriptionSubscribeHubSpotModel subRequest = new SubscriptionSubscribeHubSpotModel();
+            var subs = new List<SubscriptionStatusDetailHubSpotModel>();
+            var subRequest = new SubscriptionSubscribeHubSpotModel();
 
             GetSubscriptionTypes().Types.ForEach(sub =>
             {
@@ -74,11 +74,11 @@
 
         public void SubscribeTo(string email, long id)
         {
-            SubscriptionTypeHubSpotModel singleSub = GetSubscription(id);
+            var singleSub = GetSubscription(id);
             if (singleSub == null)
                 throw new KeyNotFoundException("The SubscriptionType ID provided does not exist in the SubscriptionType list");
 
-            SubscriptionSubscribeHubSpotModel subRequest = new SubscriptionSubscribeHubSpotModel();
+            var subRequest = new SubscriptionSubscribeHubSpotModel();
             subRequest.SubscriptionStatuses.Add(new SubscriptionStatusDetailHubSpotModel(singleSub.Id, true, OptState.OPT_IN));
             
             SendSubscriptionRequest(GetRoute(email), subRequest);
@@ -86,8 +86,8 @@
 
         public void SubscribeTo(string email, long id, GDPRLegalBasis legalBasis, string explanation, OptState optState = OptState.OPT_IN)
         {
-            SubscriptionTypeHubSpotModel singleSub = GetSubscription(id);
-            SubscriptionSubscribeHubSpotModel subRequest = new SubscriptionSubscribeHubSpotModel();
+            var singleSub = GetSubscription(id);
+            var subRequest = new SubscriptionSubscribeHubSpotModel();
 
             if (singleSub == null)
                 throw new KeyNotFoundException("The SubscriptionType ID provided does not exist in the SubscriptionType list");

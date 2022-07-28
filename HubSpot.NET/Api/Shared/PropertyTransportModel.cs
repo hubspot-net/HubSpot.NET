@@ -13,19 +13,19 @@
         
         public void ToPropertyTransportModel(T model)
         {
-            PropertyInfo[] properties = model.GetType().GetProperties();
+            var properties = model.GetType().GetProperties();
 
-            foreach (PropertyInfo prop in properties)
+            foreach (var prop in properties)
             {
                 var memberAttrib = prop.GetCustomAttribute(typeof(DataMemberAttribute)) as DataMemberAttribute;
-                object value = prop.GetValue(model);
+                var value = prop.GetValue(model);
 
                 if (value == null || memberAttrib == null)                
                     continue;                
 
                 if (prop.PropertyType.IsArray && typeof(PropertyValuePair).IsAssignableFrom(prop.PropertyType.GetElementType()))
                 {
-                    PropertyValuePair[] pairs = value as PropertyValuePair[];
+                    var pairs = value as PropertyValuePair[];
                     foreach (var item in pairs)
                     {
                         Properties.Add(item);
@@ -34,7 +34,7 @@
                 }
                 else if(typeof(IEnumerable<>).IsAssignableFrom(prop.PropertyType) && typeof(PropertyValuePair).IsAssignableFrom(prop.PropertyType.GetElementType()))
                 {
-                    IEnumerable<PropertyValuePair> pairs = value as IEnumerable<PropertyValuePair>;
+                    var pairs = value as IEnumerable<PropertyValuePair>;
                     foreach (var item in pairs)
                     {
                         Properties.Add(item);
@@ -50,13 +50,13 @@
         {
             model = (T) Assembly.GetAssembly(typeof(T)).CreateInstance(typeof(T).FullName);
 
-            PropertyInfo[] props = model.GetType().GetProperties();
+            var props = model.GetType().GetProperties();
 
-            foreach (PropertyInfo prop in props)
+            foreach (var prop in props)
             {
                 var memberAttrib = prop.GetCustomAttribute(typeof(DataMemberAttribute)) as DataMemberAttribute;
 
-                PropertyValuePair pair = Properties[memberAttrib.Name];
+                var pair = Properties[memberAttrib.Name];
                 prop.SetValue(model, pair.Value);
             }
         }

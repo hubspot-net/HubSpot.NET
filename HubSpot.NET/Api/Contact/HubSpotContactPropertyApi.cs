@@ -21,7 +21,7 @@
 
         public ContactPropertyModel CreateProperty(ContactPropertyModel entity)
         {
-            string path = GetRoute<ContactPropertyModel>();
+            var path = GetRoute<ContactPropertyModel>();
             return _client.Execute<ContactPropertyModel, ContactPropertyModel>(path, entity, RestSharp.Method.GET);
         }
 
@@ -32,13 +32,13 @@
 
         public ContactPropertyModel GetProperty(string propertyName)
         {
-            string path = GetRoute<ContactPropertyModel>("named", propertyName);
+            var path = GetRoute<ContactPropertyModel>("named", propertyName);
             return _client.Execute<ContactPropertyModel>(path);
         }
 
         public ContactPropertyModel UpdateProperty(ContactPropertyModel model)
         {
-            string path = GetRoute<ContactPropertyModel>("named", model.Name);
+            var path = GetRoute<ContactPropertyModel>("named", model.Name);
             return _client.Execute<ContactPropertyModel, ContactPropertyModel>(path, model, RestSharp.Method.PUT);
         }
     }

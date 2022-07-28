@@ -22,7 +22,7 @@
 
         public void CreateOrUpdateEvent(TimelineEventHubSpotModel entity)
         {
-            CreateTimelineEventModel transportModel = new CreateTimelineEventModel(entity.EventTypeId, entity.Id, entity.ContactEmail, entity.ExtraData);
+            var transportModel = new CreateTimelineEventModel(entity.EventTypeId, entity.Id, entity.ContactEmail, entity.ExtraData);
             _client.ExecuteOnly(GetRoute<TimelineEventHubSpotModel>(), transportModel, RestSharp.Method.PUT);
         }
             

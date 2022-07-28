@@ -52,8 +52,8 @@ namespace HubSpot.NET.Core.JsonConverters
         /// <returns>The object value.</returns>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            bool nullable = !objectType.IsValueType ||
-                (objectType.IsGenericType && objectType.GetGenericTypeDefinition() == typeof(Nullable<>));
+            var nullable = !objectType.IsValueType ||
+                           (objectType.IsGenericType && objectType.GetGenericTypeDefinition() == typeof(Nullable<>));
             if (reader.TokenType == JsonToken.Null)
             {
                 if (!nullable)
@@ -84,9 +84,9 @@ namespace HubSpot.NET.Core.JsonConverters
 
             if (milliseconds >= 0)
             {
-                DateTime d = UnixEpoch.AddMilliseconds(milliseconds);
+                var d = UnixEpoch.AddMilliseconds(milliseconds);
 
-                Type t = (nullable)
+                var t = (nullable)
                     ? Nullable.GetUnderlyingType(objectType)
                     : objectType;
                 if (t == typeof(DateTimeOffset))

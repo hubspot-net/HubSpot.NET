@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace Hubspot.NET.Tests.Features
+namespace HubSpot.NET.Tests.Features
 {
     using TechTalk.SpecFlow;
     using System;

@@ -47,7 +47,7 @@
 
         public HubSpotToken Authorize(string redirectCode, string redirectUri)
         {
-            RequestTokenHubSpotModel model = new RequestTokenHubSpotModel()
+            var model = new RequestTokenHubSpotModel()
             {
                 ClientId = ClientId,
                 ClientSecret = _clientSecret,
@@ -55,14 +55,14 @@
                 RedirectUri = redirectUri
             };
 
-            HubSpotToken token = InitiateRequest(model, _client.BasePath);
+            var token = InitiateRequest(model, _client.BasePath);
             _client.UpdateToken(token);
             return token;
         }
 
         public HubSpotToken Refresh(string redirectUri, HubSpotToken token)
         {
-            RequestRefreshTokenHubSpotModel model = new RequestRefreshTokenHubSpotModel()
+            var model = new RequestRefreshTokenHubSpotModel()
             {
                 ClientId = ClientId,
                 ClientSecret = _clientSecret,
@@ -70,7 +70,7 @@
                 RefreshToken = token.RefreshToken
             };
 
-            HubSpotToken refreshToken = InitiateRequest(model, _client.BasePath);
+            var refreshToken = InitiateRequest(model, _client.BasePath);
             _client.UpdateToken(refreshToken);
             return refreshToken;
         }
@@ -83,10 +83,10 @@
 
         private HubSpotToken InitiateRequest<K>(K model, string basePath, params OAuthScopes[] scopes)
         {
-            RestClient client = new RestClient(basePath);
+            var client = new RestClient(basePath);
 
-            StringBuilder builder = new StringBuilder();
-            foreach (OAuthScopes scope in scopes)
+            var builder = new StringBuilder();
+            foreach (var scope in scopes)
             {
                 if (builder.Length == 0)
                 {
@@ -98,15 +98,15 @@
                 }
             }
 
-            RestRequest request = new RestRequest(MidRoute)
+            var request = new RestRequest(MidRoute)
             {
                 JsonSerializer = new FakeSerializer()
             };
 
-            Dictionary<string, string> jsonPreStringPairs = JsonConvert.DeserializeObject<Dictionary<string, string>>(JsonConvert.SerializeObject(model));
+            var jsonPreStringPairs = JsonConvert.DeserializeObject<Dictionary<string, string>>(JsonConvert.SerializeObject(model));
 
-            StringBuilder bodyBuilder = new StringBuilder();
-            foreach(KeyValuePair<string,string> pair in jsonPreStringPairs)
+            var bodyBuilder = new StringBuilder();
+            foreach(var pair in jsonPreStringPairs)
             {
                 if (bodyBuilder.Length > 0)
                 { bodyBuilder.Append("&"); }
@@ -120,7 +120,7 @@
             if (builder.Length > 0)
                 request.AddQueryParameter("scope", builder.ToString());
 
-            IRestResponse<HubSpotToken> serverReponse = client.Post<HubSpotToken>(request);
+            var serverReponse = client.Post<HubSpotToken>(request);
 
             if (serverReponse.ResponseStatus != ResponseStatus.Completed)
             {

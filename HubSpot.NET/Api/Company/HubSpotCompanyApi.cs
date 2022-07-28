@@ -78,7 +78,7 @@ namespace HubSpot.NET.Api.Company
         {
             opts = opts ?? new ListRequestOptions();
 
-            string path = GetRoute<CompanyHubSpotModel>("companies", "paged");
+            var path = GetRoute<CompanyHubSpotModel>("companies", "paged");
 
             path += $"{QueryParams.COUNT}={opts.Limit}";
 

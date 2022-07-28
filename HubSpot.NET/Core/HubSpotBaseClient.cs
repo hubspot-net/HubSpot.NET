@@ -1,3 +1,5 @@
+using System;
+
 namespace HubSpot.NET.Core
 {
     using HubSpot.NET.Api.OAuth.Dto;
@@ -89,8 +91,8 @@ namespace HubSpot.NET.Core
         /// <returns>An entity of type T returned from the request.</returns>
         private T SendReceiveRequest<T>(string path, Method method) where T : new()
         {
-            RestRequest request = ConfigureRequestAuthentication(path, method);
-            IRestResponse response = _client.Execute(request);
+            var request = ConfigureRequestAuthentication(path, method);
+            var response = _client.Execute(request);
 
             if (response.IsSuccessful == false)
                 throw new HubSpotException("Error from HubSpot", new HubSpotError(response.StatusCode, response.StatusDescription), response.Content);
@@ -109,12 +111,12 @@ namespace HubSpot.NET.Core
         /// <returns>An entity of type T returned from the request.</returns>
         private T SendReceiveRequest<T,K>(string path, Method method, K entity) where T: new()
         {
-            RestRequest request = ConfigureRequestAuthentication(path, method);
+            var request = ConfigureRequestAuthentication(path, method);
            
             if(!entity.Equals(default(K)))
                 request.AddJsonBody(entity);            
 
-            IRestResponse response = _client.Execute(request);
+            var response = _client.Execute(request);
 
             if (response.IsSuccessful == false)
                 throw new HubSpotException("Error from HubSpot", new HubSpotError(response.StatusCode, response.StatusDescription), response.Content);
@@ -133,12 +135,12 @@ namespace HubSpot.NET.Core
         private void SendOnlyRequest<T>(string path, Method method, T entity)
         {
 
-            RestRequest request = ConfigureRequestAuthentication(path, method);
+            var request = ConfigureRequestAuthentication(path, method);
 
             if (!entity.Equals(default(T)))
                 request.AddJsonBody(entity);
 
-            IRestResponse response = _client.Execute(request);
+            var response = _client.Execute(request);
 
             if (!response.IsSuccessful)
                 throw new HubSpotException("Error from HubSpot", new HubSpotError(response.StatusCode, response.StatusDescription), response.Content);
@@ -152,9 +154,9 @@ namespace HubSpot.NET.Core
         private void SendOnlyRequest(string path, Method method)
         {
 
-            RestRequest request = ConfigureRequestAuthentication(path, method);
+            var request = ConfigureRequestAuthentication(path, method);
 
-            IRestResponse response = _client.Execute(request);
+            var response = _client.Execute(request);
 
             if (!response.IsSuccessful)
                 throw new HubSpotException("Error from HubSpot", new HubSpotError(response.StatusCode, response.StatusDescription), response.Content);
@@ -167,8 +169,8 @@ namespace HubSpot.NET.Core
         /// <returns></returns>
         private RestRequest ConfigureRequestAuthentication(string path, Method method)
         {
-            string fullPath = $"{BasePath.TrimEnd('/')}/{path.Trim('/')}";
-            RestRequest request = new RestRequest(fullPath, method, DataFormat.Json);
+            var fullPath = $"{BasePath.TrimEnd('/')}/{path.Trim('/')}";
+            var request = new RestRequest(fullPath, method, DataFormat.Json);
             switch(_mode)
             {
                 case HubSpotAuthenticationMode.OAUTH:
@@ -190,6 +192,10 @@ namespace HubSpot.NET.Core
      
     public enum HubSpotAuthenticationMode
     {
-        HAPIKEY, OAUTH
+        [Obsolete("This will be deprecated in November 2022, please migrate to Private Apps or OAuth application.")]
+        HAPIKEY, 
+        OAUTH,
+        PRIVATE_APP
+        
     }
 }

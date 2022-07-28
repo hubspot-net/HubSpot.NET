@@ -24,7 +24,7 @@ namespace HubSpot.NET.Core.Abstracts
         /// <returns>The full route for the DTO without parameters</returns>
         public virtual string GetRoute<T>() where T : IHubSpotModel
         {
-            string routeValue = TryGetRouteValue<T>();
+            var routeValue = TryGetRouteValue<T>();
             return $"{MidRoute.TrimEnd('/')}/{routeValue.TrimStart('/')}";
         }
 
@@ -44,8 +44,8 @@ namespace HubSpot.NET.Core.Abstracts
         /// <returns>The full route for the request</returns>
         public virtual string GetRoute(params string[] orderedRouteValues)
         {
-            string[] orderValuesFiltered = FilterRouteValues(orderedRouteValues);
-            string combinedParams = string.Join("/", orderValuesFiltered);
+            var orderValuesFiltered = FilterRouteValues(orderedRouteValues);
+            var combinedParams = string.Join("/", orderValuesFiltered);
             return $"{GetRoute()}/{combinedParams}";
         }
 
@@ -57,8 +57,8 @@ namespace HubSpot.NET.Core.Abstracts
         /// <returns>The full route for the request</returns>
         public virtual string GetRoute<T>(params string[] orderedRouteValues) where T: IHubSpotModel
         {
-            string[] orderValuesFiltered = FilterRouteValues(orderedRouteValues);
-            string combinedParams = string.Join("/", orderValuesFiltered);
+            var orderValuesFiltered = FilterRouteValues(orderedRouteValues);
+            var combinedParams = string.Join("/", orderValuesFiltered);
             return $"{GetRoute<T>().TrimEnd('/')}/{combinedParams}";
         }
 

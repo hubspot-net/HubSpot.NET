@@ -13,10 +13,10 @@
              * Initialize the API with your API Key
              * You can find or generate this under Integrations -> HubSpot API key
              */
-            string hapiKey = string.Empty; // YOUR KEY GOES HERE ... or supply it as args[0] either way.
-            string clientId = string.Empty; // args[1]
-            string clientSecret = string.Empty; // args[2]
-            string appId = string.Empty; // args[3]
+            var hapiKey = string.Empty; // YOUR KEY GOES HERE ... or supply it as args[0] either way.
+            var clientId = string.Empty; // args[1]
+            var clientSecret = string.Empty; // args[2]
+            var appId = string.Empty; // args[3]
             
             if(args.Length >= 1)
             {
@@ -31,7 +31,7 @@
             }
             else
             {
-                bool authChosen = false;
+                var authChosen = false;
                 Console.WriteLine("How would you like to authenticate your requests? HAPIKey or OAuth?");
                 string authType;
                 while (authChosen == false)
@@ -42,7 +42,7 @@
                     {
                         case "hapikey":
                             Console.WriteLine("Please enter the HAPIKey:");
-                            bool valid = Guid.TryParse(Console.ReadLine(), out Guid guidResult);
+                            var valid = Guid.TryParse(Console.ReadLine(), out var guidResult);
                             hapiKey = valid ? guidResult.ToString() : string.Empty;
 
                             if (string.IsNullOrWhiteSpace(hapiKey))
@@ -74,7 +74,7 @@
                 }                
             }
 
-            while(string.IsNullOrWhiteSpace(hapiKey) || !Guid.TryParse(hapiKey, out Guid result))
+            while(string.IsNullOrWhiteSpace(hapiKey) || !Guid.TryParse(hapiKey, out var result))
             {
                 Console.WriteLine("Invalid API Key, try again");
                 hapiKey = Console.ReadLine();

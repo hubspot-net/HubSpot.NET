@@ -29,8 +29,8 @@
         /// <exception cref="NotImplementedException"></exception>
         public ContactHubSpotModel Create(ContactHubSpotModel entity)
         {
-            CreateOrUpdateContactTransportModel transport = new CreateOrUpdateContactTransportModel(entity);
-            string path = GetRoute<ContactHubSpotModel>("contact");
+            var transport = new CreateOrUpdateContactTransportModel(entity);
+            var path = GetRoute<ContactHubSpotModel>("contact");
 
             return _client.Execute<ContactHubSpotModel, CreateOrUpdateContactTransportModel>(path, transport, Method.POST);
         }
@@ -43,8 +43,8 @@
         /// <returns>The created entity (with ID set)</returns>
         public ContactHubSpotModel CreateOrUpdate(ContactHubSpotModel entity)
         {
-            CreateOrUpdateContactTransportModel transport = new CreateOrUpdateContactTransportModel(entity);
-            string path = GetRoute<ContactHubSpotModel>("contact", "createOrUpdate", "email", entity.Email);
+            var transport = new CreateOrUpdateContactTransportModel(entity);
+            var path = GetRoute<ContactHubSpotModel>("contact", "createOrUpdate", "email", entity.Email);
 
             return _client.Execute<ContactHubSpotModel, CreateOrUpdateContactTransportModel>(path, transport, Method.POST);
         }
@@ -57,8 +57,8 @@
         /// <returns>The updated entity (with ID set)</returns>
         public ContactHubSpotModel CreateOrUpdate(string originalEmail, ContactHubSpotModel entity)
         {
-            CreateOrUpdateContactTransportModel transport = new CreateOrUpdateContactTransportModel(entity);
-            string path = GetRoute<ContactHubSpotModel>("contact", "createOrUpdate", "email", originalEmail);
+            var transport = new CreateOrUpdateContactTransportModel(entity);
+            var path = GetRoute<ContactHubSpotModel>("contact", "createOrUpdate", "email", originalEmail);
 
             return _client.Execute<ContactHubSpotModel, CreateOrUpdateContactTransportModel>(path, transport, Method.POST);
         }
@@ -157,7 +157,7 @@
         {
             opts = opts ?? new ListRequestOptions();
 
-            string path = GetRoute<ContactHubSpotModel>("lists", "all", "contacts", "all");
+            var path = GetRoute<ContactHubSpotModel>("lists", "all", "contacts", "all");
                  
             path += $"{QueryParams.COUNT}={opts.Limit}";
 
@@ -209,7 +209,7 @@
         {
             opts = opts ?? new ListRecentRequestOptions();
 
-            string path = GetRoute<ContactHubSpotModel>("lists", "recently_updated", "contacts", "recent");
+            var path = GetRoute<ContactHubSpotModel>("lists", "recently_updated", "contacts", "recent");
 
             path += $"?{QueryParams.COUNT}={opts.Limit}";
 
@@ -233,7 +233,7 @@
         {
             opts = opts ?? new ContactSearchRequestOptions();
 
-            string path = GetRoute<ContactHubSpotModel>("search", "query");
+            var path = GetRoute<ContactHubSpotModel>("search", "query");
                 
             path += $"q={opts.Query}&{QueryParams.COUNT}={opts.Limit}";
 
@@ -257,7 +257,7 @@
         {            
             opts = opts ?? new ListRecentRequestOptions();
 
-            string path = GetRoute<ContactHubSpotModel>("lists", "all", "contacts", "recent");
+            var path = GetRoute<ContactHubSpotModel>("lists", "all", "contacts", "recent");
                  
             path += $"{QueryParams.COUNT}={opts.Limit}";
 
@@ -291,7 +291,7 @@
                 opts = new ListRequestOptions();
             }
 
-            string path = GetRoute<ContactHubSpotModel>("lists", $"{listId}", "contacts", "all");
+            var path = GetRoute<ContactHubSpotModel>("lists", $"{listId}", "contacts", "all");
             path += $"{QueryParams.COUNT}={opts.Limit}";
 
 

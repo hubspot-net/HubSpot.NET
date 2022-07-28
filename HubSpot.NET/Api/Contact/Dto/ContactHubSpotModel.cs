@@ -62,12 +62,12 @@
         /// </summary>
         public void LoadProperties()
         {
-            PropertyInfo[] properties = GetType().GetProperties();
+            var properties = GetType().GetProperties();
 
-            foreach (PropertyInfo prop in properties)
+            foreach (var prop in properties)
             {
                 var key = prop.GetCustomAttribute(typeof(DataMemberAttribute)) as DataMemberAttribute;
-                object value = prop.GetValue(this);
+                var value = prop.GetValue(this);
 
                 if (value == null || key == null || key.Name == "properties")
                     continue;
