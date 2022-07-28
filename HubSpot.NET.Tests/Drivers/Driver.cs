@@ -1,8 +1,7 @@
 using System;
 
-namespace Hubspot.NET.Tests.Drivers
+namespace HubSpot.NET.Tests.Drivers;
+
+public class Driver
 {
-    public class Driver
-    {
-    }
 }

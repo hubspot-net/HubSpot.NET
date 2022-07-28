@@ -1,4 +1,4 @@
-﻿namespace Hubspot.NET.Tests.Steps;
+﻿namespace HubSpot.NET.Tests.Steps;
 
 [Binding]
 public sealed class CalculatorStepDefinitions

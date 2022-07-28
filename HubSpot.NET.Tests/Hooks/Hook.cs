@@ -1,10 +1,9 @@
 using System;
 using TechTalk.SpecFlow;
 
-namespace Hubspot.NET.Tests.Hooks
+namespace HubSpot.NET.Tests.Hooks;
+
+[Binding]
+public class Hooks
 {
-    [Binding]
-    public class Hooks
-    {
-    }
 }

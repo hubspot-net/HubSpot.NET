@@ -4,7 +4,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HubSpot.NET", "HubSpot.NET\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HubSpot.NET.Examples", "HubSpot.NET.Examples\HubSpot.NET.Examples.csproj", "{937AB15D-21BF-4BE8-81CF-CE1CF224B052}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hubspot.NET.Tests", "Hubspot.NET.Tests\Hubspot.NET.Tests.csproj", "{10DF0B2D-6FD6-4CC7-A35D-D53B3C2AEC42}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HubSpot.NET.Tests", "HubSpot.NET.Tests\HubSpot.NET.Tests.csproj", "{10DF0B2D-6FD6-4CC7-A35D-D53B3C2AEC42}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
