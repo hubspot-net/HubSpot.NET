@@ -1,7 +1,5 @@
-[![NuGet](https://img.shields.io/nuget/v/SquaredUp.HubSpot.NET.svg)](https://www.nuget.org/packages/SquaredUp.HubSpot.NET/) [![Build Status](https://dev.azure.com/hubspot-net/HubSpot.NET/_apis/build/status/hubspot-net.HubSpot.NET?branchName=master)](https://dev.azure.com/hubspot-net/HubSpot.NET/_build/latest?definitionId=1&branchName=master)
-
 # <span>HubSpot.NET</span>
-C# .NET Wrapper around the common HubSpot APIs:
+.NET Core Wrapper around the common HubSpot APIs:
 
 * Contact
 * Company
@@ -24,7 +22,7 @@ To get started, install the [Nuget package](https://www.nuget.org/packages/Squar
 ### API Key
 ```csharp
   var api = new HubSpotApi("MY API KEY");
-  
+
   // Create a contact
   var contact = api.Contact.Create(new ContactHubSpotModel()
   {
@@ -34,13 +32,13 @@ To get started, install the [Nuget package](https://www.nuget.org/packages/Squar
       Phone = "00000 000000",
       Company = "Squared Up Ltd."
   });
-  
+
 ```
 
 ### OAuth
 ```csharp
   var api = new HubSpotApi("clientID", "clientSecret", "HubSpotAppID");
-  
+
   // Create a contact
   var contact = api.Contact.Create(new ContactHubSpotModel()
   {
@@ -50,7 +48,7 @@ To get started, install the [Nuget package](https://www.nuget.org/packages/Squar
       Phone = "00000 000000",
       Company = "Squared Up Ltd."
   });
-  
+
 ```
 **For more examples see the HubSpot.NET.Examples project.**
 

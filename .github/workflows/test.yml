@@ -37,7 +37,7 @@ jobs:
 
 
     - name: Test
-      run: dotnet test ./HubSpot.NET.sln --verbosity normal -r  ./test-results --logger "GitHubActions;" --logger "trx;LogFilePath=./TestResults/test_result.trx" --collect:"XPlat Code Coverage" --settings $GITHUB_WORKSPACE/coverlet.runsettings
+      run: dotnet test ./HubSpot.NETCore.sln --verbosity normal -r  ./test-results --logger "GitHubActions;" --logger "trx;LogFilePath=./TestResults/test_result.trx" --collect:"XPlat Code Coverage" --settings $GITHUB_WORKSPACE/coverlet.runsettings
 
     - name: Sonarqube end
       run: dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
