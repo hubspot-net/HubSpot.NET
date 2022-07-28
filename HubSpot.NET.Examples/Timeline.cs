@@ -18,7 +18,7 @@ namespace HubSpot.NET.Examples
             }
             catch(Exception ex)
             {
-                Console.WriteLine("Timeline tests failed!", ex.ToString());
+                Console.WriteLine("Timeline tests failed!", ex);
             }
         }
 
