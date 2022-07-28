@@ -35,9 +35,6 @@ jobs:
         dotnet tool install --global dotnet-sonarscanner
         dotnet sonarscanner begin /o:boomandbucket /k:hubspot_net  /d:sonar.login=${{ secrets.SONAR_TOKEN }} /s:$GITHUB_WORKSPACE/SonarQube.Analysis.xml
 
-    - name: Restore dependencies
-      run: |
-        dotnet restore ./HubSpot.NET.sln
 
     - name: Test
       run: dotnet test ./HubSpot.NET.sln --verbosity normal -r  ./test-results --logger "GitHubActions;" --logger "trx;LogFilePath=./TestResults/test_result.trx" --collect:"XPlat Code Coverage" --settings $GITHUB_WORKSPACE/coverlet.runsettings
