@@ -17,10 +17,10 @@ jobs:
         dotnet-version: 6.x.x
 
     - name: Package the project
-      run: dotnet pack ./HubSpot.NETCore.sln --configuration Release --verbosity normal -r  ./test-results --logger "GitHubActions;" --logger "trx;LogFilePath=./TestResults/test_result.trx" --collect:"XPlat Code Coverage" --settings $GITHUB_WORKSPACE/coverlet.runsettings
+      run: dotnet pack ./HubSpot.NETCore/HubSpot.NETCore.csproj --configuration Release --verbosity normal -r  ./test-results --logger "GitHubActions;" --logger "trx;LogFilePath=./TestResults/test_result.trx" --collect:"XPlat Code Coverage" --settings $GITHUB_WORKSPACE/coverlet.runsettings
 
     - name: Publish the project
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: dotnet nuget push "bin/Release/HubSpot.NETCore.1.0.0.nupkg"  --api-key GITHUB_TOKEN --source "github"
+      run: dotnet nuget push "./HubSpot.NETCore/bin/Release/HubSpot.NETCore.1.0.0.nupkg"  --api-key GITHUB_TOKEN --source "github"
 
