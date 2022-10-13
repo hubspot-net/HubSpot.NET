@@ -1,4 +1,5 @@
 ﻿using HubSpot.NET.Api.CustomObject;
+using HubSpot.NET.Api.Schemas;
 
 namespace HubSpot.NET.Core
 {
@@ -37,6 +38,7 @@ namespace HubSpot.NET.Core
         public IHubSpotTimelineApi Timelines { get; private set; }
         public IHubSpotPipelineApi Pipelines { get; private set; }
         public IHubSpotCustomObjectApi CustomObjects { get; private set; }
+        public IHubSpotSchemasApi Schemas { get; private set; }
 
         /// <summary>
         /// Creates a HubSpotApi using Private App Key authentication instead of OAuth 
@@ -84,6 +86,7 @@ namespace HubSpot.NET.Core
             Timelines = new HubSpotTimelineApi(client);
             Pipelines = new HubSpotPipelinesApi(client);
             CustomObjects = new HubSpotCustomObjectApi(client);
+            Schemas = new HubSpotSchemasApi(client);
 
         }
 

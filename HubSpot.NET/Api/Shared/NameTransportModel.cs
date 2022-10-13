@@ -1,8 +1,34 @@
-﻿namespace HubSpot.NET.Api.Shared
+﻿using System.Linq;
+using Newtonsoft.Json;
+
+namespace HubSpot.NET.Api.Shared
 {
     using System.Collections.Generic;
     using System.Reflection;
     using System.Runtime.Serialization;
+
+    public class RawPropertyTransportModel<T>
+    {
+        [DataMember(Name = "properties")]
+        [JsonProperty(PropertyName = "properties")]
+        public Dictionary<string, string> Properties { get; } = new Dictionary<string, string>();
+
+        public RawPropertyTransportModel(NameTransportModel<T> properties)
+        {
+            ConvertToSimpleDictionary(properties);
+        }
+
+        private void ConvertToSimpleDictionary(NameTransportModel<T> properties)
+        {
+            foreach (var valuePair in properties.Properties)
+            {
+                Properties.Add(valuePair.Name, valuePair.Value);
+            }
+        }
+    }
+
+    
+    
 
     [DataContract]
     public class NameTransportModel<T>

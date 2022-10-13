@@ -4,9 +4,13 @@ using System.Linq;
 using System.Runtime.Serialization;
 using HubSpot.NET.Api.Company;
 using HubSpot.NET.Api.Company.Dto;
+using HubSpot.NET.Api.Shared;
 using HubSpot.NET.Core;
 using HubSpot.NET.Core.Abstracts;
 using HubSpot.NET.Core.Interfaces;
+using Newtonsoft.Json;
+using RestSharp;
+using NameValuePair = HubSpot.NET.Api.Shared.NameValuePair;
 
 namespace HubSpot.NET.Api.CustomObject
 {
@@ -16,10 +20,21 @@ namespace HubSpot.NET.Api.CustomObject
         public IList<T> Results { get; set; } = new List<T>();
         public bool IsNameValue => false;        
     }
-    
+
     [DataContract]
-    public class CustomObjectSchemaHubSpotModel : IHubSpotModel
+    public class CustomObjectHubSpotModel : IHubSpotModel
     {
+        public CustomObjectHubSpotModel()
+        {
+            
+        }
+
+        public CustomObjectHubSpotModel(string customObjectSchemaId)
+        {
+            CustomObjectSchemaId = customObjectSchemaId;
+        }
+        public string CustomObjectSchemaId { get; set; }
+
         [DataMember(Name = "id")]
         public string Id { get; set; }
 
@@ -29,100 +44,13 @@ namespace HubSpot.NET.Api.CustomObject
         [DataMember(Name = "updatedAt")]
         public DateTimeOffset? UpdatedAt { get; set; }
 
-        [DataMember(Name = "properties")]
-        public List<CustomObjectPropertyModel> Properties { get; set; }
-
-        [DataMember(Name = "associations")]
-        public List<CustomObjectAssociationModel> Associations { get; set; }
-
-        [DataMember(Name = "labels")]
-        public CustomObjectLabelsModel Labels { get; set; }
-
-        [DataMember(Name = "requiredProperties")]
-        public List<string> RequiredProperties { get; set; }
-
-        [DataMember(Name = "searchableProperties")]
-        public List<string> SearchableProperties { get; set; }
-
-        [DataMember(Name = "primaryDisplayProperty")]
-        public string PrimaryDisplayProperty { get; set; }
-
-        [DataMember(Name = "metaType")]
-        public string MetaType { get; set; }
-
-        [DataMember(Name = "fullyQualifiedName")]
-        public string FullyQualifiedName { get; set; }
-
-        [DataMember(Name = "name")]
-        public string Name { get; set; }
-
+        [IgnoreDataMember]
+        [JsonProperty(PropertyName = "properties")]
+        public Dictionary<string, string> Properties { get; set; } = new Dictionary<string, string>();
         public bool IsNameValue => false;
     }
-
-    public class CustomObjectAssociationModel
-    {
-        [DataMember(Name = "id")]
-        public string Id { get; set; }
-
-        [DataMember(Name = "fromObjectTypeId")]
-        public string FromObjectTypeId { get; set; }
-
-        [DataMember(Name = "toObjectTypeId")]
-        public string ToObjectTypeId { get; set; }
-
-        [DataMember(Name = "name")]
-        public string Name { get; set; }
-    }
-
-    public class CustomObjectLabelsModel
-    {
-        [DataMember(Name = "singular")]
-        public string Singular { get; set; }
-
-        [DataMember(Name = "plural")]
-        public string Plural { get; set; }
-    }
-
-    public class CustomObjectPropertyModel
-    {
-        [DataMember(Name = "updatedAt")]
-        public DateTimeOffset? UpdatedAt { get; set; }
-
-        [DataMember(Name = "createdAt")]
-        public DateTimeOffset? CreatedAt { get; set; }
-
-        [DataMember(Name = "name")]
-        public string Name { get; set; }
-
-        [DataMember(Name = "label")]
-        public string Label { get; set; }
-
-        [DataMember(Name = "type")]
-        public string Type { get; set; }
-
-        [DataMember(Name = "fieldType")]
-        public string FieldType { get; set; }
-
-        [DataMember(Name = "groupName")]
-        public string GroupName { get; set; }
-
-        [DataMember(Name = "displayOrder")]
-        public long? DisplayOrder { get; set; }
-
-        [DataMember(Name = "calculated")]
-        public bool? Calculated { get; set; }
-
-        [DataMember(Name = "externalOptions")]
-        public bool? ExternalOptions { get; set; }
-
-        [DataMember(Name = "archived")]
-        public bool? Archived { get; set; }
-
-        [DataMember(Name = "hasUniqueValue")]
-        public bool? HasUniqueValue { get; set; }
-    }
     
-    public interface IHubSpotCustomObjectApi : IHubSpotCustomObjectApi<CustomObjectSchemaHubSpotModel>
+    public interface IHubSpotCustomObjectApi : IHubSpotCustomObjectApi<CustomObjectHubSpotModel>
     { }
     
     public interface IHubSpotCustomObjectApi<T> : ICRUDable<T>
@@ -135,7 +63,7 @@ namespace HubSpot.NET.Api.CustomObject
     {
         private readonly IHubSpotClient _client;
         // https://developers.hubspot.com/docs/api/crm/crm-custom-objects
-        public override string MidRoute => "/crm/v3/schemas";        
+        public override string MidRoute => "/crm/v3/objects";        
 
         public HubSpotCustomObjectApi(IHubSpotClient client)
         {
@@ -143,13 +71,13 @@ namespace HubSpot.NET.Api.CustomObject
         }
 
 
-        public CustomObjectListHubSpotModel<CustomObjectSchemaHubSpotModel> List(ListRequestOptions opts = null)
+        public CustomObjectListHubSpotModel<CustomObjectHubSpotModel> List(ListRequestOptions opts = null)
         {
             opts = opts ?? new ListRequestOptions();
 
-            var path = GetRoute<CustomObjectSchemaHubSpotModel>();
+            var path = GetRoute<CustomObjectHubSpotModel>();
 
-            return _client.Execute<CustomObjectListHubSpotModel<CustomObjectSchemaHubSpotModel>, ListRequestOptions>(path, opts);
+            return _client.Execute<CustomObjectListHubSpotModel<CustomObjectHubSpotModel>, ListRequestOptions>(path, opts);
         }
 
         public void Delete(long id)
@@ -157,17 +85,25 @@ namespace HubSpot.NET.Api.CustomObject
             throw new NotImplementedException();
         }
 
-        public CustomObjectSchemaHubSpotModel Create(CustomObjectSchemaHubSpotModel entity)
+        public CustomObjectHubSpotModel Create(CustomObjectHubSpotModel entity)
+        {
+            var model = new NameTransportModel<CustomObjectHubSpotModel>();
+            model.ToPropertyTransportModel(entity);
+            var rawModel = new RawPropertyTransportModel<CustomObjectHubSpotModel>(model);
+
+            var baseRoute = GetRoute<CustomObjectHubSpotModel>();
+            var postRoute = $"{baseRoute}2-{entity.CustomObjectSchemaId}";
+            return _client.Execute<CustomObjectHubSpotModel, RawPropertyTransportModel<CustomObjectHubSpotModel>>(
+                postRoute, rawModel, Method.POST);
+
+        }
+
+        public CustomObjectHubSpotModel GetById(long id)
         {
             throw new NotImplementedException();
         }
 
-        public CustomObjectSchemaHubSpotModel GetById(long id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public CustomObjectSchemaHubSpotModel Update(CustomObjectSchemaHubSpotModel entity)
+        public CustomObjectHubSpotModel Update(CustomObjectHubSpotModel entity)
         {
             throw new NotImplementedException();
         }
