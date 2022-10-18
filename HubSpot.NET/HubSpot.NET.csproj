@@ -11,7 +11,7 @@
     <PackageProjectUrl>https://github.com/boomandbucket/HubSpot.NET</PackageProjectUrl>
     <RepositoryUrl>https://github.com/boomandbucket/HubSpot.NET.git</RepositoryUrl>
     <PackageTags>hubspot api wrapper c# contact company deal engagement properties crm</PackageTags>
-    <PackageReleaseNotes>0.8.13</PackageReleaseNotes>
+    <PackageReleaseNotes>1.0.0</PackageReleaseNotes>
     <PackageId>HubSpot.NETCORE</PackageId>
   </PropertyGroup>
   <ItemGroup>
