@@ -20,6 +20,16 @@ jobs:
       with:
         dotnet-version: 6.x.x
 
+    - name: Update version files
+      env:
+        GITHUB_RUN_ID: $${{env.GITHUB_RUN_ID}}
+      run: |
+        ls
+
+        sed -i -e "s/1.0.0/1.0.$GITHUB_RUN_ID/g" ./**/*.csproj
+
+
+
     - name: Package the project
       run: dotnet pack --configuration Release --verbosity normal
 
