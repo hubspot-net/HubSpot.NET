@@ -21,7 +21,7 @@ jobs:
         dotnet-version: 6.x.x
 
     - name: Package the project
-      run: dotnet pack --configuration Release --verbosity normal
+      run: dotnet pack
 
     - name: Publish the project
       env:
