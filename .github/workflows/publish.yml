@@ -22,11 +22,11 @@ jobs:
 
     - name: Update version files
       env:
-        GITHUB_RUN_ID: $${{env.GITHUB_RUN_ID}}
+        GITHUB_RUN_ID: $${{env.GITHUB_RUN_NUMBER}}
       run: |
         ls
 
-        sed -i -e "s/1.0.0/1.0.$GITHUB_RUN_ID/g" ./**/*.csproj
+        sed -i -e "s/1.0.0/1.0.$GITHUB_RUN_NUMBER/g" ./**/*.csproj
 
 
 
