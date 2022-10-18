@@ -19,8 +19,6 @@
     <PackageReference Include="RestSharp" Version="106.6.9" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Api\CustomObject" />
-    <Folder Include="Api\Schemas" />
     <Folder Include="Properties\" />
   </ItemGroup>
 </Project>

@@ -1,12 +1,14 @@
 ﻿using HubSpot.NET.Api.Company;
 using HubSpot.NET.Api.Contact;
 using HubSpot.NET.Api.ContactList;
+using HubSpot.NET.Api.CustomObject;
 using HubSpot.NET.Api.Deal;
 using HubSpot.NET.Api.EmailSubscriptions;
 using HubSpot.NET.Api.Engagement;
 using HubSpot.NET.Api.Files;
 using HubSpot.NET.Api.Owner;
 using HubSpot.NET.Api.Properties;
+using HubSpot.NET.Api.Schemas;
 using HubSpot.NET.Core.Interfaces;
 using HubSpot.NET.Core.OAuth.Dto;
 
@@ -28,6 +30,8 @@ namespace HubSpot.NET.Core
         public IHubSpotContactListApi ContactLists { get; protected set; }
 
         public IHubSpotEmailSubscriptionsApi EmailSubscriptions { get; protected set; }
+        public IHubSpotCustomObjectApi CustomObjects { get; protected set; }
+        public IHubSpotSchemaApi Schema { get; protected set; }
 
         protected virtual void Initialise(IHubSpotClient client)
 		{
@@ -40,7 +44,12 @@ namespace HubSpot.NET.Core
             CompanyProperties = new HubSpotCompaniesPropertiesApi(client);
             EmailSubscriptions = new HubSpotEmailSubscriptionsApi(client);
             ContactLists = new HubSpotContactListApi(client);
+            CustomObjects = new HubSpotCustomObjectApi(client);
+            Schema = new HubSpotSchemaApi(client);
         }
+
+        
+
 
         public HubSpotApi(string apiKey)
         {

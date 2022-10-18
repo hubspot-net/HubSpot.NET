@@ -8,23 +8,23 @@ using RestSharp;
 
 namespace HubSpot.NET.Core
 {
-    public class HubSpotBaseClient : IHubSpotClient
+    public sealed class HubSpotBaseClient : IHubSpotClient
     {
-        protected readonly RequestSerializer _serializer = new RequestSerializer(new RequestDataConverter());
+        private readonly RequestSerializer _serializer = new RequestSerializer(new RequestDataConverter());
         private RestClient _client;
 
         public static string BaseUrl { get => "https://api.hubapi.com"; }
 
-        protected readonly HubSpotAuthenticationMode _mode;
+        private readonly HubSpotAuthenticationMode _mode;
 
         // Used for HAPIKEY method
-        protected readonly string _apiKeyName = "hapikey";
-        protected readonly string _apiKey;
+        
+        private readonly string _apiKey;
 
         // Used for OAUTH
         private HubSpotToken _token;
 
-        protected virtual void Initialise()
+        private void Initialise()
         {
             _client = new RestClient(BaseUrl);
         }
@@ -32,10 +32,10 @@ namespace HubSpot.NET.Core
         /// <summary>
         /// Creates a HubSpot client with the authentication scheme HAPIKEY.
         /// </summary>
-        public HubSpotBaseClient(string apiKey)
+        public HubSpotBaseClient(string privateAppKey)
         {
-            _apiKey = apiKey;
-            _mode = HubSpotAuthenticationMode.HAPIKEY;
+            _apiKey = privateAppKey;
+            _mode = HubSpotAuthenticationMode.PRIVATE_APP_KEY;
             Initialise();
         }
 
@@ -140,7 +140,7 @@ namespace HubSpot.NET.Core
             return data;
         }
 
-        protected virtual T SendRequest<T>(string path, Method method, string json, Func<string, T> deserializeFunc) where T : IHubSpotModel, new()
+        private T SendRequest<T>(string path, Method method, string json, Func<string, T> deserializeFunc) where T : IHubSpotModel, new()
         {
             string responseData = SendRequest(path, method, json);
 
@@ -150,7 +150,7 @@ namespace HubSpot.NET.Core
             return deserializeFunc(responseData);
         }
 
-        protected virtual string SendRequest(string path, Method method, string json)
+        private string SendRequest(string path, Method method, string json)
         {
             IRestRequest request = ConfigureRequestAuthentication(path, method);
 
@@ -170,7 +170,7 @@ namespace HubSpot.NET.Core
         /// <summary>
         /// Configures a <see cref="RestRequest"/> based on the authentication scheme detected and configures the endpoint path relative to the base path.
         /// </summary>
-        protected virtual RestRequest ConfigureRequestAuthentication(string path, Method method)
+        private RestRequest ConfigureRequestAuthentication(string path, Method method)
         {
 #if NET451
             RestRequest request = new RestRequest(path, method);
@@ -183,8 +183,12 @@ namespace HubSpot.NET.Core
                 case HubSpotAuthenticationMode.OAUTH:
                     request.AddHeader("Authorization", GetAuthHeader(_token));
                     break;
+                case HubSpotAuthenticationMode.HAPIKEY:
+                    throw new NotSupportedException(
+                        "This authentication mode is no longer supported by hubspot as of November 30, 2020");
                 default:
-                    request.AddQueryParameter(_apiKeyName, _apiKey);
+                    request.AddHeader("Authorization", $"Bearer {_apiKey}");
+                    request.AddHeader("Content-Type", $"application/json");
                     break;
             }
 
@@ -192,7 +196,7 @@ namespace HubSpot.NET.Core
             return request;
         }
 
-        protected virtual string GetAuthHeader(HubSpotToken token) => $"Bearer {token.AccessToken}";
+        private string GetAuthHeader(HubSpotToken token) => $"Bearer {token.AccessToken}";
 
 
         /// <summary>

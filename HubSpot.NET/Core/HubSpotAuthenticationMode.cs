@@ -2,6 +2,8 @@
 {
 	public enum HubSpotAuthenticationMode
     {
-        HAPIKEY, OAUTH
+        HAPIKEY,
+        OAUTH,
+        PRIVATE_APP_KEY
     }
 }

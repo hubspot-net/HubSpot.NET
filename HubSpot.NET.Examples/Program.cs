@@ -1,4 +1,8 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System.Linq;
+using System.Runtime.Serialization;
+using HubSpot.NET.Api.CustomObject;
+using HubSpot.NET.Api.Schemas;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -38,8 +42,16 @@ namespace HubSpot.NET.Examples
             var host = CreateHostBuilder(args);
             var container = host.Build();
             var configuration = container.Services.GetService<IConfiguration>();
+
+            var api = new HubSpotApi(configuration["HubSpot:PrivateAppKey"]);
+
+            var result = api.Schema.List<SchemaHubSpotModel>();
+            var id = result.Results.First(x => x.Name == "Machine2").Id;
             
             
+            var result2 = api.CustomObjects.List<EquipmentObject>(id);
+
+
 
         }
 
@@ -62,25 +74,20 @@ namespace HubSpot.NET.Examples
         //     var result1 = hapiApi.CustomObjects.Create(newEquipment);
         // }
 
-        // public class EquipmentObject : CustomObjectHubSpotModel
-        // {
-        //     public EquipmentObject(string objectId) : base(objectId)
-        //     {
-        //         
-        //     }
-        //
-        //     [DataMember(Name ="name")]
-        //     public new string Name => $"{Year} {Make} {Model}";
-        //         
-        //     [DataMember(Name ="make")]
-        //     public string Make { get; set; }
-        //     [DataMember(Name ="model")]
-        //     public string Model { get; set; }
-        //     
-        //     // [DataMember(Name ="year")]
-        //     public string Year { get; set; }
-        //     
-        // }
+        public class EquipmentObject : CustomObjectHubSpotModel
+        {
+            [DataMember(Name ="name")]
+            public new string Name => $"{Year} {Make} {Model}";
+                
+            [DataMember(Name ="make")]
+            public string Make { get; set; }
+            [DataMember(Name ="model")]
+            public string Model { get; set; }
+            
+            // [DataMember(Name ="year")]
+            public string Year { get; set; }
+            
+        }
 
 
   
