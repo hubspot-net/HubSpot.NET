@@ -1,7 +1,11 @@
-name: Run Tests
+name: Publish Nuget Package
 
 # Triggers the workflow on push or pull request events
-on: [push]
+on:
+  push:
+    branches:
+      - production
+
 jobs:
   test_platform:
     runs-on: ubuntu-latest
