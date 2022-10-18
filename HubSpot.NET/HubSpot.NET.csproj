@@ -1,8 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net6.0;netstandard2.0</TargetFrameworks>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <TargetFrameworks>net6.0;netstandard2.1</TargetFrameworks>
     <Version>0.8.13</Version>
     <Authors>HubSpot.NETCORE</Authors>
     <Company>HubSpot.NETCORE</Company>
