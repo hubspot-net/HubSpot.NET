@@ -69,8 +69,21 @@ namespace HubSpot.NET.Core
 
             var attributes = (IgnoreDataMemberAttribute[]) prop.GetCustomAttributes(typeof(IgnoreDataMemberAttribute), false);
 
-            return attributes.Any();
-    }
+            bool result = attributes.Any();
+            if (result)
+                return result;
+
+            // if the property is private, it must include the DataMemberAttribute to be serialised
+            if (!prop.GetMethod.IsPublic && !prop.GetMethod.IsPublic)
+            {
+                var privateAttributes = (DataMemberAttribute[])prop.GetCustomAttributes(typeof(DataMemberAttribute), false);
+
+                result = !privateAttributes.Any();
+                return result;
+            }
+
+            return result;
+        }
 
         /// <summary>
         /// Determines whether the given <param name="instance"></param> is a complex type or a simple ValueType

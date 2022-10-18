@@ -31,6 +31,17 @@ namespace HubSpot.NET.Api.Properties.Dto
         [DataMember(Name = "options")]
         public List<EnumerationOption> Options { get;set; }
 
-        public bool IsNameValue => false;       
+
+        public bool IsNameValue => false;
+
+        public void ToHubSpotDataEntity(ref dynamic dataEntity)
+        {
+        }
+
+        public void FromHubSpotDataEntity(dynamic hubspotData)
+        {
+        }
+
+        public string RouteBasePath => "/companies/properties";
     }
 }

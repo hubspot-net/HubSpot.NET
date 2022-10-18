@@ -1,4 +1,5 @@
 ﻿using HubSpot.NET.Core;
+using System.Collections.Generic;
 
 namespace HubSpot.NET.Api.Contact.Dto
 {
@@ -26,5 +27,10 @@ namespace HubSpot.NET.Api.Contact.Dto
         /// Whether to retrieve current list memberships for the contacts
         /// </summary>
         public bool ShowListMemberships { get; set; } = false;
+
+        public ListRecentRequestOptions()
+		{
+            PropertiesToInclude = new List<string> { "createdate", "lastmodifieddate", "firstname", "lastname", "email", "company" };
+		}
     }
 }

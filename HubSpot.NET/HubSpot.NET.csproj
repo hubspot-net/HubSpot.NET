@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net6.0;netstandard2.1</TargetFrameworks>
     <Version>1.0.0</Version>
     <Authors>HubSpot.NETCORE</Authors>
     <Company>HubSpot.NETCORE</Company>
@@ -13,16 +12,15 @@
     <PackageTags>hubspot api wrapper c# contact company deal engagement properties crm custom objects</PackageTags>
     <PackageReleaseNotes>1.0.0</PackageReleaseNotes>
     <PackageId>HubSpot.NETCORE</PackageId>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="RestSharp" Version="106.6.9" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Api\CustomObject" />
+    <Folder Include="Api\Schemas" />
     <Folder Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
-    <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
-    <PackageReference Include="System.Net.Http" Version="4.3.3" />
   </ItemGroup>
 </Project>

@@ -1,119 +1,139 @@
-﻿namespace HubSpot.NET.Api.EmailSubscriptions
+namespace HubSpot.NET.Api.EmailSubscriptions
 {
-    using Dto;
-    using Core.Abstracts;
-    using Core.Dictionaries;
-    using Core.Interfaces;
-    using RestSharp;
     using System.Collections.Generic;
-    using System.Linq;
+    using HubSpot.NET.Api.EmailSubscriptions.Dto;
+    using HubSpot.NET.Core.Interfaces;
+    using RestSharp;
 
-    public class HubSpotEmailSubscriptionsApi : ApiRoutable, IHubSpotEmailSubscriptionsApi
+    /// <summary>
+    /// The hub spot email subscriptions api class
+    /// </summary>
+    /// <seealso cref="IHubSpotEmailSubscriptionsApi"/>
+    public class HubSpotEmailSubscriptionsApi : IHubSpotEmailSubscriptionsApi
     {
+        /// <summary>
+        /// The client
+        /// </summary>
         private readonly IHubSpotClient _client;
-        public override string MidRoute => "/email/public/v1/subscriptions";
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HubSpotEmailSubscriptionsApi"/> class
+        /// </summary>
+        /// <param name="client">The client</param>
         public HubSpotEmailSubscriptionsApi(IHubSpotClient client)
         {
             _client = client;
-            AddRoute<SubscriptionTimelineHubSpotModel>("timeline");
         }
 
-        public SubscriptionTypeListHubSpotModel GetSubscriptionTypes() 
-            => _client.Execute<SubscriptionTypeListHubSpotModel>(GetRoute());
+        /// <summary>
+        /// Gets the available email subscription types available in the portal
+        /// </summary>
+        public SubscriptionTypeListHubSpotModel GetEmailSubscriptionTypes()
+        {
+            var path = $"{new SubscriptionTypeListHubSpotModel().RouteBasePath}/subscriptions";
 
-        public SubscriptionTypeHubSpotModel GetSubscription(long id) 
-            => GetSubscriptionTypes().Types.FirstOrDefault(x => x.Id == id);
-        
-        public SubscriptionStatusHubSpotModel GetSubscriptionStatusForContact(string email) 
-            => _client.Execute<SubscriptionStatusHubSpotModel>(GetRoute(email));
+            return _client.ExecuteList<SubscriptionTypeListHubSpotModel>(path, convertToPropertiesSchema: false);
+        }
 
-        public SubscriptionTimelineHubSpotModel GetChangesTimeline()
-            => _client.Execute<SubscriptionTimelineHubSpotModel>(GetRoute<SubscriptionTimelineHubSpotModel>());     
+        /// <summary>
+        /// Get subscription status for the given email address
+        /// </summary>
+        /// <param name="email"></param>
+        public SubscriptionStatusHubSpotModel GetStatus(string email)
+        {
+            var path = $"{new SubscriptionTypeListHubSpotModel().RouteBasePath}/subscriptions/{email}";
 
-        public void UnsubscribeAll(string email) 
-            => SendSubscriptionRequest(GetRoute(email), new { unsubscribeFromAll = true });
+            return _client.Execute<SubscriptionStatusHubSpotModel>(path, Method.GET, false);
+        }
 
+
+        /// <summary>
+        /// Unsubscribe the given email address from ALL email
+        /// WARNING: There is no UNDO for this operation
+        /// </summary>
+        /// <param name="email"></param>
+        public void UnsubscribeAll(string email)
+        {
+            var path = $"{new SubscriptionTypeListHubSpotModel().RouteBasePath}/subscriptions/{email}";
+
+            _client.Execute(path, new { unsubscribeFromAll = true }, Method.PUT, false);
+        }
+
+        /// <summary>
+        /// Unsubscribe the given email address from the given subscription type
+        /// WARNING: There is no UNDO for this operation
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="id">The ID of the subscription type</param>
         public void UnsubscribeFrom(string email, long id)
         {
-            var model = new SubscriptionStatusHubSpotModel();
-            model.SubscriptionStatuses.Add(new SubscriptionStatusDetailHubSpotModel(id, false, OptState.OPT_OUT));            
+            var path = $"{new SubscriptionTypeListHubSpotModel().RouteBasePath}/subscriptions/{email}";
 
-           SendSubscriptionRequest(GetRoute(email), model);
-        }
-
-        public void SubscribeAll(string email)
-        {
-            var subs = new List<SubscriptionStatusDetailHubSpotModel>();
-            var subRequest = new SubscriptionSubscribeHubSpotModel();
-
-            GetSubscriptionTypes().Types.ForEach(sub =>
+            var model = new SubscriptionStatusUpdateHubSpotModel
             {
-                subs.Add(new SubscriptionStatusDetailHubSpotModel(sub.Id, true, OptState.OPT_IN));
-            });
+                SubscriptionStatuses = new List<SubscriptionStatusDetailHubSpotModel>()
+                {
+                    new SubscriptionStatusDetailHubSpotModel()
+                    {
+                        Id = id,
+                        Subscribed = false
+                    }
+                }
+            };
 
-            subRequest.SubscriptionStatuses.AddRange(subs);
-
-            SendSubscriptionRequest(GetRoute(email), subRequest);
+            _client.Execute(path, model, Method.PUT, false);
         }
 
-        public void SubscribeAll(string email, GDPRLegalBasis legalBasis, string explanation, OptState optState = OptState.OPT_IN)
-        {
-            var subs = new List<SubscriptionStatusDetailHubSpotModel>();
-            var subRequest = new SubscriptionSubscribeHubSpotModel();
 
-            GetSubscriptionTypes().Types.ForEach(sub =>
+
+        /// <summary>
+        /// Subscribe the given email address to the given subscription type
+        /// See <see cref="https://legacydocs.hubspot.com/docs/methods/email/update_status"/>
+        /// </summary>        /// <param name="email">The email</param>
+        /// <param name="id">The id</param>
+        /// <param name="basis">The basis</param>
+        /// <param name="basisExplanation">The basis explanation</param>
+        /// <param name="setPortalSubscriptionBasis">The set portal subscription basis</param>
+        /// <param name="setSubscriptionBasis">The set subscription basis</param>
+        /// <param name="subscriptionBasis">The subscription basis</param>
+        /// <param name="subscriptionBasisExplanation">The subscription basis explanation</param>
+        public void SubscribeTo(string email, long id, string basis, string basisExplanation, bool setPortalSubscriptionBasis = true, bool setSubscriptionBasis = false, string subscriptionBasis = null, string subscriptionBasisExplanation = null)
+        {
+            var subscription = new SubscribeStatusHubSpotModel()
             {
-                subs.Add(new SubscriptionStatusDetailHubSpotModel(sub.Id, true, optState, legalBasis, explanation));
-            });
-
-            subRequest.SubscriptionStatuses.AddRange(subs);
-
-            SendSubscriptionRequest(GetRoute(email), subRequest);
-        }
-
-        public void SubscribeTo(string email, long id)
-        {
-            var singleSub = GetSubscription(id);
-            if (singleSub == null)
-                throw new KeyNotFoundException("The SubscriptionType ID provided does not exist in the SubscriptionType list");
-
-            var subRequest = new SubscriptionSubscribeHubSpotModel();
-            subRequest.SubscriptionStatuses.Add(new SubscriptionStatusDetailHubSpotModel(singleSub.Id, true, OptState.OPT_IN));
-            
-            SendSubscriptionRequest(GetRoute(email), subRequest);
-        }
-
-        public void SubscribeTo(string email, long id, GDPRLegalBasis legalBasis, string explanation, OptState optState = OptState.OPT_IN)
-        {
-            var singleSub = GetSubscription(id);
-            var subRequest = new SubscriptionSubscribeHubSpotModel();
-
-            if (singleSub == null)
-                throw new KeyNotFoundException("The SubscriptionType ID provided does not exist in the SubscriptionType list");
-
-            subRequest.SubscriptionStatuses.Add(new SubscriptionStatusDetailHubSpotModel(singleSub.Id, true, optState, legalBasis, explanation));
-
-            SendSubscriptionRequest(GetRoute(email), subRequest);
-        }        
-
-        private void SendSubscriptionRequest(string path, object payload)
-            => _client.ExecuteOnly(path, payload, Method.PUT);
-
-        public void UnsubscribeFrom(string email, params long[] ids)
-        {
-            foreach (var id in ids)
+                Id = id,
+                Subscribed = true,
+                OptState = "OPT_IN"
+            };
+            if (setSubscriptionBasis)
             {
-                UnsubscribeFrom(email, id);
+                if (string.IsNullOrEmpty(subscriptionBasis))
+                {
+                    subscriptionBasis = basis;
+                }
+
+                if (subscriptionBasisExplanation == null)
+                {
+                    subscriptionBasisExplanation = basisExplanation;
+                }
+
+                subscription.LegalBasis = subscriptionBasis;
+                subscription.LegalBasisExplanation = subscriptionBasisExplanation;
             }
-        }
 
-        public void SubscribeTo(string email, params long[] ids)
-        {
-            foreach (var id in ids)
+            var model = new SubscribeHubSpotModel
             {
-                SubscribeTo(email, id);
+                SubscriptionStatuses = new List<SubscribeStatusHubSpotModel>() { subscription }
+            };
+            if (setPortalSubscriptionBasis)
+            {
+                model.PortalSubscriptionLegalBasis = basis;
+                model.PortalSubscriptionLegalBasisExplanation = basisExplanation;
             }
+
+            var path = $"{model.RouteBasePath}/{email}";
+
+            _client.Execute(path, model, Method.PUT, false);
         }
     }
 }

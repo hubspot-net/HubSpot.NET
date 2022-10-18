@@ -1,25 +1,44 @@
 namespace HubSpot.NET.Api.Properties
 {
-    using Dto;
-    using Core.Abstracts;
-    using Core.Interfaces;
+    using HubSpot.NET.Api.Properties.Dto;
+    using HubSpot.NET.Core.Interfaces;
     using RestSharp;
 
-    public class HubSpotCompaniesPropertiesApi : ApiRoutable, IHubSpotCompanyPropertiesApi
+    public class HubSpotCompaniesPropertiesApi : IHubSpotCompanyPropertiesApi
     {
         private readonly IHubSpotClient _client;
-        public override string MidRoute => "/properties/v1";
 
         public HubSpotCompaniesPropertiesApi(IHubSpotClient client)
         {
             _client = client;
-            AddRoute<CompanyPropertyHubSpotModel>("/companies/properties");
         }
 
-        public PropertiesListHubSpotModel<CompanyPropertyHubSpotModel> GetAll() 
-            => _client.Execute<PropertiesListHubSpotModel<CompanyPropertyHubSpotModel>>(GetRoute<CompanyPropertyHubSpotModel>());
+        public PropertiesListHubSpotModel<CompanyPropertyHubSpotModel> GetAll()
+        {
+            var path = $"{new PropertiesListHubSpotModel<CompanyPropertyHubSpotModel>().RouteBasePath}";
 
-        public CompanyPropertyHubSpotModel Create(CompanyPropertyHubSpotModel property) 
-            => _client.Execute<CompanyPropertyHubSpotModel, CompanyPropertyHubSpotModel>(GetRoute<CompanyPropertyHubSpotModel>(), property, Method.POST);
+            return _client.ExecuteList<PropertiesListHubSpotModel<CompanyPropertyHubSpotModel>>(path, convertToPropertiesSchema: false);
+        }
+
+        public CompanyPropertyHubSpotModel Create(CompanyPropertyHubSpotModel property)
+        {
+            var path = $"{new PropertiesListHubSpotModel<CompanyPropertyHubSpotModel>().RouteBasePath}";
+
+            return _client.Execute<CompanyPropertyHubSpotModel>(path, property, Method.POST, convertToPropertiesSchema: false);
+        }
+
+        public CompanyPropertyHubSpotModel Update(CompanyPropertyHubSpotModel property)
+        {
+            var path = $"{new PropertiesListHubSpotModel<CompanyPropertyHubSpotModel>().RouteBasePath}/named/{property.Name}";
+
+            return _client.Execute<CompanyPropertyHubSpotModel>(path, property, Method.PUT, convertToPropertiesSchema: false);
+        }
+
+        public void Delete(string propertyName)
+        {
+            var path = $"{new PropertiesListHubSpotModel<CompanyPropertyHubSpotModel>().RouteBasePath}/named/{propertyName}";
+
+            _client.Execute(path, method: Method.DELETE, convertToPropertiesSchema: true);
+        }
     }
 }

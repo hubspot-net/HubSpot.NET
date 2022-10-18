@@ -1,11 +1,9 @@
-﻿namespace HubSpot.NET.Api.Contact.Dto
-{
-    using Core.Interfaces;
-    using Newtonsoft.Json;
-    using System.Collections.Generic;
-    using System.Reflection;
-    using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
+using HubSpot.NET.Core.Interfaces;
 
+namespace HubSpot.NET.Api.Contact.Dto
+{
     /// <summary>
     /// Models a Contact entity within HubSpot. Default properties are included here
     /// with the intention that you'd extend this class with properties specific to 
@@ -14,69 +12,57 @@
     [DataContract]
     public class ContactHubSpotModel : IHubSpotModel
     {
-        public ContactHubSpotModel() { }
-
         /// <summary>
         /// Contacts unique ID in HubSpot
         /// </summary>
         [DataMember(Name = "vid")]
         [IgnoreDataMember]
         public long? Id { get; set; }
-        
         [DataMember(Name = "email")]
         public string Email { get; set; }
-        
         [DataMember(Name = "firstname")]
         public string FirstName { get; set; }
-        
         [DataMember(Name = "lastname")]
         public string LastName { get; set; }
-        
         [DataMember(Name = "website")]
         public string Website { get; set; }
         [DataMember(Name = "company")]
-        public string Company { set; get; }
+        public string Company { get; set; }
         [DataMember(Name = "phone")]
-        public string Phone { set; get; }
+        public string Phone { get; set; }
         [DataMember(Name = "address")]
-        public string Address { set; get; }
+        public string Address { get; set; }
         [DataMember(Name = "city")]
-        public string City { set; get; }
+        public string City { get; set; }
         [DataMember(Name = "state")]
-        public string State { set; get; }
+        public string State { get; set; }
         [DataMember(Name = "zip")]
-        public string ZipCode { set; get; }
+        public string ZipCode { get; set; }
 
-        [DataMember(Name = "associatedcompanyid")]
-        public long? AssociatedCompanyId { get; set; }
+        [DataMember(Name="associatedcompanyid")]
+        public long? AssociatedCompanyId { get;set; }
 
-        [DataMember(Name = "hubspot_owner_id")]
-        public long? OwnerId { get; set; }
+        [DataMember(Name="hubspot_owner_id")]
+        public long? OwnerId { get;set; }
 
-        // Used for return values
-        [DataMember(Name = "properties")]
-        public Dictionary<string, ContactProperty> Properties { get; set; } = new Dictionary<string, ContactProperty>();
+        [DataMember(Name = "createdAt")]
+        [IgnoreDataMember]
+        public DateTime? CreatedAt { get; set; }
 
-        /// <summary>
-        /// Loads all properties into the ContactProperty Dictionary even from custom contact models
-        /// </summary>
-        public void LoadProperties()
+        [DataMember(Name = "updatedAt")]
+        [IgnoreDataMember]
+        public DateTime? UpdatedAt { get; set; }
+
+        public string RouteBasePath => "/contacts/v1";
+        public bool IsNameValue => false;
+        public virtual void ToHubSpotDataEntity(ref dynamic converted)
         {
-            var properties = GetType().GetProperties();
 
-            foreach (var prop in properties)
-            {
-                var key = prop.GetCustomAttribute(typeof(DataMemberAttribute)) as DataMemberAttribute;
-                var value = prop.GetValue(this);
-
-                if (value == null || key == null || key.Name == "properties")
-                    continue;
-
-                Properties.Add(key.Name, new ContactProperty(value));
-            }
         }
 
-        [IgnoreDataMember]
-        public bool IsNameValue => false;
+        public virtual void FromHubSpotDataEntity(dynamic hubspotData)
+        {
+            
+        }
     }
 }

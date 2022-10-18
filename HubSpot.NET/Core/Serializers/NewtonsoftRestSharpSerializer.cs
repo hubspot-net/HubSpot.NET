@@ -1,14 +1,23 @@
 ﻿namespace HubSpot.NET.Core.Serializers
 {
-    using Newtonsoft.Json;
-    using RestSharp.Serializers;
+    using System.Collections.Generic;
 
-    public class NewtonsoftRestSharpSerializer : ISerializer
+    using Newtonsoft.Json;
+	using Newtonsoft.Json.Converters;
+	using Newtonsoft.Json.Serialization;
+	using RestSharp.Serializers;
+
+	public class NewtonsoftRestSharpSerializer : ISerializer
     {
 
         public string Serialize(object obj)
         {
-            return JsonConvert.SerializeObject(obj, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            return JsonConvert.SerializeObject(obj, Formatting.None, new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                Converters = new List<JsonConverter> { new StringEnumConverter() },
+                NullValueHandling = NullValueHandling.Ignore
+            });
         }
 
         public NewtonsoftRestSharpSerializer()

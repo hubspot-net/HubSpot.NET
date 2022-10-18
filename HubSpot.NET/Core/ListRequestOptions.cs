@@ -20,16 +20,13 @@ namespace HubSpot.NET.Core
         /// <value>
         /// The number of items to return.
         /// </value>
-        public int Limit
+        public virtual int Limit
         {
             get => _limit;
             set
             {
                 if (value < 1 || value > _upperLimit)
-                {
-                    throw new ArgumentException(
-                        $"Number of items to return must be a positive integer greater than 0, and less than {_upperLimit} - you provided {value}");
-                }
+                    throw new ArgumentException($"Number of items to return must be a positive integer greater than 0, and less than {_upperLimit} - you provided {value}");
                 _limit = value;
             }
         }
@@ -41,6 +38,8 @@ namespace HubSpot.NET.Core
         public ListRequestOptions(int upperLimit)
         {
             _upperLimit = upperLimit;
+            if (_limit > upperLimit)
+                _limit = upperLimit;
         }
 
         /// <summary>
@@ -60,8 +59,8 @@ namespace HubSpot.NET.Core
         /// The return DTO from List contains the current "offset" that you can inject into your next list call 
         /// to continue the listing process
         /// </remarks>
-        public long? Offset { get; set; } = null;
+        public virtual long? Offset { get; set; } = null;
 
-        public List<string> PropertiesToInclude { get; set; } = new List<string>();
+        public virtual List<string> PropertiesToInclude { get; set; } = new List<string>();
     }
 }

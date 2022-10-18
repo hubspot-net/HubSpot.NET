@@ -1,28 +1,27 @@
-﻿using HubSpot.NET.Core.Interfaces;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using HubSpot.NET.Api.Contact.Dto;
+using HubSpot.NET.Api.EmailSubscriptions.Dto;
+using HubSpot.NET.Core.Interfaces;
 
 namespace HubSpot.NET.Api.EmailSubscriptions.Dto
 {
-    /// <summary>
-    /// Returned from the GET all HubSpot endpoint for subscriptions
-    ///     <para>
-    ///         /email/public/v1/subscriptions
-    ///     </para>
-    /// </summary>
     [DataContract]
     public class SubscriptionTypeListHubSpotModel : IHubSpotModel
     {
         [DataMember(Name = "subscriptionDefinitions")]
-        public List<SubscriptionTypeHubSpotModel> Types { get; set; } = new List<SubscriptionTypeHubSpotModel>();
+        public IList<SubscriptionTypeHubSpotModel> Types { get; set; } = new List<SubscriptionTypeHubSpotModel>();
+        
+        public string RouteBasePath => "/email/public/v1";
 
-        [IgnoreDataMember]
         public bool IsNameValue => false;
 
-        internal SubscriptionTypeHubSpotModel Where()
+        public virtual void ToHubSpotDataEntity(ref dynamic converted)
         {
-            throw new NotImplementedException();
+        }
+
+        public virtual void FromHubSpotDataEntity(dynamic hubspotData)
+        {
         }
     }
 }

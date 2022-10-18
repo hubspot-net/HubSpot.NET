@@ -1,15 +1,20 @@
-﻿using HubSpot.NET.Api.Company;
+﻿using HubSpot.NET.Api;
+using HubSpot.NET.Api.Company;
 using HubSpot.NET.Api.Company.Dto;
 
 namespace HubSpot.NET.Core.Interfaces
 {
-    public interface IHubSpotCompanyApi : IHubSpotCompanyApi<CompanyHubSpotModel>
-    { }
-
-    public interface IHubSpotCompanyApi<T> : ICRUDable<T>
-        where T : IHubSpotModel
+    public interface IHubSpotCompanyApi
     {
-        CompanySearchResultModel<T> GetByDomain(string domain, CompanySearchByDomain options = null);
-        CompanyListHubSpotModel<T> List(ListRequestOptions opts = null);
+        T Create<T>(T entity) where T : CompanyHubSpotModel, new();
+        void Delete(long companyId);
+        CompanySearchResultModel<T> GetByDomain<T>(string domain, CompanySearchByDomain options = null) where T : CompanyHubSpotModel, new();
+        CompanyListHubSpotModel<T> List<T>(ListRequestOptions opts = null) where T : CompanyHubSpotModel, new();
+        T GetById<T>(long companyId) where T : CompanyHubSpotModel, new();
+        T Update<T>(T entity) where T : CompanyHubSpotModel, new();
+        CompanySearchHubSpotModel<T> Search<T>(SearchRequestOptions opts = null) where T : CompanyHubSpotModel, new();
+
+        T GetAssociations<T>(T entity)
+            where T : CompanyHubSpotModel, new();
     }
 }
