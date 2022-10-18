@@ -25,7 +25,6 @@ jobs:
         GITHUB_RUN_NUMBER: $${{env.GITHUB_RUN_NUMBER}}
       run: |
         ls
-
         sed -i -e "s/1.0.0/1.0.$GITHUB_RUN_NUMBER/g" ./**/*.csproj
 
     - name: Package the project
