@@ -21,10 +21,12 @@ jobs:
         dotnet-version: 6.x.x
 
     - name: Package the project
-      run: dotnet pack
+      run: dotnet pack --configuration Release --verbosity normal
 
     - name: Publish the project
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: dotnet nuget push "./HubSpot.NET/bin/Release/HubSpot.NET.1.0.0.nupkg"  --api-key GITHUB_TOKEN --source "github"
+      run: |
+        dotnet nuget add source --username jt-bruch --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/boomandbucket/index.json"
+        dotnet nuget push "./HubSpot.NET/bin/Release/HubSpot.NET.1.0.0.nupkg"  --api-key GITHUB_TOKEN --source "github"
 
