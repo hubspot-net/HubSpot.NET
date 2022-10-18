@@ -32,9 +32,8 @@ jobs:
 
     - name: Publish the project
       env:
-        GH_PACKAGE_TOKEN: ${{ secrets.GH_PACKAGE_TOKEN }}
+        NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
         GITHUB_RUN_NUMBER: $${{env.GITHUB_RUN_NUMBER}}
       run: |
-        dotnet nuget add source --username jt-bruch --password $GH_PACKAGE_TOKEN --store-password-in-clear-text --name github "https://nuget.pkg.github.com/boomandbucket/index.json"
-        dotnet nuget push "./HubSpot.NET/bin/Release/HubSpot.NETCORE.1.0.$GITHUB_RUN_NUMBER.nupkg"  --api-key $GH_PACKAGE_TOKEN --source "github"
+        dotnet nuget push "./HubSpot.NET/bin/Release/HubSpot.NETCORE.1.0.$GITHUB_RUN_NUMBER.nupkg"  --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json
 
