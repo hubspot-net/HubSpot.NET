@@ -37,5 +37,5 @@ jobs:
         GITHUB_RUN_NUMBER: $${{env.GITHUB_RUN_NUMBER}}
       run: |
         dotnet nuget add source --username jt-bruch --password ${{ secrets.GH_PACKAGE_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/boomandbucket/index.json"
-        dotnet nuget push "./HubSpot.NET/bin/Release/HubSpot.NETCORE.1.0.$GITHUB_RUN_NUMBER.nupkg"  --api-key GH_PACKAGE_TOKEN --source "github"
+        dotnet nuget push "./HubSpot.NET/bin/Release/HubSpot.NETCORE.1.0.$GITHUB_RUN_NUMBER.nupkg"  --api-key $GH_PACKAGE_TOKEN --source "github"
 
