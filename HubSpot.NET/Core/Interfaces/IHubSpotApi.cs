@@ -11,5 +11,8 @@
 		IHubSpotTaskApi Task { get; }
 		IHubSpotCompanyPropertiesApi CompanyProperties { get; }
         IHubSpotEmailSubscriptionsApi EmailSubscriptions { get; }
+        IHubSpotCustomObjectApi CustomObjects { get; }
+        IHubSpotSchemaApi Schema { get; }
+
     }
 }
