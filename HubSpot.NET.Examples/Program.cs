@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Runtime.Serialization;
+using System.Threading;
 using HubSpot.NET.Api.CustomObject;
 using HubSpot.NET.Api.Schemas;
 using Microsoft.Extensions.Configuration;
@@ -45,11 +46,14 @@ namespace HubSpot.NET.Examples
 
             var api = new HubSpotApi(configuration["HubSpot:PrivateAppKey"]);
 
-            var result = api.Schema.List<SchemaHubSpotModel>();
-            var id = result.Results.First(x => x.Name == "Machine2").Id;
+            var customSchemas = api.Schema.List<SchemaHubSpotModel>();
+            var id = "2-" + customSchemas.Results.First(x => x.Name == "Machine2").Id;
             
+            // get the equipment id off seller id...
             
-            var result2 = api.CustomObjects.List<EquipmentObject>(id);
+
+            var result3 = api.CustomObjects.GetAssociationsToCustomObject<CustomObjectAssociationModel>(HubSpotObjectIds.Deal, "8724155775",
+                id, CancellationToken.None);
 
 
 

@@ -1,4 +1,5 @@
-﻿using HubSpot.NET.Api.Company;
+﻿using HubSpot.NET.Api.Associations;
+using HubSpot.NET.Api.Company;
 using HubSpot.NET.Api.Contact;
 using HubSpot.NET.Api.ContactList;
 using HubSpot.NET.Api.CustomObject;
@@ -14,6 +15,12 @@ using HubSpot.NET.Core.OAuth.Dto;
 
 namespace HubSpot.NET.Core
 {
+    public class HubSpotObjectIds
+    {
+        public static readonly string Contact = "0-1";
+        public static readonly string Deal = "0-3";
+    }
+    
     /// <summary>
     /// Starting point for using HubSpot.NET
     /// </summary>
@@ -32,6 +39,7 @@ namespace HubSpot.NET.Core
         public IHubSpotEmailSubscriptionsApi EmailSubscriptions { get; protected set; }
         public IHubSpotCustomObjectApi CustomObjects { get; protected set; }
         public IHubSpotSchemaApi Schema { get; protected set; }
+        public IHubSpotAssociationsApi Associations { get; protected set; }
 
         protected virtual void Initialise(IHubSpotClient client)
 		{
@@ -46,6 +54,7 @@ namespace HubSpot.NET.Core
             ContactLists = new HubSpotContactListApi(client);
             CustomObjects = new HubSpotCustomObjectApi(client);
             Schema = new HubSpotSchemaApi(client);
+            Associations = new HubSpotAssociationsApi(client);
         }
 
         
