@@ -107,6 +107,16 @@ namespace HubSpot.NET.Examples
                 <CustomObjectAssociationModel>("2-4390924", "3254092177",
                 "0-1", CancellationToken.None);
 
+            
+
+            // 0-3 -> deal object type
+            // 9346274448 -> deal id
+            // 0-1 -> contact object type
+            // 68751 -> contact id
+            // USER_DEFINED -> associationCategory
+            // 55 -> association label
+            api.Associations.AssociationToObjectByLabel("0-3", "9346274448", "0-1", "68751", "USER_DEFINED", 55);
+
 
 
         }
