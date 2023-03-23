@@ -52,9 +52,9 @@ namespace HubSpot.NET.Core
             CompanyProperties = new HubSpotCompaniesPropertiesApi(client);
             EmailSubscriptions = new HubSpotEmailSubscriptionsApi(client);
             ContactLists = new HubSpotContactListApi(client);
-            CustomObjects = new HubSpotCustomObjectApi(client);
-            Schema = new HubSpotSchemaApi(client);
             Associations = new HubSpotAssociationsApi(client);
+            CustomObjects = new HubSpotCustomObjectApi(client, Associations);
+            Schema = new HubSpotSchemaApi(client);
         }
 
         

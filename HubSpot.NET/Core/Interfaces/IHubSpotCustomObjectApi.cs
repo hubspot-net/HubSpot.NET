@@ -11,4 +11,7 @@ public interface IHubSpotCustomObjectApi
         string customObjectId,
         string idForDesiredAssociation, CancellationToken cancellationToken)
         where T : CustomObjectAssociationModel, new();
+
+    string CreateWithDefaultAssociationToObject<T>(T entity, string associateObjectType, string associateToObjectId)
+        where T : CreateCustomObjectHubSpotModel, new();
 }

@@ -7,6 +7,7 @@ using HubSpot.NET.Core;
 using HubSpot.NET.Core.Extensions;
 using HubSpot.NET.Core.Interfaces;
 using Newtonsoft.Json;
+using RestSharp;
 
 namespace HubSpot.NET.Api.CustomObject;
 
@@ -23,6 +24,48 @@ public class CustomObjectListHubSpotModel<T> : IHubSpotModel where T: CustomObje
 
     public virtual void FromHubSpotDataEntity(dynamic hubspotData)
     {
+    }
+}
+
+[DataContract]
+public class CreateCustomObjectHubSpotModel : IHubSpotModel
+{
+    [IgnoreDataMember]
+    public string SchemaId { get; set; }
+
+
+    [JsonProperty(PropertyName = "properties")]
+    public Dictionary<string, object> Properties { get; set; } = new();
+
+    public bool IsNameValue => false;
+    public void ToHubSpotDataEntity(ref dynamic dataEntity)
+    {
+    }
+
+    public void FromHubSpotDataEntity(dynamic hubspotData)
+    {
+    }
+
+    public string RouteBasePath => "crm/v3/objects";
+    [JsonProperty(PropertyName = "associations")]
+    public List<Association> Associations { get; set; } = new();
+
+    public class Association
+    {
+        public To To { get; set; }
+        public List<TypeElement> Types { get; set; }
+    }
+
+    public class To
+    {
+        public string Id { get; set; }
+    }
+
+    public class TypeElement
+    {
+        // either HUBSPOT_DEFINED, USER_DEFINED, INTEGRATOR_DEFINED
+        public string AssociationCategory { get; set; }
+        public long? AssociationTypeId { get; set; }
     }
 }
 
@@ -84,10 +127,12 @@ public class HubSpotCustomObjectApi : IHubSpotCustomObjectApi
     private readonly IHubSpotClient _client;
 
     private readonly string RouteBasePath = "crm/v3/objects";
+    private readonly IHubSpotAssociationsApi _hubSpotAssociationsApi;
 
-    public HubSpotCustomObjectApi(IHubSpotClient client)
+    public HubSpotCustomObjectApi(IHubSpotClient client, IHubSpotAssociationsApi hubSpotAssociationsApi)
     {
         _client = client;
+        _hubSpotAssociationsApi = hubSpotAssociationsApi;
     }
     
     /// <summary>
@@ -132,4 +177,30 @@ public class HubSpotCustomObjectApi : IHubSpotCustomObjectApi
         var response = _client.ExecuteList<CustomObjectListAssociationsModel<T>>(path, convertToPropertiesSchema:  false);
         return response;
     }
+
+
+    /// <summary>
+    /// Adds the ability to create a custom object inside hubspot
+    /// </summary>
+    /// <param name="entity"></param>
+    /// <param name="associateObjectType"></param>
+    /// <param name="associateToObjectId"></param>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
+    public string CreateWithDefaultAssociationToObject<T>(T entity, string associateObjectType, string associateToObjectId) where T : CreateCustomObjectHubSpotModel, new()
+    {
+        var path = $"{RouteBasePath}/{entity.SchemaId}";
+
+        var response =
+            _client.Execute<CreateCustomObjectHubSpotModel>(path, entity, Method.POST, convertToPropertiesSchema: false);
+
+        
+        if (response.Properties.TryGetValue("hs_object_id", out var parsedId))
+        {
+            _hubSpotAssociationsApi.AssociationToObject(entity.SchemaId, parsedId.ToString(), associateObjectType, associateToObjectId);
+            return parsedId.ToString();
+        }
+        return string.Empty;
+    }
+    
 }
