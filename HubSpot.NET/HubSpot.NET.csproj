@@ -10,9 +10,10 @@
     <PackageProjectUrl>https://github.com/boomandbucket/HubSpot.NET</PackageProjectUrl>
     <RepositoryUrl>https://github.com/boomandbucket/HubSpot.NET.git</RepositoryUrl>
     <PackageTags>hubspot api wrapper c# contact company deal engagement properties crm custom objects</PackageTags>
-    <PackageReleaseNotes>1.0.0</PackageReleaseNotes>
+    <PackageReleaseNotes>1.0.1</PackageReleaseNotes>
     <PackageId>HubSpot.NETCORE</PackageId>
     <TargetFramework>net6.0</TargetFramework>
+    <PackageVersion>1.0.1</PackageVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
