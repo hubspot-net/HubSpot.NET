@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <Authors>HubSpot.NETCORE</Authors>
     <Company>HubSpot.NETCORE</Company>
     <Description>.NET CORE client library targeting the HubSpot APIs.</Description>
