@@ -100,7 +100,7 @@ namespace HubSpot.NET.Examples
             };
             // 0-3 => object type id that corresponds to the deal
             // 9909067546 => deal id
-            var result1 = api.CustomObjects.CreateWithDefaultAssociationToObject(newEquipment, "0-3", "9909067546");
+            var newEquipmentId = api.CustomObjects.CreateWithDefaultAssociationToObject(newEquipment, "0-3", "9909067546");
             
 
             var result3 = api.CustomObjects.GetAssociationsToCustomObject
@@ -115,10 +115,24 @@ namespace HubSpot.NET.Examples
             // 68751 -> contact id
             // USER_DEFINED -> associationCategory
             // 55 -> association label
-            api.Associations.AssociationToObjectByLabel("0-3", "9346274448", "0-1", "68751", "USER_DEFINED", 55);
+            // api.Associations.AssociationToObjectByLabel("0-3", "9346274448", "0-1", "68751", "USER_DEFINED", 55);
 
-
-
+            
+            var updatedEquipment = new UpdateCustomObjectHubSpotModel
+            {
+                Id = newEquipmentId,
+                SchemaId = id,
+                Properties = new Dictionary<string, object>()
+                {
+                    {"year1", 2024},
+                    {"make", "Ford"},
+                    {"model", "550" + DateTime.Now.Hour + DateTime.Now.Minute},
+                    {"name", $"2024 Ford 550"}
+                }
+            };
+            
+            var updatedResultId = api.CustomObjects.UpdateObject(updatedEquipment);
+            Console.Write(updatedResultId);
         }
 
 

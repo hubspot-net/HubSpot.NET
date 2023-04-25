@@ -70,6 +70,31 @@ public class CreateCustomObjectHubSpotModel : IHubSpotModel
 }
 
 [DataContract]
+public class UpdateCustomObjectHubSpotModel : IHubSpotModel
+{
+    [DataMember(Name = "id")]
+    public string Id { get; set; }
+    
+    [IgnoreDataMember]
+    public string SchemaId { get; set; }
+
+
+    [JsonProperty(PropertyName = "properties")]
+    public Dictionary<string, object> Properties { get; set; } = new();
+
+    public bool IsNameValue => false;
+    public void ToHubSpotDataEntity(ref dynamic dataEntity)
+    {
+    }
+
+    public void FromHubSpotDataEntity(dynamic hubspotData)
+    {
+    }
+
+    public string RouteBasePath => "crm/v3/objects";
+}
+
+[DataContract]
 public class CustomObjectHubSpotModel : IHubSpotModel
 {
 
@@ -203,4 +228,18 @@ public class HubSpotCustomObjectApi : IHubSpotCustomObjectApi
         return string.Empty;
     }
     
+    /// <summary>
+    /// Update a custom object inside hubspot
+    /// </summary>
+    /// <param name="entity"></param>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
+    public string UpdateObject<T>(T entity) where T : UpdateCustomObjectHubSpotModel, new()
+    {
+        var path = $"{RouteBasePath}/{entity.SchemaId}/{entity.Id}";
+
+        _client.Execute<UpdateCustomObjectHubSpotModel>(path, entity, Method.PATCH, convertToPropertiesSchema: false);
+        
+        return string.Empty;
+    }
 }
