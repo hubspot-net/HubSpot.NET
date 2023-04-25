@@ -70,6 +70,51 @@ public class CreateCustomObjectHubSpotModel : IHubSpotModel
 }
 
 [DataContract]
+public class UpdateCustomObjectHubSpotModel : IHubSpotModel
+{
+    [DataMember(Name = "id")]
+    public string Id { get; set; }
+    
+    [IgnoreDataMember]
+    public string SchemaId { get; set; }
+
+
+    [JsonProperty(PropertyName = "properties")]
+    public Dictionary<string, object> Properties { get; set; } = new();
+
+    public bool IsNameValue => false;
+    public void ToHubSpotDataEntity(ref dynamic dataEntity)
+    {
+    }
+
+    public void FromHubSpotDataEntity(dynamic hubspotData)
+    {
+    }
+
+    public string RouteBasePath => "crm/v3/objects";
+    [JsonProperty(PropertyName = "associations")]
+    public List<Association> Associations { get; set; } = new();
+
+    public class Association
+    {
+        public To To { get; set; }
+        public List<TypeElement> Types { get; set; }
+    }
+
+    public class To
+    {
+        public string Id { get; set; }
+    }
+
+    public class TypeElement
+    {
+        // either HUBSPOT_DEFINED, USER_DEFINED, INTEGRATOR_DEFINED
+        public string AssociationCategory { get; set; }
+        public long? AssociationTypeId { get; set; }
+    }
+}
+
+[DataContract]
 public class CustomObjectHubSpotModel : IHubSpotModel
 {
 
@@ -203,4 +248,18 @@ public class HubSpotCustomObjectApi : IHubSpotCustomObjectApi
         return string.Empty;
     }
     
+    /// <summary>
+    /// Update a custom object inside hubspot
+    /// </summary>
+    /// <param name="entity"></param>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
+    public string UpdateObject<T>(T entity) where T : UpdateCustomObjectHubSpotModel, new()
+    {
+        var path = $"{RouteBasePath}/{entity.SchemaId}/{entity.Id}";
+
+        _client.Execute<UpdateCustomObjectHubSpotModel>(path, entity, Method.PATCH, convertToPropertiesSchema: false);
+        
+        return string.Empty;
+    }
 }

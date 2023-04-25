@@ -14,4 +14,7 @@ public interface IHubSpotCustomObjectApi
 
     string CreateWithDefaultAssociationToObject<T>(T entity, string associateObjectType, string associateToObjectId)
         where T : CreateCustomObjectHubSpotModel, new();
+    
+    string UpdateObject<T>(T entity)
+        where T : UpdateCustomObjectHubSpotModel, new();
 }
