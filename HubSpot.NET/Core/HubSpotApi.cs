@@ -7,6 +7,7 @@ using HubSpot.NET.Api.Deal;
 using HubSpot.NET.Api.EmailSubscriptions;
 using HubSpot.NET.Api.Engagement;
 using HubSpot.NET.Api.Files;
+using HubSpot.NET.Api.Note;
 using HubSpot.NET.Api.Owner;
 using HubSpot.NET.Api.Properties;
 using HubSpot.NET.Api.Schemas;
@@ -40,6 +41,8 @@ namespace HubSpot.NET.Core
         public IHubSpotCustomObjectApi CustomObjects { get; protected set; }
         public IHubSpotSchemaApi Schema { get; protected set; }
         public IHubSpotAssociationsApi Associations { get; protected set; }
+        
+        public IHubSpotNoteApi Note { get; protected set; }
 
         protected virtual void Initialise(IHubSpotClient client)
 		{
@@ -55,6 +58,7 @@ namespace HubSpot.NET.Core
             Associations = new HubSpotAssociationsApi(client);
             CustomObjects = new HubSpotCustomObjectApi(client, Associations);
             Schema = new HubSpotSchemaApi(client);
+            Note = new HubSpotNoteApi(client);
         }
 
         

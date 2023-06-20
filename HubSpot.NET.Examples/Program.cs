@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Runtime.Serialization;
 using System.Threading;
+using System.Threading.Tasks;
 using HubSpot.NET.Api.CustomObject;
+using HubSpot.NET.Api.Files.Dto;
+using HubSpot.NET.Api.Note.Dto;
 using HubSpot.NET.Api.Schemas;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -39,7 +43,7 @@ namespace HubSpot.NET.Examples
                     });
                 });
         // enable args to be presented from CLI for automated test execution 
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             _args = args;
             var host = CreateHostBuilder(args);
@@ -102,13 +106,13 @@ namespace HubSpot.NET.Examples
             // 9909067546 => deal id
             var newEquipmentId = api.CustomObjects.CreateWithDefaultAssociationToObject(newEquipment, "0-3", "9909067546");
             
-
+            
             var result3 = api.CustomObjects.GetAssociationsToCustomObject
                 <CustomObjectAssociationModel>("2-4390924", "3254092177",
                 "0-1", CancellationToken.None);
-
             
-
+            
+            
             // 0-3 -> deal object type
             // 9346274448 -> deal id
             // 0-1 -> contact object type
@@ -116,7 +120,7 @@ namespace HubSpot.NET.Examples
             // USER_DEFINED -> associationCategory
             // 55 -> association label
             // api.Associations.AssociationToObjectByLabel("0-3", "9346274448", "0-1", "68751", "USER_DEFINED", 55);
-
+            
             
             var updatedEquipment = new UpdateCustomObjectHubSpotModel
             {
@@ -133,6 +137,9 @@ namespace HubSpot.NET.Examples
             
             var updatedResultId = api.CustomObjects.UpdateObject(updatedEquipment);
             Console.Write(updatedResultId);
+
+
+            await UploadNoteWithFile(api);
         }
 
 
@@ -152,6 +159,70 @@ namespace HubSpot.NET.Examples
             // [DataMember(Name ="year")]
             public string Year { get; set; }
             
+        }
+
+
+        static async Task UploadNoteWithFile(HubSpotApi api)
+        {
+            var httpClient = new HttpClient();
+            byte[] fileBuffer = null;
+            try
+            {
+                fileBuffer = await httpClient.GetByteArrayAsync(
+                    "https://images.immediate.co.uk/production/volatile/sites/4/2021/08/mountains-7ddde89.jpg");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+           
+
+            var fileModel = new FileHubSpotRequestModel()
+            {
+                File = fileBuffer,
+                Name = "mountains.jpg",
+                FolderPath = "/docs",
+                Options = new FileHubSpotRequestOptionsModel()
+                {
+                    Access = "PRIVATE",
+                    TTL = "P3M",
+                    Overwrite = false,
+                    DuplicateValidationStrategy = "NONE",
+                    DuplicateValidationScope = "EXACT_FOLDER"
+                }
+            };
+
+            var fileResponse = api.File.UploadFile(fileModel);
+            
+            Console.Write(fileResponse);
+
+            
+            var note = new NoteHubSpotRequestModel()
+            {
+                Properties = new NoteHubSpotRequestPropertiesModel()
+                {
+                    HsTimestamp = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"),
+                    HsNoteBody = "Hello there from nuget again, with a new file 3",
+                    HubspotOwnerId = "",
+                    HsAttachmentIds = fileResponse?.Objects?.First().Id.ToString(),
+                },
+                Associations = new List<NoteHubSpotRequestAssociationsModel>
+                {
+                    new NoteHubSpotRequestAssociationsModel
+                    {
+                        To = new NoteHubSpotRequestAssociationToModel {Id = "12792130062"},
+                        Types = new List<NoteHubspotRequestAssociationTypeModel>
+                        {
+                            new NoteHubspotRequestAssociationTypeModel()
+                                {AssociationCategory = "HUBSPOT_DEFINED", AssociationTypeId = "214"}
+                        }
+                    }
+                }
+            };
+            
+            var noteResponse = api.Note.Create(note);
+            
+            Console.Write(noteResponse);
         }
 
 

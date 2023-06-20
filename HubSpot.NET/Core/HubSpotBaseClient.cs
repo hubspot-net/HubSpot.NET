@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using HubSpot.NET.Core.Extensions;
 using HubSpot.NET.Core.Interfaces;
 using HubSpot.NET.Core.OAuth.Dto;
 using HubSpot.NET.Core.Requests;
@@ -105,10 +106,10 @@ namespace HubSpot.NET.Core
         public T ExecuteMultipart<T>(string absoluteUriPath, byte[] data, string filename, Dictionary<string,string> parameters, Method method = Method.POST) where T : new()
         {
             string path = $"{BaseUrl}{absoluteUriPath}";
-            IRestRequest request = ConfigureRequestAuthentication(path, method);
+            IRestRequest request = ConfigureRequestAuthentication(path, method, null);
 
-            request.AddFile(filename, data, filename);
-
+            request.AddFileBytes("file", data, filename);
+            
             foreach (KeyValuePair<string, string> kvp in parameters)
                 request.AddParameter(kvp.Key, kvp.Value);
 
@@ -170,7 +171,7 @@ namespace HubSpot.NET.Core
         /// <summary>
         /// Configures a <see cref="RestRequest"/> based on the authentication scheme detected and configures the endpoint path relative to the base path.
         /// </summary>
-        private RestRequest ConfigureRequestAuthentication(string path, Method method)
+        private RestRequest ConfigureRequestAuthentication(string path, Method method, string contentType = "application/json")
         {
 #if NET451
             RestRequest request = new RestRequest(path, method);
@@ -188,7 +189,12 @@ namespace HubSpot.NET.Core
                         "This authentication mode is no longer supported by hubspot as of November 30, 2020");
                 default:
                     request.AddHeader("Authorization", $"Bearer {_apiKey}");
-                    request.AddHeader("Content-Type", $"application/json");
+
+                    if (!contentType.IsNullOrEmpty())
+                    {
+                        request.AddHeader("Content-Type", contentType);
+                    }
+                    
                     break;
             }
 
