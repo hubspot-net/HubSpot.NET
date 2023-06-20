@@ -4,6 +4,6 @@
     {
         HAPIKEY,
         OAUTH,
-        PRIVATE_APP_KEY
+        PRIVATE_APP_KEY,
     }
 }

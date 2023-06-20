@@ -27,6 +27,6 @@ namespace HubSpot.NET.Api.Files.Dto
         {
         }
 
-        public string RouteBasePath => "/filemanager/api/v2";
+        public string RouteBasePath => "/filemanager/api/v2/folders";
     }
 }

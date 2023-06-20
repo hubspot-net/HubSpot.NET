@@ -16,7 +16,7 @@ namespace HubSpot.NET.Core.Requests
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RequestSerializer"/> class.
-        /// </summary>
+        /// </summary> 
         protected RequestSerializer()
         {
             _jsonSerializerSettings = new JsonSerializerSettings
