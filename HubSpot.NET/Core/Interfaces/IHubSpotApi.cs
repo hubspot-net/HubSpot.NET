@@ -14,6 +14,7 @@
         IHubSpotCustomObjectApi CustomObjects { get; }
         IHubSpotAssociationsApi Associations { get; }
         IHubSpotSchemaApi Schema { get; }
+        IHubSpotNoteApi Note { get; }
 
     }
 }
