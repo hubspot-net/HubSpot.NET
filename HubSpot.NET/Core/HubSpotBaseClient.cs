@@ -109,9 +109,17 @@ namespace HubSpot.NET.Core
             IRestRequest request = ConfigureRequestAuthentication(path, method, null);
 
             request.AddFileBytes("file", data, filename);
-            
+
             foreach (KeyValuePair<string, string> kvp in parameters)
+            {
+                if (string.IsNullOrEmpty(kvp.Value))
+                {
+                    continue;
+                }
+                
                 request.AddParameter(kvp.Key, kvp.Value);
+            }
+               
 
             IRestResponse<T> response = _client.Execute<T>(request);
 
