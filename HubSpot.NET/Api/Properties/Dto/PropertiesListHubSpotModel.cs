@@ -20,7 +20,7 @@ namespace HubSpot.NET.Api.Properties.Dto
             get
             {
                 var entity = (T)Activator.CreateInstance(typeof(T));
-                return "/properties/v1" + entity.RouteBasePath;
+                return "crm/v3/properties" + entity.RouteBasePath;
             }
         }
 

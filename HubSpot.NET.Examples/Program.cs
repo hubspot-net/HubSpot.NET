@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using HubSpot.NET.Api.CustomObject;
 using HubSpot.NET.Api.Files.Dto;
 using HubSpot.NET.Api.Note.Dto;
+using HubSpot.NET.Api.Properties.Dto;
 using HubSpot.NET.Api.Schemas;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -57,87 +58,100 @@ namespace HubSpot.NET.Examples
             
             // get the equipment id off seller id...
             
-            var newEquipment = new CreateCustomObjectHubSpotModel
-            {
-                SchemaId = id,
-                Properties = new Dictionary<string, object>()
-                {
-                    
-                    {"year1", 2014},
-                    {"make", "Ford"},
-                    {"model", "150" + DateTime.Now.Hour + DateTime.Now.Minute},
-                    {"name", $"2015 Ford 150"}
-                },
-                Associations = new List<CreateCustomObjectHubSpotModel.Association>()
-                {
-                    new()
-                    {
-                        To = new CreateCustomObjectHubSpotModel.To()
-                        {
-                            Id = "15273381013"  // company to associate to 
-                        },
-                        Types = new List<CreateCustomObjectHubSpotModel.TypeElement>()
-                        {
-                            new()
-                            {
-                                AssociationCategory = "USER_DEFINED", 
-                                AssociationTypeId = 53 // id of the label that we want to assign it.
-                            }
-                        }
-                    },
-                    new()
-                    {
-                        To = new CreateCustomObjectHubSpotModel.To()
-                        {
-                            Id = "68751"  // contact to associate to 
-                        },
-                        Types = new List<CreateCustomObjectHubSpotModel.TypeElement>()
-                        {
-                            new()
-                            {
-                                AssociationCategory = "USER_DEFINED", 
-                                AssociationTypeId = 55 // id of the label that we want to assign it.
-                            }
-                        }
-                    }
-                }
-            };
-            // 0-3 => object type id that corresponds to the deal
-            // 9909067546 => deal id
-            var newEquipmentId = api.CustomObjects.CreateWithDefaultAssociationToObject(newEquipment, "0-3", "9909067546");
-            
-            
-            var result3 = api.CustomObjects.GetAssociationsToCustomObject
-                <CustomObjectAssociationModel>("2-4390924", "3254092177",
-                "0-1", CancellationToken.None);
-            
-            
-            
-            // 0-3 -> deal object type
-            // 9346274448 -> deal id
-            // 0-1 -> contact object type
-            // 68751 -> contact id
-            // USER_DEFINED -> associationCategory
-            // 55 -> association label
-            // api.Associations.AssociationToObjectByLabel("0-3", "9346274448", "0-1", "68751", "USER_DEFINED", 55);
-            
-            
-            var updatedEquipment = new UpdateCustomObjectHubSpotModel
-            {
-                Id = newEquipmentId,
-                SchemaId = id,
-                Properties = new Dictionary<string, object>()
-                {
-                    {"year1", 2024},
-                    {"make", "Ford"},
-                    {"model", "550" + DateTime.Now.Hour + DateTime.Now.Minute},
-                    {"name", $"2024 Ford 550"}
-                }
-            };
-            
-            var updatedResultId = api.CustomObjects.UpdateObject(updatedEquipment);
-            Console.Write(updatedResultId);
+            // var newEquipment = new CreateCustomObjectHubSpotModel
+            // {
+            //     SchemaId = id,
+            //     Properties = new Dictionary<string, object>()
+            //     {
+            //         
+            //         {"year1", 2014},
+            //         {"make", "Ford"},
+            //         {"model", "150" + DateTime.Now.Hour + DateTime.Now.Minute},
+            //         {"name", $"2015 Ford 150"}
+            //     },
+            //     Associations = new List<CreateCustomObjectHubSpotModel.Association>()
+            //     {
+            //         new()
+            //         {
+            //             To = new CreateCustomObjectHubSpotModel.To()
+            //             {
+            //                 Id = "15273381013"  // company to associate to 
+            //             },
+            //             Types = new List<CreateCustomObjectHubSpotModel.TypeElement>()
+            //             {
+            //                 new()
+            //                 {
+            //                     AssociationCategory = "USER_DEFINED", 
+            //                     AssociationTypeId = 53 // id of the label that we want to assign it.
+            //                 }
+            //             }
+            //         },
+            //         new()
+            //         {
+            //             To = new CreateCustomObjectHubSpotModel.To()
+            //             {
+            //                 Id = "68751"  // contact to associate to 
+            //             },
+            //             Types = new List<CreateCustomObjectHubSpotModel.TypeElement>()
+            //             {
+            //                 new()
+            //                 {
+            //                     AssociationCategory = "USER_DEFINED", 
+            //                     AssociationTypeId = 55 // id of the label that we want to assign it.
+            //                 }
+            //             }
+            //         }
+            //     }
+            // };
+            // // 0-3 => object type id that corresponds to the deal
+            // // 9909067546 => deal id
+            // var newEquipmentId = api.CustomObjects.CreateWithDefaultAssociationToObject(newEquipment, "0-3", "9909067546");
+            //
+            //
+            // var result3 = api.CustomObjects.GetAssociationsToCustomObject
+            //     <CustomObjectAssociationModel>("2-4390924", "3254092177",
+            //     "0-1", CancellationToken.None);
+            //
+            //
+            //
+            // // 0-3 -> deal object type
+            // // 9346274448 -> deal id
+            // // 0-1 -> contact object type
+            // // 68751 -> contact id
+            // // USER_DEFINED -> associationCategory
+            // // 55 -> association label
+            // // api.Associations.AssociationToObjectByLabel("0-3", "9346274448", "0-1", "68751", "USER_DEFINED", 55);
+            //
+            //
+            // var updatedEquipment = new UpdateCustomObjectHubSpotModel
+            // {
+            //     Id = newEquipmentId,
+            //     SchemaId = id,
+            //     Properties = new Dictionary<string, object>()
+            //     {
+            //         {"year1", 2024},
+            //         {"make", "Ford"},
+            //         {"model", "550" + DateTime.Now.Hour + DateTime.Now.Minute},
+            //         {"name", $"2024 Ford 550"}
+            //     }
+            // };
+            //
+            // var updatedResultId = api.CustomObjects.UpdateObject(updatedEquipment);
+            // Console.Write(updatedResultId);
 
+            var customObjectProperty =
+                api.CustomObjectProperties.GetProperty<CustomObjectPropertyHubSpotModel>("Machine2", "karintest");
+            Console.Write(customObjectProperty);
+            
+            customObjectProperty.Options.Add(new EnumerationOption()
+            {
+                Label = "KarinTest",
+                Value = "KarinTest"
+            });
+            
+            var result =
+                api.CustomObjectProperties.UpdateProperty<CustomObjectPropertyHubSpotModel>("Machine2", "karintest", customObjectProperty);
+            Console.Write(result);
 
             await UploadNoteWithFile(api);
         }
