@@ -13,18 +13,17 @@ namespace HubSpot.NET.Api.Properties
             _client = client;
         }
 
-        public CustomObjectPropertyHubSpotModel GetProperty<T>(string customObjectName, string customObjectProperty) where T : CustomObjectPropertyHubSpotModel, new()
+        public T GetProperty<T>(string customObjectName, string customObjectProperty) where T : CustomObjectPropertyHubSpotModel, new()
         {
             var path = $"{new PropertiesListHubSpotModel<CustomObjectPropertyHubSpotModel>().RouteBasePath}/{customObjectName}/{customObjectProperty}";
-            var result = _client.Execute<CustomObjectPropertyHubSpotModel>(path, null, Method.GET, convertToPropertiesSchema: false);
+            var result = _client.Execute<T>(path, null, Method.GET, convertToPropertiesSchema: false);
             return result;
         }
 
-        public CustomObjectPropertyHubSpotModel UpdateProperty<T>(string customObjectName, string customObjectProperty,
-            CustomObjectPropertyHubSpotModel property) where T : CustomObjectPropertyHubSpotModel, new()
+        public T UpdateProperty<T>(string customObjectName, string customObjectProperty, CustomObjectPropertyHubSpotModel property) where T : CustomObjectPropertyHubSpotModel, new()
         {
             var path = $"{new PropertiesListHubSpotModel<CustomObjectPropertyHubSpotModel>().RouteBasePath}/{customObjectName}/{customObjectProperty}";
-            return _client.Execute<CustomObjectPropertyHubSpotModel>(path, property, Method.PATCH, convertToPropertiesSchema: false);
+            return _client.Execute<T>(path, property, Method.PATCH, convertToPropertiesSchema: false);
         }
     }
 }
