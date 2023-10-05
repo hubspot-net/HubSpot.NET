@@ -35,6 +35,7 @@ namespace HubSpot.NET.Core
         public IHubSpotOwnerApi Owner { get; protected set; }
 		public IHubSpotTaskApi Task { get; protected set; }
 		public IHubSpotCompanyPropertiesApi CompanyProperties { get; protected set; }
+        public IHubSpotCustomObjectPropertiesApi CustomObjectProperties { get; protected set; }
         public IHubSpotContactListApi ContactLists { get; protected set; }
 
         public IHubSpotEmailSubscriptionsApi EmailSubscriptions { get; protected set; }
@@ -53,6 +54,7 @@ namespace HubSpot.NET.Core
             File = new HubSpotCosFileApi(client);
             Owner = new HubSpotOwnerApi(client);
             CompanyProperties = new HubSpotCompaniesPropertiesApi(client);
+            CustomObjectProperties = new HubSpotCustomObjectPropertiesApi(client);
             EmailSubscriptions = new HubSpotEmailSubscriptionsApi(client);
             ContactLists = new HubSpotContactListApi(client);
             Associations = new HubSpotAssociationsApi(client);

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using HubSpot.NET.Api.CustomObject;
 using HubSpot.NET.Api.Files.Dto;
 using HubSpot.NET.Api.Note.Dto;
+using HubSpot.NET.Api.Properties.Dto;
 using HubSpot.NET.Api.Schemas;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -138,6 +139,19 @@ namespace HubSpot.NET.Examples
             var updatedResultId = api.CustomObjects.UpdateObject(updatedEquipment);
             Console.Write(updatedResultId);
 
+            var customObjectProperty =
+                api.CustomObjectProperties.GetProperty<CustomObjectPropertyHubSpotModel>("Machine2", "karintest");
+            Console.Write(customObjectProperty);
+            
+            customObjectProperty.Options.Add(new EnumerationOption()
+            {
+                Label = "KarinTest",
+                Value = "KarinTest"
+            });
+            
+            var result =
+                api.CustomObjectProperties.UpdateProperty<CustomObjectPropertyHubSpotModel>("Machine2", "karintest", customObjectProperty);
+            Console.Write(result);
 
             await UploadNoteWithFile(api);
         }

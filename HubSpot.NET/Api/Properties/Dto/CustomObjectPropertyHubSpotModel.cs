@@ -8,7 +8,7 @@ using HubSpot.NET.Core.Interfaces;
 
 namespace HubSpot.NET.Api.Properties.Dto
 {
-    public class CompanyPropertyHubSpotModel : IHubSpotModel
+    public class CustomObjectPropertyHubSpotModel : IHubSpotModel
     {
         [DataMember(Name = "name")]
         public string Name { get;set; }
@@ -42,6 +42,6 @@ namespace HubSpot.NET.Api.Properties.Dto
         {
         }
 
-        public string RouteBasePath => "/companies";
+        public string RouteBasePath => "";
     }
 }
