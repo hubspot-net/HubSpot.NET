@@ -67,7 +67,8 @@ namespace HubSpot.NET.Examples
                     {"year1", 2014},
                     {"make", "Ford"},
                     {"model", "150" + DateTime.Now.Hour + DateTime.Now.Minute},
-                    {"name", $"2015 Ford 150"}
+                    {"name", $"2015 Ford 150"},
+                    {"hoursmileage", $"1000" }
                 },
                 Associations = new List<CreateCustomObjectHubSpotModel.Association>()
                 {
@@ -107,7 +108,11 @@ namespace HubSpot.NET.Examples
             // 9909067546 => deal id
             var newEquipmentId = api.CustomObjects.CreateWithDefaultAssociationToObject(newEquipment, "0-3", "9909067546");
             
-            
+            var getEquipment = api.CustomObjects.GetEquipmentDataById<GetHubspotEquipmentObjectModel>(id, newEquipmentId);
+
+
+            var getEquipmentHours = api.CustomObjects.GetEquipmentDataById<GetHubspotEquipmentObjectModel>(id, newEquipmentId, "hoursmileage");
+
             var result3 = api.CustomObjects.GetAssociationsToCustomObject
                 <CustomObjectAssociationModel>("2-4390924", "3254092177",
                 "0-1", CancellationToken.None);

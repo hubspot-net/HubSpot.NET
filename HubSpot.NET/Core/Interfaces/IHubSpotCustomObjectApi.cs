@@ -17,4 +17,5 @@ public interface IHubSpotCustomObjectApi
     
     string UpdateObject<T>(T entity)
         where T : UpdateCustomObjectHubSpotModel, new();
+    T GetEquipmentDataById<T>(string schemaId, string entityId, string properties="") where T : GetHubspotEquipmentObjectModel, new();
 }

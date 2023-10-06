@@ -122,7 +122,6 @@ public class CustomObjectHubSpotModel : IHubSpotModel
     public string RouteBasePath => "crm/v3/objects";
 }
 
-
 public class CustomObjectListAssociationsModel<T> : IHubSpotModel where T : CustomObjectAssociationModel, new()
 {
     [DataMember(Name = "results")]
@@ -241,5 +240,21 @@ public class HubSpotCustomObjectApi : IHubSpotCustomObjectApi
         _client.Execute<UpdateCustomObjectHubSpotModel>(path, entity, Method.PATCH, convertToPropertiesSchema: false);
         
         return string.Empty;
+    }
+
+    public T GetEquipmentDataById<T>(string schemaId, string entityId, string properties = "") where T : GetHubspotEquipmentObjectModel, new()
+    {
+        if(properties == "")
+        {
+            properties = EquipmentObjectList.GetEquipmentPropsList();
+        }
+
+        var path = $"{RouteBasePath}/{schemaId}/{entityId}";
+
+        path = path.SetQueryParam("properties", properties); //properties is comma seperated value of properties to include
+
+        var res = _client.Execute<T>(path, Method.GET, convertToPropertiesSchema: true);
+
+        return res;
     }
 }
