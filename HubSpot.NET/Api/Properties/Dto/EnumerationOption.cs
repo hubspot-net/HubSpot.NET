@@ -14,5 +14,8 @@ namespace HubSpot.NET.Api.Properties.Dto
 
         [DataMember(Name = "value")]
         public string Value {get; set; }
+        
+        [DataMember(Name = "hidden")]
+        public bool Hidden {get; set; }
     }
 }

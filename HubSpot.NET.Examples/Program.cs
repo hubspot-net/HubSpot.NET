@@ -55,15 +55,15 @@ namespace HubSpot.NET.Examples
 
             var customSchemas = api.Schema.List<SchemaHubSpotModel>();
             var id = "2-" + customSchemas.Results.First(x => x.Name == "Machine2").Id;
-            
+
             // get the equipment id off seller id...
-            
+
             var newEquipment = new CreateCustomObjectHubSpotModel
             {
                 SchemaId = id,
                 Properties = new Dictionary<string, object>()
                 {
-                    
+
                     {"year1", 2014},
                     {"make", "Ford"},
                     {"model", "150" + DateTime.Now.Hour + DateTime.Now.Minute},
@@ -82,7 +82,7 @@ namespace HubSpot.NET.Examples
                         {
                             new()
                             {
-                                AssociationCategory = "USER_DEFINED", 
+                                AssociationCategory = "USER_DEFINED",
                                 AssociationTypeId = 53 // id of the label that we want to assign it.
                             }
                         }
@@ -97,7 +97,7 @@ namespace HubSpot.NET.Examples
                         {
                             new()
                             {
-                                AssociationCategory = "USER_DEFINED", 
+                                AssociationCategory = "USER_DEFINED",
                                 AssociationTypeId = 55 // id of the label that we want to assign it.
                             }
                         }
@@ -107,7 +107,9 @@ namespace HubSpot.NET.Examples
             // 0-3 => object type id that corresponds to the deal
             // 9909067546 => deal id
             var newEquipmentId = api.CustomObjects.CreateWithDefaultAssociationToObject(newEquipment, "0-3", "9909067546");
-            
+
+
+
             var getEquipment = api.CustomObjects.GetEquipmentDataById<GetHubspotEquipmentObjectModel>(id, newEquipmentId);
 
 
@@ -116,9 +118,9 @@ namespace HubSpot.NET.Examples
             var result3 = api.CustomObjects.GetAssociationsToCustomObject
                 <CustomObjectAssociationModel>("2-4390924", "3254092177",
                 "0-1", CancellationToken.None);
-            
-            
-            
+
+
+
             // 0-3 -> deal object type
             // 9346274448 -> deal id
             // 0-1 -> contact object type
@@ -126,8 +128,8 @@ namespace HubSpot.NET.Examples
             // USER_DEFINED -> associationCategory
             // 55 -> association label
             // api.Associations.AssociationToObjectByLabel("0-3", "9346274448", "0-1", "68751", "USER_DEFINED", 55);
-            
-            
+
+
             var updatedEquipment = new UpdateCustomObjectHubSpotModel
             {
                 Id = newEquipmentId,
@@ -140,20 +142,21 @@ namespace HubSpot.NET.Examples
                     {"name", $"2024 Ford 550"}
                 }
             };
-            
+
             var updatedResultId = api.CustomObjects.UpdateObject(updatedEquipment);
             Console.Write(updatedResultId);
 
             var customObjectProperty =
                 api.CustomObjectProperties.GetProperty<CustomObjectPropertyHubSpotModel>("Machine2", "karintest");
             Console.Write(customObjectProperty);
-            
+
             customObjectProperty.Options.Add(new EnumerationOption()
             {
-                Label = "KarinTest",
-                Value = "KarinTest"
+                Label = "KarinTest5",
+                Value = "KarinTest5",
+                Hidden = true
             });
-            
+
             var result =
                 api.CustomObjectProperties.UpdateProperty<CustomObjectPropertyHubSpotModel>("Machine2", "karintest", customObjectProperty);
             Console.Write(result);
@@ -167,17 +170,17 @@ namespace HubSpot.NET.Examples
         {
 
 
-            [DataMember(Name ="name")]
+            [DataMember(Name = "name")]
             public new string Name => $"{Year} {Make} {Model}";
-                
-            [DataMember(Name ="make")]
+
+            [DataMember(Name = "make")]
             public string Make { get; set; }
-            [DataMember(Name ="model")]
+            [DataMember(Name = "model")]
             public string Model { get; set; }
-            
+
             // [DataMember(Name ="year")]
             public string Year { get; set; }
-            
+
         }
 
 
@@ -194,7 +197,7 @@ namespace HubSpot.NET.Examples
             {
                 Console.WriteLine(e);
             }
-           
+
 
             var fileModel = new FileHubSpotRequestModel()
             {
@@ -212,10 +215,10 @@ namespace HubSpot.NET.Examples
             };
 
             var fileResponse = api.File.UploadFile(fileModel);
-            
+
             Console.Write(fileResponse);
 
-            
+
             var note = new NoteHubSpotRequestModel()
             {
                 Properties = new NoteHubSpotRequestPropertiesModel()
@@ -238,13 +241,13 @@ namespace HubSpot.NET.Examples
                     }
                 }
             };
-            
+
             var noteResponse = api.Note.Create(note);
-            
+
             Console.Write(noteResponse);
         }
 
 
-  
+
     }
 }
