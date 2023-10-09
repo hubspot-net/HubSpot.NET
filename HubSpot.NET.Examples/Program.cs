@@ -110,10 +110,10 @@ namespace HubSpot.NET.Examples
 
 
 
-            var getEquipment = api.CustomObjects.GetEquipmentDataById<GetHubspotEquipmentObjectModel>(id, newEquipmentId);
+            var getEquipment = api.CustomObjects.GetEquipmentDataById<HubspotEquipmentObjectModel>(id, newEquipmentId);
 
 
-            var getEquipmentHours = api.CustomObjects.GetEquipmentDataById<GetHubspotEquipmentObjectModel>(id, newEquipmentId, "hoursmileage");
+            var getEquipmentHours = api.CustomObjects.GetEquipmentDataById<HubspotEquipmentObjectModel>(id, newEquipmentId, "hoursmileage");
 
             var result3 = api.CustomObjects.GetAssociationsToCustomObject
                 <CustomObjectAssociationModel>("2-4390924", "3254092177",

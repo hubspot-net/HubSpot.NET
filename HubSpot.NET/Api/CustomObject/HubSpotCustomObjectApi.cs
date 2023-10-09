@@ -242,7 +242,7 @@ public class HubSpotCustomObjectApi : IHubSpotCustomObjectApi
         return string.Empty;
     }
 
-    public T GetEquipmentDataById<T>(string schemaId, string entityId, string properties = "") where T : GetHubspotEquipmentObjectModel, new()
+    public T GetEquipmentDataById<T>(string schemaId, string entityId, string properties = "") where T : HubspotEquipmentObjectModel, new()
     {
         if(properties == "")
         {

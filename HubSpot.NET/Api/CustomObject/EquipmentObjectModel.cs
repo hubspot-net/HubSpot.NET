@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 using System.Xml.Linq;
 
 namespace HubSpot.NET.Api.CustomObject;
-public class GetHubspotEquipmentObjectModel : IHubSpotModel
+public class HubspotEquipmentObjectModel : IHubSpotModel
 {
 #nullable enable
 
