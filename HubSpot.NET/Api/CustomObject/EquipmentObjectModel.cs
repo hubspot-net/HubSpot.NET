@@ -109,7 +109,7 @@ public class HubspotEquipmentObjectModel : IHubSpotModel
     public string? MakeOther { get; set; }
 
     [DataMember(Name = "new_associated_deal")]
-    public bool? NewAssociatedDeal { get; set; }
+    public DateTime? NewAssociatedDeal { get; set; }
 
     [DataMember(Name = "photo")]
     public string? Photo { get; set; }
